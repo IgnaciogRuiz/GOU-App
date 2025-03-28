@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, GestureResponderEvent, TouchableOpacity, Text, StyleSheet, Animated, Image } from "react-native";
+import {
+  View,
+  GestureResponderEvent,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Animated,
+  Image,
+} from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -31,7 +39,13 @@ export type StackParamList = {
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator<StackParamList>();
 
-const CustomTabBarButton = ({ children, onPress }: { children: any; onPress?: (event: GestureResponderEvent) => void }) => (
+const CustomTabBarButton = ({
+  children,
+  onPress,
+}: {
+  children: any;
+  onPress?: (event: GestureResponderEvent) => void;
+}) => (
   <TouchableOpacity
     style={styles.customButton}
     onPress={onPress}
@@ -127,7 +141,7 @@ export default function Navigation() {
           source={require("../../assets/images/cargando.gif")} // Imagen local
           style={styles.image}
         />
-        <Text style={styles.loadingText} >GOU!</Text>
+        <Text style={styles.loadingText}>GOU!</Text>
         <Text>Comparte el viaje, disfruta el camino.</Text>
         <Text>🌍🚗</Text>
       </Animated.View>
@@ -136,7 +150,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }} id={undefined} >
+      <Stack.Navigator screenOptions={{ headerShown: false }} id={undefined}>
         {isAuthenticated ? (
           <Stack.Screen name="Home" component={BottomTabsNavigator} />
         ) : (
