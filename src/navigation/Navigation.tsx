@@ -1,102 +1,79 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  GestureResponderEvent,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  Animated,
-  Image,
-} from "react-native";
+import { View, Text, StyleSheet, Animated, Image, TouchableOpacity, GestureResponderEvent } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/Ionicons";
+import { useAuth } from "../context/AuthContext";
 
 // Screens
-//AUTH
 import LoginScreen from "../screens/auth/LoginScreen";
-import InfoScreen from "../screens/auth/InfoScreen";
 import RegisterScreen from "../screens/auth/Register";
-
-//HOME
+import OnboardingScreen from "../screens/auth/OnBoardingScreen";
+import BiometricAuthScreen from "../screens/auth/BiometricAuthScreen";
+import PasswordLoginScreen from "../screens/auth/PasswordLoginScreen";
 import ViajesScreen from "../screens/home/ViajesScreen";
 import BuscarScreen from "../screens/home/BuscarScreen";
 import PublicarScreen from "../screens/home/PublicarScreen";
 import MensajesScreen from "../screens/home/MensajesScreen";
 import PerfilScreen from "../screens/home/PerfilScreen";
 
-//PROFILE
-
 export type StackParamList = {
   Login: undefined;
   Info: undefined;
   Register: undefined;
+  Onboarding: undefined;
+  BiometricAuth: undefined;
+  PasswordLogin: undefined;
   Home: undefined;
 };
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator<StackParamList>();
 
-const CustomTabBarButton = ({
-  children,
-  onPress,
-}: {
-  children: any;
-  onPress?: (event: GestureResponderEvent) => void;
-}) => (
-  <TouchableOpacity
-    style={styles.customButton}
-    onPress={onPress}
-    activeOpacity={0.8}
-  >
+
+const CustomTabBarButton = ({ children, onPress }: { children: any; onPress?: (event: GestureResponderEvent) => void }) => (
+  <TouchableOpacity style={styles.customButton} onPress={onPress} activeOpacity={0.8}>
     <View style={styles.innerButton}>{children}</View>
   </TouchableOpacity>
 );
 
-//Tabs de home
 function BottomTabsNavigator() {
   return (
-    <Tab.Navigator
+    <Tab.Navigator id={undefined}
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: styles.tabBarStyle,
         tabBarIcon: ({ color, size }) => {
-          let iconName;
-          if (route.name === "Viajes") {
-            iconName = "car-outline";
-          } else if (route.name === "Buscar") {
-            iconName = "search-outline";
-          } else if (route.name === "Mensajes") {
-            iconName = "chatbubble-outline";
-          } else if (route.name === "Perfil") {
-            iconName = "person-outline";
-          }
-          return <Icon name={iconName} size={size} color={color} />;
+          const icons = {
+            Viajes: "car-outline",
+            Buscar: "search-outline",
+            Mensajes: "chatbubble-outline",
+            Perfil: "person-outline",
+          };
+          return <Icon name={icons[route.name]} size={size} color={color} />;
         },
         tabBarActiveTintColor: "#000",
         tabBarInactiveTintColor: "gray",
       })}
-      id={undefined}
     >
       <Tab.Screen name="Viajes" component={ViajesScreen} />
       <Tab.Screen name="Buscar" component={BuscarScreen} />
-
-      {/* Botón central personalizado */}
       <Tab.Screen
         name="Publicar"
         component={PublicarScreen}
         options={{
           tabBarButton: (props) => (
-            <CustomTabBarButton {...props}>
-              <Icon name="add" size={30} color="#000" />
-            </CustomTabBarButton>
+            <TouchableOpacity style={styles.customButton} {...props}>
+              <View style={styles.innerButton}>
+                <Icon name="add" size={30} color="#000" />
+              </View>
+            </TouchableOpacity>
           ),
         }}
       />
-
       <Tab.Screen name="Mensajes" component={MensajesScreen} />
       <Tab.Screen name="Perfil" component={PerfilScreen} />
     </Tab.Navigator>
@@ -104,43 +81,22 @@ function BottomTabsNavigator() {
 }
 
 export default function Navigation() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  //const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const { isAuthenticated, hasSeenOnboarding, biometricEnabled } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
-  const fadeAnim = useState(new Animated.Value(0))[0]; // Animación de opacidad
-
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const userToken = await AsyncStorage.getItem("userToken");
-        setIsAuthenticated(!!userToken);
-      } catch (error) {
-        console.error("Error al recuperar el estado de autenticación", error);
-        setIsAuthenticated(false);
-      }
-    };
-
-    //checkLoginStatus();
-    AsyncStorage.setItem("isAuthenticated", "true"); //simular que esta autenticado
-  }, []);
+  const fadeAnim = useState(new Animated.Value(0))[0];
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 2000, // Animación de 2 segundos
+      duration: 2000,
       useNativeDriver: true,
-    }).start(() => {
-      setIsLoading(false); // Oculta la pantalla de carga después de la animación
-    });
+    }).start(() => setIsLoading(false));
   }, []);
 
   if (isLoading) {
     return (
       <Animated.View style={[styles.loadingContainer, { opacity: fadeAnim }]}>
-        <Image
-          source={require("../../assets/images/cargando.gif")} // Imagen local
-          style={styles.image}
-        />
+        <Image source={require("../../assets/images/cargando.gif")} style={styles.image} />
         <Text style={styles.loadingText}>GOU!</Text>
         <Text>Comparte el viaje, disfruta el camino.</Text>
         <Text>🌍🚗</Text>
@@ -151,13 +107,21 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }} id={undefined}>
+        {!hasSeenOnboarding && (
+          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+        )}
+
+        {biometricEnabled && (
+          <Stack.Screen name="BiometricAuth" component={BiometricAuthScreen} />
+        )}
+
         {isAuthenticated ? (
           <Stack.Screen name="Home" component={BottomTabsNavigator} />
         ) : (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Info" component={InfoScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="PasswordLogin" component={PasswordLoginScreen} />
           </>
         )}
       </Stack.Navigator>
@@ -165,7 +129,6 @@ export default function Navigation() {
   );
 }
 
-//estilos de la navegacion
 const styles = StyleSheet.create({
   tabBarStyle: {
     position: "absolute",
@@ -176,7 +139,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   customButton: {
-    top: -20, // Eleva el botón
+    top: -20,
     justifyContent: "center",
     alignItems: "center",
   },

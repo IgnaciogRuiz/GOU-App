@@ -1,21 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Animated,
-  Text,
-  View,
-  SafeAreaView,
-  Dimensions,
-  Image,
-  TouchableOpacity,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, Animated, Text, View, Dimensions, Image, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "../../navigation/Navigation";
 import CustomButton from "../../components/button";
 import CustomInput from "../../components/input";
+import { login } from "../../api/services/authService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuth } from "../../context/AuthContext";
+import FadeInView from "../../components/fadeIn";
 const { width } = Dimensions.get("window");
 
 type LoginScreenNavigationProp = StackNavigationProp<StackParamList, "Login">;
@@ -24,22 +16,12 @@ type Props = {
 };
 
 export default function LoginScreen({ navigation }: Props) {
+  const { setIsAuthenticated } = useAuth();
   const [form, setForm] = useState({ dni: "", password: "" });
   const [error, setError] = useState(""); // Estado para el mensaje de error
   const fadeAnim = useRef(new Animated.Value(0)).current; // Para la opacidad
   const translateY = useRef(new Animated.Value(-10)).current; // Para la posición vertical
   const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Referencia al timeout
-
-  // Animación de Fade-In para la pantalla completa
-  const fadeInAnim = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    Animated.timing(fadeInAnim, {
-      toValue: 1,
-      duration: 2000, // Duración de 1 segundo
-      useNativeDriver: true,
-    }).start();
-  }, []);
 
   useEffect(() => {
     if (error) {
@@ -64,7 +46,12 @@ export default function LoginScreen({ navigation }: Props) {
     };
   }, [error]);
 
-  const handleSubmit = () => {
+  const resetOnboarding = async () => {
+    await AsyncStorage.removeItem("hasSeenOnboarding");
+    console.log("Onboarding reset! Reinicia la app para verlo de nuevo.");
+  };
+
+  const handleLogin = async () => {
     if (!form.dni) {
       setError("El DNI es obligatorio");
     } else if (form.dni.length < 7) {
@@ -73,19 +60,25 @@ export default function LoginScreen({ navigation }: Props) {
       setError("La contraseña es obligatoria");
     } else {
       setError(""); // Limpiar el error si los datos están correctos
-      // try {
-      //   const data = await login(form.dni, form.password);
-      //   console.log("Login exitoso:", data);
-      //   // Aquí puedes guardar el token en AsyncStorage o redirigir al usuario
-      // } catch (error) {
-      //   setError(error);
-      // }
+
+      try {
+        const data = await login(form.dni, form.password); // 🔹 Llamamos a la API
+        console.log("Login exitoso:", data);
+
+        //guardar token
+        await AsyncStorage.setItem("userToken", data.token);
+        setIsAuthenticated(true);
+
+      } catch (errorMessage) {
+        setError(errorMessage);
+      }
     }
   };
 
+
   const handleChange = (name: string, value: string) => {
     setForm({ ...form, [name]: value });
-    setError(""); // Borra el error cuando el usuario empieza a escribir
+    setError("");
 
     if (name === "dni" && value.length >= 7) {
       setError("");
@@ -94,74 +87,70 @@ export default function LoginScreen({ navigation }: Props) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView style={styles.container}>
-        <Animated.View
-          style={[styles.animatedContainer, { opacity: fadeInAnim }]}
-        >
-          <StatusBar style="light" backgroundColor="black" />
+      <FadeInView style={styles.animatedContainer}>
 
-          <View style={styles.imageContainer}>
-            <Image
-              source={require("../../../assets/images/car.png")}
-              style={styles.image}
+        <View style={styles.imageContainer}>
+          <Image
+            source={require("../../../assets/images/car.png")}
+            style={styles.image}
+          />
+        </View>
+
+        <View style={styles.containerText}>
+          <Animated.View
+            style={[
+              styles.errorContainer,
+              {
+                opacity: fadeAnim,
+                transform: [{ translateY }],
+                display: error ? "flex" : "none",
+              },
+            ]}
+          >
+            {error ? <Text style={styles.errorText}>{error}</Text> : null}
+          </Animated.View>
+
+          <View style={styles.containerform}>
+            <Text style={styles.label}>DNI</Text>
+            <CustomInput
+              placeholder="46762316"
+              secureTextEntry={false}
+              keyboardType="numeric"
+              value={form.dni}
+              onChangeText={(text) => handleChange("dni", text)}
             />
-          </View>
 
-          <View style={styles.containerText}>
-            <Animated.View
-              style={[
-                styles.errorContainer,
-                {
-                  opacity: fadeAnim,
-                  transform: [{ translateY }],
-                  display: error ? "flex" : "none",
-                },
-              ]}
-            >
-              {error ? <Text style={styles.errorText}>{error}</Text> : null}
-            </Animated.View>
+            <Text style={styles.label}>Contraseña</Text>
+            <CustomInput
+              placeholder="************"
+              secureTextEntry={true}
+              keyboardType="default"
+              value={form.password}
+              onChangeText={(text) => handleChange("password", text)}
+            />
 
-            <View style={styles.containerform}>
-              <Text style={styles.label}>DNI</Text>
-              <CustomInput
-                placeholder="46762316"
-                secureTextEntry={false}
-                keyboardType="numeric"
-                value={form.dni}
-                onChangeText={(text) => handleChange("dni", text)}
+            <TouchableOpacity style={styles.forgotPasswordContainer}>
+              <Text style={styles.forgotPassword}>
+                ¿Olvidaste la contraseña?
+              </Text>
+            </TouchableOpacity>
+
+            <CustomButton title="Iniciar Sesión" onPress={handleLogin} />
+            <CustomButton title="Test OnBoarding" onPress={resetOnboarding} />
+
+            <View style={styles.registerContainer}>
+              <Text style={styles.registerText}>
+                ¿Aún no tienes cuenta en GOU!?
+              </Text>
+              <CustomButton
+                title="Registrarse"
+                onPress={() => navigation.navigate("Info")}
               />
-
-              <Text style={styles.label}>Contraseña</Text>
-              <CustomInput
-                placeholder="************"
-                secureTextEntry={true}
-                keyboardType="default"
-                value={form.password}
-                onChangeText={(text) => handleChange("password", text)}
-              />
-
-              <TouchableOpacity style={styles.forgotPasswordContainer}>
-                <Text style={styles.forgotPassword}>
-                  ¿Olvidaste la contraseña?
-                </Text>
-              </TouchableOpacity>
-
-              <CustomButton title="Iniciar Sesión" onPress={handleSubmit} />
-
-              <View style={styles.registerContainer}>
-                <Text style={styles.registerText}>
-                  ¿Aún no tienes cuenta en GOU!?
-                </Text>
-                <CustomButton
-                  title="Registrarse"
-                  onPress={() => navigation.navigate("Info")}
-                />
-              </View>
             </View>
           </View>
-        </Animated.View>
-      </SafeAreaView>
-    </TouchableWithoutFeedback>
+        </View>
+      </FadeInView>
+    </TouchableWithoutFeedback >
   );
 }
 

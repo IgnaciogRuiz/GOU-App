@@ -1,19 +1,21 @@
-import React, { useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, SafeAreaView, View, Image } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Animated } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "../../navigation/Navigation";
 import CustomButton from "../../components/button";
 import BackButton from "../../components/backButton";
+import Icon from "react-native-vector-icons/Ionicons";
+import FadeInView from "../../components/fadeIn";
 
-type InfoScreenProps = {
+// Tipo de props para la navegación
+type OnBoardingScreen = {
   navigation: StackNavigationProp<StackParamList, "Info">;
 };
 
-export default function InfoScreen({ navigation }: InfoScreenProps) {
+export default function OnBoardingScreen({ navigation }: OnBoardingScreen) {
   const [step, setStep] = useState(1);
 
-  // Contenido de los pasos
   const steps = [
     "Bienvenido a GOU, la app de carpooling que te ayuda a viajar de forma económica y sostenible.",
     "Reserva viajes a tus destinos favoritos o comparte tu auto para reducir costos y ganar dinero.",
@@ -21,11 +23,15 @@ export default function InfoScreen({ navigation }: InfoScreenProps) {
     "¡Listo! Regístrate ahora y comienza a disfrutar de una nueva forma de moverte.",
   ];
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="white" />
+  const completeOnboarding = async () => {
+    await AsyncStorage.setItem("hasSeenOnboarding", "true");
+  };
 
-      <BackButton step={step} setStep={setStep} />
+  return (
+    <FadeInView style={styles.container}>
+      {step > 1 && (
+        <BackButton step={step} setStep={setStep} />
+      )}
 
       <View style={styles.imageContainer}>
         <Image source={require("../../../assets/images/carMan.jpg")} />
@@ -34,18 +40,28 @@ export default function InfoScreen({ navigation }: InfoScreenProps) {
       <Text style={styles.title}>{steps[step - 1]}</Text>
 
       <View style={styles.containerbutton}>
-        <CustomButton
-          title={step < steps.length ? "Siguiente" : "Registrarse"}
-          onPress={() => {
-            if (step < steps.length) {
-              setStep(step + 1);
-            } else {
-              navigation.navigate("Register"); // Va a la pantalla de registro
-            }
-          }}
-        />
+        {step < steps.length ? (
+          <CustomButton title="Siguiente" onPress={() => setStep(step + 1)} />
+        ) : (
+          <>
+            <CustomButton
+              title="Iniciar Sesión"
+              onPress={() => {
+                completeOnboarding();
+                navigation.navigate("Login");
+              }}
+            />
+            <CustomButton
+              title="Registrarse"
+              onPress={() => {
+                completeOnboarding();
+                navigation.navigate("Register");
+              }}
+            />
+          </>
+        )}
       </View>
-    </View>
+    </FadeInView>
   );
 }
 
@@ -66,6 +82,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     padding: 20,
+  },
+  backButton: {
+    position: "absolute",
+    top: 50,
+    left: 20,
+    zIndex: 10,
   },
   containerbutton: {
     width: "100%",

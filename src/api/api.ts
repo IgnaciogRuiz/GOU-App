@@ -1,14 +1,20 @@
 import axios from "axios";
 
-const API_URL = "http://tu-api.com/api";
+const API_URL = "http://192.168.1.21:8000/api";
+const AUTH_URL = "http://192.168.1.21:8000/";
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: API_URL,
-  withCredentials: true, // Necesario si usas Laravel Sanctum con cookies
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
   },
 });
 
-export default api;
+export const authApi = axios.create({
+  baseURL: AUTH_URL,
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
+});

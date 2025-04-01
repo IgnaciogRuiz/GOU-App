@@ -5,6 +5,7 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import { AuthProvider } from "./context/AuthContext";
 
 function AppWrapper() {
   const insets = useSafeAreaInsets(); // ✅ Now it's used inside SafeAreaProvider
@@ -13,7 +14,9 @@ function AppWrapper() {
     <View
       style={{ flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom }}
     >
-      <Navigation />
+      <AuthProvider>
+        <Navigation />
+      </AuthProvider>
     </View>
   );
 }
