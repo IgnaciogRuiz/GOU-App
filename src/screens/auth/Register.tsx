@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "../../navigation/Navigation";
 import BackButton from "../../components/backButton";
-import Tittle from "../../components/tittle";
+import Tittle from "../../components/title";
 type InfoScreenProps = {
     navigation: StackNavigationProp<StackParamList, "Info">;
 };

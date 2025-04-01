@@ -34,7 +34,7 @@ const BiometricAuthScreen = ({ navigation }) => {
                     <Button title="No soy yo / Cerrar sesión" onPress={logout} color="red" />
                 </>
             ) : (
-                <Text>Verificando autenticación biométrica...</Text>
+                <Button title="ingresar test" onPress={() => navigation.navigate("Home")} />
             )}
         </View>
     );

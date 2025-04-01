@@ -11,6 +11,7 @@ import { useAuth } from "../context/AuthContext";
 import LoginScreen from "../screens/auth/LoginScreen";
 import RegisterScreen from "../screens/auth/Register";
 import OnboardingScreen from "../screens/auth/OnBoardingScreen";
+import EnableBiometricScreen from "../screens/auth/EnableBiometricScreen";
 import BiometricAuthScreen from "../screens/auth/BiometricAuthScreen";
 import PasswordLoginScreen from "../screens/auth/PasswordLoginScreen";
 import ViajesScreen from "../screens/home/ViajesScreen";
@@ -25,19 +26,13 @@ export type StackParamList = {
   Register: undefined;
   Onboarding: undefined;
   BiometricAuth: undefined;
+  EnableBiometric: undefined;
   PasswordLogin: undefined;
   Home: undefined;
 };
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator<StackParamList>();
-
-
-const CustomTabBarButton = ({ children, onPress }: { children: any; onPress?: (event: GestureResponderEvent) => void }) => (
-  <TouchableOpacity style={styles.customButton} onPress={onPress} activeOpacity={0.8}>
-    <View style={styles.innerButton}>{children}</View>
-  </TouchableOpacity>
-);
+const Stack = createStackNavigator();
 
 function BottomTabsNavigator() {
   return (
@@ -95,7 +90,7 @@ export default function Navigation() {
 
   if (isLoading) {
     return (
-      <Animated.View style={[styles.loadingContainer, { opacity: fadeAnim }]}>
+      <Animated.View style={[styles.loadingContainer, { opacity: fadeAnim }]}> 
         <Image source={require("../../assets/images/cargando.gif")} style={styles.image} />
         <Text style={styles.loadingText}>GOU!</Text>
         <Text>Comparte el viaje, disfruta el camino.</Text>
@@ -107,23 +102,21 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }} id={undefined}>
-        {!hasSeenOnboarding && (
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-        )}
+        {!hasSeenOnboarding && <Stack.Screen name="Onboarding" component={OnboardingScreen} />}
 
-        {biometricEnabled && (
-          <Stack.Screen name="BiometricAuth" component={BiometricAuthScreen} />
-        )}
-
-        {isAuthenticated ? (
-          <Stack.Screen name="Home" component={BottomTabsNavigator} />
-        ) : (
+        {!isAuthenticated ? (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
             <Stack.Screen name="PasswordLogin" component={PasswordLoginScreen} />
           </>
+        ) : biometricEnabled ? (
+          <Stack.Screen name="BiometricAuth" component={BiometricAuthScreen} />
+        ) : (
+          <Stack.Screen name="EnableBiometric" component={EnableBiometricScreen} />
         )}
+
+        <Stack.Screen name="Home" component={BottomTabsNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -140,20 +133,20 @@ const styles = StyleSheet.create({
   },
   customButton: {
     position: "absolute",
-    bottom: 20, // Eleva el botón
+    bottom: 20,
     justifyContent: "center",
     alignItems: "center",
-    zIndex: 10, // Asegura que esté por encima de otros elementos
+    zIndex: 10,
   },
   innerButton: {
     width: 70,
     height: 70,
     borderRadius: 35,
     backgroundColor: "#fff",
-    elevation: 10, // Aumenta la elevación en Android
+    elevation: 10,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000", // Sombra en iOS
+    shadowColor: "#000",
     shadowOpacity: 0.3,
     shadowRadius: 6,
     shadowOffset: { width: 0, height: 4 },

@@ -39,6 +39,8 @@ export const AuthProvider = ({ children }) => {
             const data = await logoutService();
             await AsyncStorage.removeItem("userToken");
             setIsAuthenticated(false);
+            await AsyncStorage.removeItem("biometricEnabled");
+            setBiometricEnabled(false);
         } catch (error) {
             throw error; 
         }
@@ -55,8 +57,13 @@ export const AuthProvider = ({ children }) => {
 
     };
 
+    const enableBiometrics = async () => {
+        await AsyncStorage.setItem("biometricEnabled", "true");
+        setBiometricEnabled(true);
+    };
+    
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, eliminarStorage, hasSeenOnboarding, setHasSeenOnboarding, biometricEnabled }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, eliminarStorage, enableBiometrics, hasSeenOnboarding, setHasSeenOnboarding, biometricEnabled }}>
             {children}
         </AuthContext.Provider>
     );
