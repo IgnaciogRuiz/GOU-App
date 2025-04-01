@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { login } from "../api/services/authService";
+import { loginService, logoutService } from "../api/services/authService";
 import * as LocalAuthentication from "expo-local-authentication";
 
 const AuthContext = createContext(null);
@@ -24,23 +24,39 @@ export const AuthProvider = ({ children }) => {
         checkAuthStatus();
     }, []);
 
-    const loginUser = async (dni: string, password: string) => {
+    const login = async (dni: string, password: string) => {
         try {
-            const data = await login(dni, password);
+            const data = await loginService(dni, password);
             await AsyncStorage.setItem("userToken", data.token);
             setIsAuthenticated(true);
         } catch (error) {
-            throw error; // Permite manejar el error en el componente
+            throw error; 
         }
     };
 
     const logout = async () => {
-        await AsyncStorage.removeItem("userToken");
-        setIsAuthenticated(false);
+        try {
+            const data = await logoutService();
+            await AsyncStorage.removeItem("userToken");
+            setIsAuthenticated(false);
+        } catch (error) {
+            throw error; 
+        }
+
+    };
+
+    const eliminarStorage = async () => {
+        try {
+            await AsyncStorage.removeItem("userToken");
+            setIsAuthenticated(false);
+        } catch (error) {
+            throw error; 
+        }
+
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, hasSeenOnboarding, setHasSeenOnboarding, biometricEnabled }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, eliminarStorage, hasSeenOnboarding, setHasSeenOnboarding, biometricEnabled }}>
             {children}
         </AuthContext.Provider>
     );

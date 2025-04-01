@@ -4,7 +4,6 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "../../navigation/Navigation";
 import CustomButton from "../../components/button";
 import CustomInput from "../../components/input";
-import { login } from "../../api/services/authService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "../../context/AuthContext";
 import FadeInView from "../../components/fadeIn";
@@ -16,7 +15,7 @@ type Props = {
 };
 
 export default function LoginScreen({ navigation }: Props) {
-  const { setIsAuthenticated } = useAuth();
+  const { login } = useAuth();
   const [form, setForm] = useState({ dni: "", password: "" });
   const [error, setError] = useState(""); // Estado para el mensaje de error
   const fadeAnim = useRef(new Animated.Value(0)).current; // Para la opacidad
@@ -60,17 +59,10 @@ export default function LoginScreen({ navigation }: Props) {
       setError("La contraseña es obligatoria");
     } else {
       setError(""); // Limpiar el error si los datos están correctos
-
       try {
-        const data = await login(form.dni, form.password); // 🔹 Llamamos a la API
-        console.log("Login exitoso:", data);
-
-        //guardar token
-        await AsyncStorage.setItem("userToken", data.token);
-        setIsAuthenticated(true);
-
+        await login(form.dni, form.password);
       } catch (errorMessage) {
-        setError(errorMessage);
+        setError(errorMessage instanceof Error ? errorMessage.message : String(errorMessage));
       }
     }
   };
@@ -144,7 +136,7 @@ export default function LoginScreen({ navigation }: Props) {
               </Text>
               <CustomButton
                 title="Registrarse"
-                onPress={() => navigation.navigate("Info")}
+                onPress={() => navigation.navigate("Register")}
               />
             </View>
           </View>

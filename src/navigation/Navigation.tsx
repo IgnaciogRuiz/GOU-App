@@ -139,22 +139,24 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   customButton: {
-    top: -20,
+    position: "absolute",
+    bottom: 20, // Eleva el botón
     justifyContent: "center",
     alignItems: "center",
+    zIndex: 10, // Asegura que esté por encima de otros elementos
   },
   innerButton: {
     width: 70,
     height: 70,
     borderRadius: 35,
     backgroundColor: "#fff",
-    elevation: 5,
+    elevation: 10, // Aumenta la elevación en Android
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
+    shadowColor: "#000", // Sombra en iOS
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
   },
   loadingContainer: {
     flex: 1,
