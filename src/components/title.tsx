@@ -2,13 +2,13 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 type TituloProps = {
-    titulo: string;
+    title: string;
 };
 
-export default function Tittle({ titulo }: TituloProps) {
+export default function Title({ title }: TituloProps) {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>{titulo}</Text>
+            <Text style={styles.text}>{title}</Text>
         </View>
     );
 }
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
     },
     text: {
-        fontSize: 18,
+        fontSize: 32,
         fontWeight: "bold",
     },
 });
