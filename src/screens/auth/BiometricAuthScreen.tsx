@@ -4,7 +4,7 @@ import * as LocalAuthentication from "expo-local-authentication";
 import { useAuth } from "../../context/AuthContext";
 
 const BiometricAuthScreen = ({ navigation }) => {
-    const { login, logout } = useAuth();
+    const { logout, bioAuth } = useAuth();
     const [biometricFailed, setBiometricFailed] = useState(false);
 
     useEffect(() => {
@@ -18,7 +18,13 @@ const BiometricAuthScreen = ({ navigation }) => {
         });
 
         if (result.success) {
-            login("biometric_token");
+            const success = await bioAuth();
+            if (success) {
+                navigation.navigate("Home");
+            } else {
+                Alert.alert("Error", "No se pudo autenticar el usuario.");
+                setBiometricFailed(true);
+            }
         } else {
             setBiometricFailed(true);
         }
@@ -34,7 +40,7 @@ const BiometricAuthScreen = ({ navigation }) => {
                     <Button title="No soy yo / Cerrar sesión" onPress={logout} color="red" />
                 </>
             ) : (
-                <Button title="ingresar test" onPress={() => navigation.navigate("Home")} />
+                <Text>Verificando...</Text>
             )}
         </View>
     );

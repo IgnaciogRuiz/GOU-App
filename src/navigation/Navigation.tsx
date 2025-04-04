@@ -102,9 +102,9 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }} id={undefined}>
-        {!hasSeenOnboarding && <Stack.Screen name="Onboarding" component={OnboardingScreen} />}
-
-        {!isAuthenticated ? (
+        {!hasSeenOnboarding ? (
+          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+        ) : !isAuthenticated ? (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
@@ -115,11 +115,13 @@ export default function Navigation() {
         ) : (
           <Stack.Screen name="EnableBiometric" component={EnableBiometricScreen} />
         )}
-
-        <Stack.Screen name="Home" component={BottomTabsNavigator} />
+        {isAuthenticated && (
+          <Stack.Screen name="Home" component={BottomTabsNavigator} />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
+  
 }
 
 const styles = StyleSheet.create({

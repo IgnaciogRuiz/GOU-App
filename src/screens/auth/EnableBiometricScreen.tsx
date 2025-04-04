@@ -34,6 +34,7 @@ const EnableBiometricScreen = ({ navigation }) => {
           <Button title="No, gracias" onPress={skipBiometrics} />
         </>
       ) : (
+        //redirigir a home no poner nada
         <Text>Tu dispositivo no admite autenticación biométrica.</Text>
       )}
     </View>
