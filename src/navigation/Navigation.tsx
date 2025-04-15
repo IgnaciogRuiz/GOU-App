@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Animated, Image, TouchableOpacity, GestureResponderEvent } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Animated,
+  Image,
+  TouchableOpacity,
+  GestureResponderEvent,
+} from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -36,7 +44,8 @@ const Stack = createStackNavigator();
 
 function BottomTabsNavigator() {
   return (
-    <Tab.Navigator id={undefined}
+    <Tab.Navigator
+      id={undefined}
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarShowLabel: false,
@@ -90,8 +99,11 @@ export default function Navigation() {
 
   if (isLoading) {
     return (
-      <Animated.View style={[styles.loadingContainer, { opacity: fadeAnim }]}> 
-        <Image source={require("../../assets/images/cargando.gif")} style={styles.image} />
+      <Animated.View style={[styles.loadingContainer, { opacity: fadeAnim }]}>
+        <Image
+          source={require("../../assets/images/cargando.gif")}
+          style={styles.image}
+        />
         <Text style={styles.loadingText}>GOU!</Text>
         <Text>Comparte el viaje, disfruta el camino.</Text>
         <Text>🌍🚗</Text>
@@ -108,12 +120,18 @@ export default function Navigation() {
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
-            <Stack.Screen name="PasswordLogin" component={PasswordLoginScreen} />
+            <Stack.Screen
+              name="PasswordLogin"
+              component={PasswordLoginScreen}
+            />
           </>
         ) : biometricEnabled ? (
           <Stack.Screen name="BiometricAuth" component={BiometricAuthScreen} />
         ) : (
-          <Stack.Screen name="EnableBiometric" component={EnableBiometricScreen} />
+          <Stack.Screen
+            name="EnableBiometric"
+            component={EnableBiometricScreen}
+          />
         )}
         {isAuthenticated && (
           <Stack.Screen name="Home" component={BottomTabsNavigator} />
@@ -121,7 +139,6 @@ export default function Navigation() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-  
 }
 
 const styles = StyleSheet.create({
