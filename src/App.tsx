@@ -1,6 +1,7 @@
 import React from "react";
 import { View } from "react-native";
-import Navigation from "./navigation/Navigation";
+import { NavigationContainer } from "@react-navigation/native";
+import RootNavigator from "./navigation/RootNavigator";
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -8,14 +9,16 @@ import {
 import { AuthProvider } from "./context/AuthContext";
 
 function AppWrapper() {
-  const insets = useSafeAreaInsets(); // ✅ Now it's used inside SafeAreaProvider
+  const insets = useSafeAreaInsets(); 
 
   return (
     <View
       style={{ flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom }}
     >
       <AuthProvider>
-        <Navigation />
+        <NavigationContainer>
+          <RootNavigator />
+        </NavigationContainer>
       </AuthProvider>
     </View>
   );
@@ -28,16 +31,3 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
-
-/*import React from "react";
-import Navigation from "./navigation/Navigation";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-
-export default function App() {
-  return (
-    <SafeAreaProvider>
-      <Navigation />
-    </SafeAreaProvider>
-  );
-}
-*/

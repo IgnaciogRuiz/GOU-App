@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Animated, Text, View, Dimensions, Image, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { StackParamList } from "../../navigation/Navigation";
+import { StackParamList } from "../../navigation/RootNavigator";
 import CustomButton from "../../components/button";
 import CustomInput from "../../components/input";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -60,7 +60,10 @@ export default function LoginScreen({ navigation }: Props) {
     } else {
       setError(""); // Limpiar el error si los datos están correctos
       try {
-        await login(form.dni, form.password);
+        const success = await login(form.dni, form.password);
+        if (success) {
+          navigation.replace("Splash"); // 🔁 Redirección centralizada
+        }
       } catch (errorMessage) {
         setError(errorMessage instanceof Error ? errorMessage.message : String(errorMessage));
       }

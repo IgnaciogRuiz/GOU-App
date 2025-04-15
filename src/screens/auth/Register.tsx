@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { StackParamList } from "../../navigation/Navigation";
+import { StackParamList } from "../../navigation/RootNavigator";
 import BackButton from "../../components/backButton";
 import Tittle from "../../components/title";
 type InfoScreenProps = {
