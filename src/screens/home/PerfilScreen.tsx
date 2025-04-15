@@ -5,6 +5,7 @@ import CustomButton from "../../components/button";
 import { useAuth } from "../../context/AuthContext";
 import ListItem from "../../components/listItem";
 import Title from "../../components/title";
+import ProfileHeader from "../../components/profileHeader"
 
 export default function PerfilScreen() {
   const { logout, eliminarStorage } = useAuth();
@@ -13,6 +14,13 @@ export default function PerfilScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" backgroundColor="light" />
       <Title title="Perfil"></Title>
+      <ProfileHeader
+      name="Roberto Diaz"
+      memberSince="2021"
+      distance="1.000KMs"
+      onEdit={() => console.log("Edit pressed")}
+      avatar={require("../../../assets/images/negra.png")}
+      />
       <ListItem label="Pagos" />
       <ListItem label="Vehiculo" />
       <ListItem label="Información Cuenta" />
