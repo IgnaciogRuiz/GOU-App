@@ -4,17 +4,18 @@
 
 import { authApi } from "../api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+const device_name = "mobile_app";
 
 export const loginService = async (dni, password) => {
     try {
-        const response = await authApi.post("/login", { dni, password });
+        const response = await authApi.post("/login", { dni, password, device_name });
         // console.log(response.data)
-        return response.data; // Devolvemos los datos de la API
+        return response.data;
     } catch (error) {
         const errorMessage = error.response?.data?.message ||
             error.response?.data?.errors?.password?.[0] ||
             "Error al hacer la peticion";
-        throw errorMessage; // Lanzamos el mensaje para manejarlo más arriba
+        throw errorMessage;
     }
 };
 
@@ -25,7 +26,7 @@ export const authService = async (token) => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(response.data);
+        // console.log(response.data);
         return response.data;
     } catch (error) {
         const errorMessage = error.response?.data?.message ||

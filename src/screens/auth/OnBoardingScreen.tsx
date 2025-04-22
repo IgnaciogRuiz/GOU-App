@@ -1,22 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, Animated } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { StackParamList } from "../../navigation/RootNavigator";
 import CustomButton from "../../components/button";
 import BackButton from "../../components/backButton";
-import Icon from "react-native-vector-icons/Ionicons";
 import FadeInView from "../../components/fadeIn";
-import { useNavigation } from "@react-navigation/native";
 
-// Tipo de props para la navegación
-type OnBoardingScreen = {
-  navigation: StackNavigationProp<StackParamList, "Info">;
-};
 
-export default function OnBoardingScreen() {
+export default function OnBoardingScreen({ navigation }) {
   const [step, setStep] = useState(1);
-  const navigation = useNavigation();
 
   const steps = [
     "Bienvenido a GOU, la app de carpooling que te ayuda a viajar de forma económica y sostenible.",

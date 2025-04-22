@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Animated, Text, View, Dimensions, Image, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { StackParamList } from "../../navigation/RootNavigator";
 import CustomButton from "../../components/button";
 import CustomInput from "../../components/input";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -9,18 +7,13 @@ import { useAuth } from "../../context/AuthContext";
 import FadeInView from "../../components/fadeIn";
 const { width } = Dimensions.get("window");
 
-type LoginScreenNavigationProp = StackNavigationProp<StackParamList, "Login">;
-type Props = {
-  navigation: LoginScreenNavigationProp;
-};
-
-export default function LoginScreen({ navigation }: Props) {
+export default function LoginScreen({ navigation }) {
   const { login } = useAuth();
   const [form, setForm] = useState({ dni: "", password: "" });
-  const [error, setError] = useState(""); // Estado para el mensaje de error
-  const fadeAnim = useRef(new Animated.Value(0)).current; // Para la opacidad
-  const translateY = useRef(new Animated.Value(-10)).current; // Para la posición vertical
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Referencia al timeout
+  const [error, setError] = useState("");
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(-10)).current;
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (error) {
@@ -60,10 +53,7 @@ export default function LoginScreen({ navigation }: Props) {
     } else {
       setError(""); // Limpiar el error si los datos están correctos
       try {
-        const success = await login(form.dni, form.password);
-        if (success) {
-          navigation.replace("Splash"); // 🔁 Redirección centralizada
-        }
+        await login(form.dni, form.password);
       } catch (errorMessage) {
         setError(errorMessage instanceof Error ? errorMessage.message : String(errorMessage));
       }

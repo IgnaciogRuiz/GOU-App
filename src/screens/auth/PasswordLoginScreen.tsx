@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, Alert } from "react-native";
 import { useAuth } from "../../context/AuthContext";
+import CustomButton from "../../components/button";
 
 const PasswordLoginScreen = ({ navigation }) => {
-    const { login } = useAuth();
+    const { loginWithPassword, eliminarStorage } = useAuth();
     const [password, setPassword] = useState("");
 
     const handleLogin = () => {
         // Aquí puedes validar la contraseña con la API
-        if (password === "123456") { // Reemplazar con validación real
-            login("password_token");
+        if (password) {
+            console.log(password)
+            const response = loginWithPassword(password);
+            if (response) {
+                navigation.navigate("Home")
+            }
         } else {
             Alert.alert("Error", "Contraseña incorrecta");
         }
@@ -25,8 +30,14 @@ const PasswordLoginScreen = ({ navigation }) => {
                 onChangeText={setPassword}
                 style={{ borderBottomWidth: 1, width: "80%", marginVertical: 10 }}
             />
-            <Button title="Iniciar sesión" onPress={handleLogin} />
-            <Button title="Volver" onPress={() => navigation.goBack()} color="gray" />
+            <CustomButton
+                title="Iniciar sesión"
+                onPress={handleLogin}
+            ></CustomButton>
+            <CustomButton
+                title="Eliminar Storage"
+                onPress={eliminarStorage}
+            ></CustomButton>
         </View>
     );
 };
