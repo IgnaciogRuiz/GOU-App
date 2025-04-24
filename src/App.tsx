@@ -12,9 +12,7 @@ function AppWrapper() {
   const insets = useSafeAreaInsets(); 
 
   return (
-    <View
-      style={{ flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom }}
-    >
+    <View style={{ flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom }}>
       <AuthProvider>
         <NavigationContainer>
           <RootNavigator />

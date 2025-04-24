@@ -6,10 +6,11 @@ import { useAuth } from "../../context/AuthContext";
 import ListItem from "../../components/listItem";
 import Title from "../../components/title";
 import ProfileHeader from "../../components/profileHeader"
+import { useNavigation } from "@react-navigation/native";
 
 export default function PerfilScreen() {
   const { logout, eliminarStorage } = useAuth();
-
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" backgroundColor="light" />
@@ -22,7 +23,7 @@ export default function PerfilScreen() {
       avatar={require("../../../assets/images/negra.png")}
       />
       <ListItem label="Pagos" />
-      <ListItem label="Vehiculo" />
+      <ListItem label="Vehiculo" onPress={() => navigation.navigate("Vehicle")}/>
       <ListItem label="Información Cuenta" />
       <ListItem label="Configuraciones" />
       <View style={styles.fall}>

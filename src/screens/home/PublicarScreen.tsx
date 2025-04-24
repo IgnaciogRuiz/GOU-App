@@ -13,7 +13,7 @@ export default function ViajesScreen() {
       <StatusBar style="dark" backgroundColor="light" />
       <Title title="Publicar Viaje"></Title>
       <Image
-        source={require("../../../assets/images/publiCar.png")}
+        source={require("../../../assets/images/carMan.jpg")}
         style={styles.image}
       ></Image>
       <View style={styles.textContainer}>

@@ -28,7 +28,8 @@ export default function BuscarScreen() {
         { icon: "✓", label: "Comida" },
         { icon: "✗", label: "Fumar" }
     ]}
-    price="$6.000"/>
+    price="$6.000"
+    imageSource={require("../../../assets/images/phoneViajes.jpg")}/>
         </SafeAreaView>
     );
 }

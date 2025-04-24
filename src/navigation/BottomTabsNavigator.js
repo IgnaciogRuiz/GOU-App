@@ -2,13 +2,14 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TouchableOpacity, View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import ProfileTabsNavigation from './ProfileTabsNavigation';
 
 // Screens
 import ViajesScreen from "../screens/home/ViajesScreen";
 import BuscarScreen from "../screens/home/BuscarScreen";
 import PublicarScreen from "../screens/home/PublicarScreen";
 import MensajesScreen from "../screens/home/MensajesScreen";
-import PerfilScreen from "../screens/home/PerfilScreen";
+
 
 const Tab = createBottomTabNavigator();
 
@@ -48,7 +49,7 @@ export default function BottomTabsNavigator() {
         }}
       />
       <Tab.Screen name="Mensajes" component={MensajesScreen} />
-      <Tab.Screen name="Perfil" component={PerfilScreen} />
+      <Tab.Screen name="Perfil" component={ProfileTabsNavigation} />
     </Tab.Navigator>
   );
 }
