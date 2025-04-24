@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { loginService, logoutService, authService } from "../api/services/authService";
+import { loginService, logoutService, authService } from "../api/services/auth/authService";
 
 // Tipos para los valores del contexto
 interface AuthContextType {

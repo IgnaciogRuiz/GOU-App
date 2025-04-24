@@ -2,7 +2,7 @@
 //funcion para hacer una peticion
 
 
-import { authApi } from "../api";
+import { authApi } from "../../config/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const device_name = "mobile_app";
 

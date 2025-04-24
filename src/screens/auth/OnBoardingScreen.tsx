@@ -4,10 +4,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomButton from "../../components/button";
 import BackButton from "../../components/backButton";
 import FadeInView from "../../components/fadeIn";
+import { useAuth } from "../../context/AuthContext";
 
 
 export default function OnBoardingScreen({ navigation }) {
   const [step, setStep] = useState(1);
+  const { setHasSeenOnboarding } = useAuth();
 
   const steps = [
     "Bienvenido a GOU, la app de carpooling que te ayuda a viajar de forma económica y sostenible.",
@@ -18,6 +20,7 @@ export default function OnBoardingScreen({ navigation }) {
 
   const completeOnboarding = async () => {
     await AsyncStorage.setItem("hasSeenOnboarding", "true");
+    setHasSeenOnboarding(true);
   };
 
   return (
@@ -38,17 +41,9 @@ export default function OnBoardingScreen({ navigation }) {
         ) : (
           <>
             <CustomButton
-              title="Iniciar Sesión"
+              title="Finalizar"
               onPress={() => {
                 completeOnboarding();
-                navigation.navigate("Login");
-              }}
-            />
-            <CustomButton
-              title="Registrarse"
-              onPress={() => {
-                completeOnboarding();
-                navigation.navigate("Register");
               }}
             />
           </>
