@@ -5,7 +5,7 @@ import CustomButton from "../../components/button";
 import { useAuth } from "../../context/AuthContext";
 import ListItem from "../../components/listItem";
 import Title from "../../components/title";
-import ProfileHeader from "../../components/profileHeader"
+import ProfileHeader from "../../components/profileHeader";
 import { useNavigation } from "@react-navigation/native";
 
 export default function PerfilScreen() {
@@ -16,16 +16,25 @@ export default function PerfilScreen() {
       <StatusBar style="dark" backgroundColor="light" />
       <Title title="Perfil"></Title>
       <ProfileHeader
-      name="Roberto Diaz"
-      memberSince="2021"
-      distance="1.000KMs"
-      onEdit={() => console.log("Edit pressed")}
-      avatar={require("../../../assets/images/negra.png")}
+        name="Roberto Diaz"
+        memberSince="2021"
+        distance="1.000KMs"
+        onEdit={() => console.log("Edit pressed")}
+        avatar={require("../../../assets/images/negra.png")}
       />
-      <ListItem label="Pagos" />
-      <ListItem label="Vehiculo" onPress={() => navigation.navigate("Vehicle")}/>
-      <ListItem label="Información Cuenta" />
-      <ListItem label="Configuraciones" />
+      <ListItem label="Pagos" onPress={() => navigation.navigate("Payments")} />
+      <ListItem
+        label="Vehiculo"
+        onPress={() => navigation.navigate("Vehicle")}
+      />
+      <ListItem
+        label="Información Cuenta"
+        onPress={() => navigation.navigate("Info")}
+      />
+      <ListItem
+        label="Configuraciones"
+        onPress={() => navigation.navigate("Config")}
+      />
       <View style={styles.fall}>
         <CustomButton title="Cerrar Sesion" onPress={logout}></CustomButton>
         <CustomButton

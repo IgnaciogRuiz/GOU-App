@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   View,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import Title from "../../../components/title";
 import Card from "../../../components/card";
@@ -30,7 +31,11 @@ export default function VehiculoScreen() {
         { icon: "🛣️", label: "Año: 2021" },
         { icon: "🔒", label: ": ABC123" },]}></Card> */}
       <View style={styles.emptyState}>
-        <Text style={styles.title}>Nothing to see here - Yet</Text>
+        <Image
+          style={styles.image}
+          source={require("../../../../assets/images/blueCar.jpg")}
+        ></Image>
+        <Text style={styles.text}>Aun no tenes vehiculos asociados</Text>
         <Text style={styles.subtitle}>
           Agrega un vehículo para empezar a publicar viajes!
         </Text>
@@ -55,8 +60,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
   },
-  title: {
-    fontSize: 30,
+  text: {
+    fontSize: 20,
     fontWeight: "600",
     marginBottom: 6,
   },
@@ -71,5 +76,8 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "flex-end",
     marginBottom: 100,
+  },
+  image: {
+    marginTop: "50%",
   },
 });

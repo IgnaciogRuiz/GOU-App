@@ -54,12 +54,18 @@ const VehiculoForm: React.FC<VehiculoFormProps> = ({
       />
 
       <Text style={styles.label}>Patente*</Text>
-      <TextInput style={styles.input} value={patente} onChangeText={setPatente} />
+      <TextInput
+        style={styles.input}
+        value={patente}
+        onChangeText={setPatente}
+      />
 
       <Text style={styles.label}>N° de Seguro*</Text>
       <TextInput style={styles.input} value={seguro} onChangeText={setSeguro} />
 
-      <CustomButton title={buttonLabel} onPress={handleSubmit} />
+      <View style={styles.fall}>
+        <CustomButton title={buttonLabel} onPress={handleSubmit} />
+      </View>
     </View>
   );
 };
@@ -80,6 +86,13 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 10,
     marginBottom: 4,
+  },
+  fall: {
+    flex: 1,
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "flex-end",
+    marginBottom: 100,
   },
 });
 
