@@ -30,9 +30,4 @@ const ProfileTabsNavigation = () => {
 
 export default ProfileTabsNavigation;
 
-{
-  /* <Stack.Screen name="Payments" component={Payments} />
 
-      <Stack.Screen name="Info" component={Info} options={{ title: 'Información de Cuenta' }} />
-      <Stack.Screen name="Settings" component={Settings} /> */
-}

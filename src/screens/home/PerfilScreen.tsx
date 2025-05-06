@@ -23,18 +23,9 @@ export default function PerfilScreen() {
         avatar={require("../../../assets/images/negra.png")}
       />
       <ListItem label="Pagos" onPress={() => navigation.navigate("Payments")} />
-      <ListItem
-        label="Vehiculo"
-        onPress={() => navigation.navigate("Vehicle")}
-      />
-      <ListItem
-        label="Información Cuenta"
-        onPress={() => navigation.navigate("Info")}
-      />
-      <ListItem
-        label="Configuraciones"
-        onPress={() => navigation.navigate("Config")}
-      />
+      <ListItem label="Vehiculo" onPress={() => navigation.navigate("Vehicle")} />
+      <ListItem label="Información Cuenta" onPress={() => navigation.navigate("Info")} />
+      <ListItem label="Configuraciones" onPress={() => navigation.navigate("Config")} />
       <View style={styles.fall}>
         <CustomButton title="Cerrar Sesion" onPress={logout}></CustomButton>
         <CustomButton
