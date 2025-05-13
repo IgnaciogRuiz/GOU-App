@@ -18,32 +18,30 @@ const BienvenidaScreen: React.FC = () => {
 
   const handleComenzar = () => {
     console.log("Email ingresado:", email);
-    // navigation.navigate('Home'); // Redirigir si querés
+    navigation.navigate("VerifyEmail"); // Redirigir si querés
   };
 
   return (
     <View style={styles.container}>
-      {/* Fondo ovalado */}
       <View style={styles.ovalBackground} />
 
-      {/* Botón volver */}
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
         <Ionicons name="arrow-back" size={24} color="#fff" />
       </TouchableOpacity>
 
-      {/* Imagen del auto */}
       <Image
         source={require("../../../assets/images/carAbove.png")}
         style={styles.carImage}
         resizeMode="contain"
       />
 
-      {/* Texto bienvenida */}
       <Text style={styles.title}>
         Bienvenido a <Text style={styles.bold}>GOU</Text>!
       </Text>
 
-      {/* Formulario */}
       <View style={styles.form}>
         <Text style={styles.label}>e-mail</Text>
         <TextInput
@@ -68,13 +66,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start",
-    overflow: "hidden", // <---- agrega esto para que se vea el óvalo fuera de su contenedor
+    overflow: "hidden",
   },
   ovalBackground: {
     position: "absolute",
     top: -75,
-    width: 411,        // << muy ancho
-    height: 500,       // << mucho más bajo
+    width: 411, // << muy ancho
+    height: 500, // << mucho más bajo
     backgroundColor: "#000",
     borderBottomLeftRadius: 450,
     borderBottomRightRadius: 450,
@@ -127,6 +125,5 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 });
-
 
 export default BienvenidaScreen;

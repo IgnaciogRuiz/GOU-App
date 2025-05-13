@@ -21,7 +21,6 @@ const ProfileTabsNavigation = () => {
       <Stack.Screen name="Config" component={Settings} />
       <Stack.Screen name="Info" component={AccountInfoScreen} />
       <Stack.Screen name="Payments" component={Payments} />
-
       <Stack.Screen name="AddVehicle" component={AddVehicle} />
       <Stack.Screen name="ChangePass" component={ChangePass} />
     </Stack.Navigator>
@@ -29,5 +28,3 @@ const ProfileTabsNavigation = () => {
 };
 
 export default ProfileTabsNavigation;
-
-

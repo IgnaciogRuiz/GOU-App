@@ -12,15 +12,13 @@ import EnableBiometricScreen from "../screens/auth/EnableBiometricScreen";
 import BottomTabsNavigator from "./BottomTabsNavigator";
 import PasswordLoginScreen from "../screens/auth/PasswordLoginScreen";
 
+import VerifyEmail from "../screens/auth/VerifyEmail";
+
 const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
-  const {
-    loading,
-    hasSeenOnboarding,
-    isAuthenticated,
-    biometricEnabled,
-  } = useAuth();
+  const { loading, hasSeenOnboarding, isAuthenticated, biometricEnabled } =
+    useAuth();
 
   if (loading) {
     return <SplashScreen />;
@@ -29,7 +27,7 @@ export default function RootNavigator() {
   const navigatorKey = `${hasSeenOnboarding}-${isAuthenticated}-${biometricEnabled}`;
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} key={navigatorKey} >
+    <Stack.Navigator screenOptions={{ headerShown: false }} key={navigatorKey}>
       {!hasSeenOnboarding && (
         <>
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />
@@ -42,6 +40,8 @@ export default function RootNavigator() {
         <>
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
+          {/* auth test, if works is extremely temporary*/}
+          <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
         </>
       )}
 
@@ -54,10 +54,12 @@ export default function RootNavigator() {
 
       {hasSeenOnboarding && isAuthenticated && biometricEnabled === false && (
         <>
-          <Stack.Screen name="EnableBiometric" component={EnableBiometricScreen} />
+          <Stack.Screen
+            name="EnableBiometric"
+            component={EnableBiometricScreen}
+          />
           <Stack.Screen name="Home" component={BottomTabsNavigator} />
         </>
-
       )}
 
       {hasSeenOnboarding && isAuthenticated && biometricEnabled === "never" && (
@@ -66,7 +68,6 @@ export default function RootNavigator() {
           <Stack.Screen name="Home" component={BottomTabsNavigator} />
         </>
       )}
-
     </Stack.Navigator>
   );
 }
