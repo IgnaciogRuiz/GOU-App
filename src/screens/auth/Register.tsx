@@ -10,6 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../../components/button";
+import Oval from "../../components/OvalBackground";
 import { Dimensions } from "react-native";
 
 const BienvenidaScreen: React.FC = () => {
@@ -23,7 +24,7 @@ const BienvenidaScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.ovalBackground} />
+      <Oval color="#0000" direction="down" />
 
       <TouchableOpacity
         style={styles.backButton}
@@ -67,16 +68,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     overflow: "hidden",
-  },
-  ovalBackground: {
-    position: "absolute",
-    top: -75,
-    width: 411, // << muy ancho
-    height: 500, // << mucho más bajo
-    backgroundColor: "#000",
-    borderBottomLeftRadius: 450,
-    borderBottomRightRadius: 450,
-    zIndex: 0,
   },
   backButton: {
     backgroundColor: "#000",

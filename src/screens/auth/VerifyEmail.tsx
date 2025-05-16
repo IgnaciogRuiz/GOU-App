@@ -9,10 +9,12 @@ import {
 import CustomButton from "../../components/button";
 import Title from "../../components/title";
 import BackButton from "../../components/backButton";
+import { useNavigation } from "@react-navigation/native";
 
 const CELL_COUNT = 6;
 
 const VerificationScreen = () => {
+  const navigation = useNavigation();
   const [value, setValue] = React.useState("");
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -65,7 +67,10 @@ const VerificationScreen = () => {
         )}
       />
       <View style={styles.fall}>
-        <CustomButton title="Verificar" />
+        <CustomButton
+          title="Verificar"
+          onPress={() => navigation.navigate("ProfileStepsScreen")}
+        />
       </View>
     </View>
   );
