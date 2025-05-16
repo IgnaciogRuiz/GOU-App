@@ -14,6 +14,8 @@ import PasswordLoginScreen from "../screens/auth/PasswordLoginScreen";
 
 import VerifyEmail from "../screens/auth/VerifyEmail";
 import ProfileStepsScreen from "../screens/auth/ProfileStepsScreen";
+import PhoneInputScreen from "../screens/auth/PhoneInputScreen";
+import VerifyPhone from "../screens/auth/VerifyPhone";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +45,8 @@ export default function RootNavigator() {
           <Stack.Screen name="Register" component={RegisterScreen} />
           {/* auth test, if works is extremely temporary*/}
           <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
+          <Stack.Screen name="PhoneInputScreen" component={PhoneInputScreen} />
+          <Stack.Screen name="VerifyPhone" component={VerifyPhone} />
           <Stack.Screen
             name="ProfileStepsScreen"
             component={ProfileStepsScreen}

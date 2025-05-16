@@ -21,16 +21,18 @@ const ProfileStepsScreen = () => {
         <Title title="Datos a completar" />
         <Text style={styles.subtitle}>completa los siguientes requisitos</Text>
 
-        <View style={styles.card}>
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => navigation.navigate("PhoneInputScreen")}
+        >
           <Image
             source={require("../../../assets/images/carAbove.png")}
             style={styles.icon}
           />
           <Text style={styles.cardText}>Agregar numero de telefono</Text>
-          <View style={styles.check}>
-            <Ionicons name="checkmark" size={20} color="#fff" />
-          </View>
-        </View>
+          <Ionicons name="chevron-forward" size={24} color="#000" />
+          {/* <View style={styles.check}></View> --> when the number is set and confirmed*/}
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.card}>
           <Image

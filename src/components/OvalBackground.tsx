@@ -1,32 +1,44 @@
 import React from "react";
-import { View, StyleSheet, ViewStyle } from "react-native";
+import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 
-type Direction = "up" | "down" | "left" | "right";
-
-interface OvalBackgroundProps {
+type Props = {
   color?: string;
-  direction?: Direction;
-}
+  direction?: "up" | "down" | "left" | "right";
+  marginTop?: number;
+  marginBottom?: number;
+  marginLeft?: number;
+  marginRight?: number;
+};
 
-const OvalBackground: React.FC<OvalBackgroundProps> = ({
+const OvalBackground: React.FC<Props> = ({
   color = "#000",
   direction = "down",
+  marginTop = 0,
+  marginBottom = 0,
+  marginLeft = 0,
+  marginRight = 0,
 }) => {
-  const rotation: Record<Direction, string> = {
-    down: "0deg",
+  const rotation = {
     up: "180deg",
-    left: "-90deg",
+    left: "270deg",
     right: "90deg",
+    down: "0deg",
   };
 
-  const transformStyle: ViewStyle = {
-    transform: [{ rotate: rotation[direction] }],
-  };
+  const ovalStyle: StyleProp<ViewStyle> = [
+    styles.oval,
+    {
+      backgroundColor: color,
+      transform: [{ rotate: rotation[direction] }],
+      marginTop,
+      marginBottom,
+    },
+  ];
 
-  return (
-    <View style={[styles.oval, { backgroundColor: color }, transformStyle]} />
-  );
+  return <View style={ovalStyle} />;
 };
+
+export default OvalBackground;
 
 const styles = StyleSheet.create({
   oval: {
@@ -39,5 +51,3 @@ const styles = StyleSheet.create({
     zIndex: 0,
   },
 });
-
-export default OvalBackground;
