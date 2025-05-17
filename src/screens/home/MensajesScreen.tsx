@@ -1,47 +1,46 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, SafeAreaView, } from "react-native";
-import Title from "../../components/title";
-import CommentItem from "../../components/commentItem";
-import { useNavigation } from "@react-navigation/native";
+import { Title, Chat } from '../../components';
+import { useBottomTabNavigation } from "../../navigation/Navigation";
 
 export default function MensajesScreen() {
-    const navigation = useNavigation();
+    const navigation = useBottomTabNavigation();
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="dark" backgroundColor="light" />
             <Title title="Mensajes"></Title>
-            <CommentItem
+            <Chat
             avatar={require("../../../assets/images/negra.png")}
             name="Ava Martinez"
             message="I'm actually taking the CalTrain"
             date="09/02/25" />
-            <CommentItem
+            <Chat
             avatar={require("../../../assets/images/negra.png")}
             name="Ava Martinez"
             message="I'm actually taking the CalTrain"
             date="09/02/25" />
-            <CommentItem
+            <Chat
             avatar={require("../../../assets/images/negra.png")}
             name="Ava Martinez"
             message="I'm actually taking the CalTrain"
             date="09/02/25" />
-            <CommentItem
+            <Chat
             avatar={require("../../../assets/images/negra.png")}
             name="Ava Martinez"
             message="I'm actually taking the CalTrain"
             date="09/02/25" />
-            <CommentItem
+            <Chat
             avatar={require("../../../assets/images/negra.png")}
             name="Ava Martinez"
             message="I'm actually taking the CalTrain"
             date="09/02/25" />
-            <CommentItem
+            <Chat
             avatar={require("../../../assets/images/negra.png")}
             name="Ava Martinez"
             message="I'm actually taking the CalTrain"
             date="09/02/25" />
-            <CommentItem
+            <Chat
             avatar={require("../../../assets/images/payne.png")}
             name="Liam Payne"
             message="they ran out of tusi"

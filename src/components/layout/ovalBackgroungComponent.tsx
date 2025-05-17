@@ -38,8 +38,6 @@ const OvalBackground: React.FC<Props> = ({
   return <View style={ovalStyle} />;
 };
 
-export default OvalBackground;
-
 const styles = StyleSheet.create({
   oval: {
     position: "absolute",
@@ -51,3 +49,5 @@ const styles = StyleSheet.create({
     zIndex: 0,
   },
 });
+
+export default OvalBackground;

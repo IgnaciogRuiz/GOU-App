@@ -1,7 +1,6 @@
 import React from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
-import VehiculoForm from "../../../components/vehiculoForm";
-import Title from "../../../components/title";
+import { VehiculoForm, Title } from '../../../components';
 
 export default function AgregarVehiculoScreen() {
   const handleSubmit = (data: any) => {

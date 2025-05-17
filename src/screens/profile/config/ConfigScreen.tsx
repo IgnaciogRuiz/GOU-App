@@ -1,17 +1,10 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Switch,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { View, Text, Switch, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useProfileNavigation } from "../../../navigation/Navigation";
 
 const ConfiguracionScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useProfileNavigation();
 
   const [pushEnabled, setPushEnabled] = useState(false);
   const [emailEnabled, setEmailEnabled] = useState(false);

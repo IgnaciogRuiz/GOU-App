@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import CustomButton from "../../components/button";
-import BackButton from "../../components/backButton";
-import FadeInView from "../../components/fadeIn";
-import { useAuth } from "../../context/AuthContext";
+import { CustomButton, BackButton, FadeInView } from '../../components'
+import { useAuth } from "../../contexts/AuthContext";
 
 
 export default function OnBoardingScreen({ navigation }) {

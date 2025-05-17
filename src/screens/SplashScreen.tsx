@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {  Text, StyleSheet, Animated, Image } from "react-native";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function SplashScreen() {
   const {

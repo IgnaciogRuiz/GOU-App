@@ -1,8 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import Oval from "../../components/OvalBackground";
-import Title from "../../components/title";
-import CustomButton from "../../components/button";
+import { OvalBackground, Title, CustomButton } from '../../components'
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
@@ -10,7 +8,7 @@ const ProfileStepsScreen = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Oval color="#000" direction="left" />
+      <OvalBackground color="#000" direction="left" />
 
       <Image
         source={require("../../../assets/images/carAbove.png")} // Reemplazá con tu ruta

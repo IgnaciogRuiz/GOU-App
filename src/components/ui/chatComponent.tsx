@@ -9,7 +9,7 @@ type Props = {
   onPress?: () => void;
 };
 
-const CommentItem = ({ avatar, name, message, date, onPress }: Props) => {
+const Chat = ({ avatar, name, message, date, onPress }: Props) => {
   return (
     <Pressable style={styles.container} onPress={onPress}>
       <Image source={avatar} style={styles.avatar} />
@@ -65,4 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CommentItem;
+export default Chat;

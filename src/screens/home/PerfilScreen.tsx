@@ -1,16 +1,13 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, SafeAreaView, View } from "react-native";
-import CustomButton from "../../components/button";
-import { useAuth } from "../../context/AuthContext";
-import ListItem from "../../components/listItem";
-import Title from "../../components/title";
-import ProfileHeader from "../../components/profileHeader";
-import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../contexts/AuthContext";
+import { CustomButton, ListItem, Title, ProfileHeader } from '../../components'
+import { useProfileNavigation } from "../../navigation/Navigation";
 
 export default function PerfilScreen() {
   const { logout, eliminarStorage } = useAuth();
-  const navigation = useNavigation();
+  const navigation = useProfileNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" backgroundColor="light" />

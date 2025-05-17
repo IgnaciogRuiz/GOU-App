@@ -1,10 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Animated, Text, View, Dimensions, Image, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
-import CustomButton from "../../components/button";
-import CustomInput from "../../components/input";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useAuth } from "../../context/AuthContext";
-import FadeInView from "../../components/fadeIn";
+import { useAuth } from "../../contexts/AuthContext";
+import { CustomButton, CustomInput, FadeInView } from '../../components'
 const { width } = Dimensions.get("window");
 
 export default function LoginScreen({ navigation }) {

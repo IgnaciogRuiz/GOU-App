@@ -2,9 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, SafeAreaView, } from "react-native";
-import Card from "../../components/card";
-import Title from "../../components/title";
-import LocationSelector from "../../components/LocationSelector";
+import { Card, Title, InputLocation } from '../../components'
 
 export default function BuscarScreen() {
     const [origen, setOrigen] = useState("Buenos Aires");
@@ -13,16 +11,16 @@ export default function BuscarScreen() {
         <SafeAreaView style={styles.container}>
             <StatusBar style="dark" backgroundColor="light" />
             <Title title="Buscar Viajes"></Title>
-            <LocationSelector
-        origen={origen}
-        setOrigen={setOrigen}
-        destino={destino}
-        setDestino={setDestino}
-        origenOptions={["Buenos Aires", "Rosario", "Mendoza"]}
-        destinoOptions={["Córdoba", "Salta", "Tucumán"]}
-        onFilterPress={() => console.log("Filter clicked")}
-        onCalendarPress={() => console.log("Calendar clicked")}
-      />
+            <InputLocation
+                origen={origen}
+                setOrigen={setOrigen}
+                destino={destino}
+                setDestino={setDestino}
+                origenOptions={["Buenos Aires", "Rosario", "Mendoza"]}
+                destinoOptions={["Córdoba", "Salta", "Tucumán"]}
+                onFilterPress={() => console.log("Filter clicked")}
+                onCalendarPress={() => console.log("Calendar clicked")}
+            />
             <Card title="Victor - 17hs" info="Cordoba -> La Falda" items={[
         { icon: "✓", label: "Charlar" },
         { icon: "✓", label: "Comida" },

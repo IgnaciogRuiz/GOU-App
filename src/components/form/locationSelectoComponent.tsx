@@ -21,7 +21,7 @@ type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-const LocationSelector: React.FC<Props> = ({
+const inputLocation: React.FC<Props> = ({
   origen,
   setOrigen,
   destino,
@@ -72,8 +72,6 @@ const LocationSelector: React.FC<Props> = ({
   );
 };
 
-export default LocationSelector;
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
@@ -106,3 +104,5 @@ const styles = StyleSheet.create({
     padding: 8,
   },
 });
+
+export default inputLocation;

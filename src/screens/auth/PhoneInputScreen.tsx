@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Image } from "react-native";
-import Title from "../../components/title";
-import CustomInput from "../../components/CustomInput";
-import CustomButton from "../../components/button";
-import Oval from "../../components/OvalBackground";
+import { Title, CustomInput, CustomButton, OvalBackground} from '../../components';
 import { useNavigation } from "@react-navigation/native";
 
 const PhoneInputScreen = () => {
@@ -28,7 +25,7 @@ const PhoneInputScreen = () => {
         />
       </View>
       <View style={styles.fall}>
-        <Oval color="#000" direction="right" marginTop={100} />
+        <OvalBackground color="#000" direction="right" marginTop={100} />
         <Image
           source={require("../../../assets/images/carAbove.png")} // ajustá la ruta
           style={styles.carImage}

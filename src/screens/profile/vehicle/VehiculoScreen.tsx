@@ -1,20 +1,11 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  View,
-  TouchableOpacity,
-  Image,
-} from "react-native";
-import Title from "../../../components/title";
-import Card from "../../../components/card";
-import CustomButton from "../../../components/button";
-import { useNavigation } from "@react-navigation/native";
+import { StyleSheet, Text, SafeAreaView, View, Image } from "react-native";
+import { Title, Card, CustomButton } from '../../../components';
+import { useProfileNavigation } from "../../../navigation/Navigation";
 
 export default function VehiculoScreen() {
-  const navigation = useNavigation();
+  const navigation = useProfileNavigation();
 
   const handleAddVehicle = () => {
     navigation.navigate("AddVehicle");

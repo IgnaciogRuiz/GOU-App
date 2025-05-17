@@ -1,7 +1,7 @@
 // components/VehiculoForm.tsx
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
-import CustomButton from "./button";
+import CustomButton from "../ui/buttonComponent";
 
 type VehiculoData = {
   nombre: string;

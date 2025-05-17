@@ -1,14 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import {
-  CodeField,
-  Cursor,
-  useBlurOnFulfill,
-  useClearByFocusCell,
-} from "react-native-confirmation-code-field";
-import CustomButton from "../../components/button";
-import Title from "../../components/title";
-import BackButton from "../../components/backButton";
+import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from "react-native-confirmation-code-field";
+import { CustomButton, Title, BackButton } from '../../components'
 import { useNavigation } from "@react-navigation/native";
 
 const CELL_COUNT = 6;

@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TouchableOpacity, View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import ProfileTabsNavigation from './ProfileTabsNavigation';
+import { BottomTabParamList } from "./types/NavigationTypes";
 
 // Screens
 import ViajesScreen from "../screens/home/ViajesScreen";
@@ -11,11 +12,12 @@ import PublicarScreen from "../screens/home/PublicarScreen";
 import MensajesScreen from "../screens/home/MensajesScreen";
 
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabsNavigator() {
   return (
     <Tab.Navigator
+      id={undefined}
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarShowLabel: false,

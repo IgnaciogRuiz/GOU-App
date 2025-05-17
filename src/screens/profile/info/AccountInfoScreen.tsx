@@ -1,17 +1,8 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { View, Text, TextInput, StyleSheet, Image, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Title from "../../../components/title";
-import CustomButton from "../../../components/button";
+import { Title, CustomButton } from '../../../components';
+
 
 const AccountInfoScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -58,7 +49,7 @@ const AccountInfoScreen: React.FC = () => {
         multiline
       />
       <View style={styles.fall}>
-        <CustomButton title="Guardar Cambios"></CustomButton>
+        <CustomButton title="Guardar Cambios" onPress={() => console.log('Presionado')} ></CustomButton>
       </View>
     </ScrollView>
   );

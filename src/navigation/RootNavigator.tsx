@@ -1,7 +1,8 @@
 // RootNavigator.js
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
+import { RootStackParamList } from "./types/NavigationTypes";
 
 import SplashScreen from "../screens/SplashScreen";
 import OnboardingScreen from "../screens/auth/OnBoardingScreen";
@@ -17,7 +18,7 @@ import ProfileStepsScreen from "../screens/auth/ProfileStepsScreen";
 import PhoneInputScreen from "../screens/auth/PhoneInputScreen";
 import VerifyPhone from "../screens/auth/VerifyPhone";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
   const { loading, hasSeenOnboarding, isAuthenticated, biometricEnabled } =
@@ -30,7 +31,7 @@ export default function RootNavigator() {
   const navigatorKey = `${hasSeenOnboarding}-${isAuthenticated}-${biometricEnabled}`;
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} key={navigatorKey}>
+    <Stack.Navigator screenOptions={{ headerShown: false }} key={navigatorKey} id={undefined}>
       {!hasSeenOnboarding && (
         <>
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />

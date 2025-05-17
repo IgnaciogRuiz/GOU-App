@@ -2,11 +2,8 @@ import React from "react";
 import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import RootNavigator from "./navigation/RootNavigator";
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
-import { AuthProvider } from "./context/AuthContext";
+import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function AppWrapper() {
   const insets = useSafeAreaInsets(); 

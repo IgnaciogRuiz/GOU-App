@@ -1,14 +1,11 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, SafeAreaView, Image, View } from "react-native";
-import Title from "../../components/title";
-import Subtitle from "../../components/subtitle";
-import CustomButton from "../../components/button";
-import { useNavigation } from "@react-navigation/native";
-// import { View } from "react-native-reanimated/lib/typescript/Animated";
+import { useBottomTabNavigation } from "../../navigation/Navigation";
+import { Title, Subtitle, CustomButton } from '../../components'
 
 export default function ViajesScreen() {
-  const navigation = useNavigation();
+  const navigation = useBottomTabNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" backgroundColor="light" />

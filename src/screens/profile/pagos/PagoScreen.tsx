@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import Title from "../../../components/title";
-import CustomButton from "../../../components/button";
+import { Title, CustomButton} from '../../../components';
 
 const PagosScreen = () => {
   const [cvu, setCvu] = useState("00000000000001234");
@@ -32,7 +31,7 @@ const PagosScreen = () => {
 
       <View style={styles.card}>
         <Text style={styles.title}>Saldo Pendiente</Text>
-        <CustomButton title="Abonar"></CustomButton>
+        <CustomButton title="Abonar" onPress={() => console.log('Presionado')}></CustomButton>
       </View>
     </View>
   );

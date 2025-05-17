@@ -1,15 +1,7 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { View, Text, TextInput, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Title from "../../../components/title";
-import CustomButton from "../../../components/button";
+import { Title, CustomButton } from '../../../components';
 
 const CambiarContrasenaScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -67,7 +59,7 @@ const CambiarContrasenaScreen: React.FC = () => {
         onChangeText={setRepetir}
       />
       <View style={styles.fall}>
-        <CustomButton title="Reestablecer"></CustomButton>
+        <CustomButton title="Reestablecer" onPress={() => console.log('Presionado')}></CustomButton>
       </View>
     </View>
   );
