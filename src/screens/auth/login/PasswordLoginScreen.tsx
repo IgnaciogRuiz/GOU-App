@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
-import { useAuth } from "../../contexts/AuthContext";
-import { CustomButton } from "../../components";
+import { useAuth } from "../../../contexts/AuthContext";
+import { CustomButton } from "../../../components";
 
 const PasswordLoginScreen = ({ navigation }) => {
     const { loginWithPassword, eliminarStorage } = useAuth();

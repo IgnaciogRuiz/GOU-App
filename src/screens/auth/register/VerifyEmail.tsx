@@ -1,13 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell, } from "react-native-confirmation-code-field";
-import { CustomButton, Title, BackButton } from '../../components'
-import { useNavigation } from "@react-navigation/native";
+import { CustomButton, Title, BackButton } from '../../../components'
+import { useAuthNavigation } from "../../../navigation/Navigation";
 
 const CELL_COUNT = 6;
 
 const VerificationScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useAuthNavigation();
   const [value, setValue] = React.useState("");
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({

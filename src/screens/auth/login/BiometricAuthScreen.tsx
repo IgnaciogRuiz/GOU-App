@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Button, Alert } from "react-native";
 import * as LocalAuthentication from "expo-local-authentication";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const BiometricAuthScreen = ({ navigation }) => {
     const { logout, bioAuth } = useAuth();

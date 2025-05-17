@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { OvalBackground, Title, CustomButton } from '../../components'
+import { OvalBackground, Title, CustomButton } from '../../../components'
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useAuthNavigation } from "../../../navigation/Navigation";
 
 const ProfileStepsScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useAuthNavigation();
   return (
     <View style={styles.container}>
       <OvalBackground color="#000" direction="left" />
@@ -50,7 +50,7 @@ const ProfileStepsScreen = () => {
           <Ionicons name="chevron-forward" size={24} color="#000" />
         </TouchableOpacity>
 
-        <CustomButton title="Finalizar" />
+        <CustomButton title="Finalizar" onPress={() => console.log('Presionado')}/>
       </View>
     </View>
   );

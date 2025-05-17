@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Image } from "react-native";
-import { Title, CustomInput, CustomButton, OvalBackground} from '../../components';
-import { useNavigation } from "@react-navigation/native";
+import { Title, CustomInput, CustomButton, OvalBackground} from '../../../components';
+import { useAuthNavigation } from "../../../navigation/Navigation";
 
 const PhoneInputScreen = () => {
   const [phone, setPhone] = useState("");
-  const navigation = useNavigation();
+  const navigation = useAuthNavigation();
   const handleSubmit = () => {
     console.log("Número enviado:", phone);
     navigation.navigate("VerifyPhone");
@@ -18,7 +18,6 @@ const PhoneInputScreen = () => {
 
       <View style={styles.form}>
         <CustomInput
-          label="telefono"
           value={phone}
           onChangeText={setPhone}
           // keyboardType="numeric"

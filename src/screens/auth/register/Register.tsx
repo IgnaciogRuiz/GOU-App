@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { CustomButton, OvalBackground } from '../../components'
+import { useAuthNavigation } from "../../../navigation/Navigation";
+import { CustomButton, OvalBackground } from '../../../components'
 import { Dimensions } from "react-native";
 
 const BienvenidaScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useAuthNavigation();
   const [email, setEmail] = useState("");
 
   const handleComenzar = () => {

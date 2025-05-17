@@ -1,5 +1,6 @@
 // 📁 src/services/common.ts
-import { api } from "../config/api";
+// actualmente no en USO
+import { api } from "../config/conexion";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AxiosResponse } from 'axios';
 

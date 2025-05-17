@@ -3,20 +3,9 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuth } from "../contexts/AuthContext";
 import { RootStackParamList } from "./types/NavigationTypes";
-
-import SplashScreen from "../screens/SplashScreen";
-import OnboardingScreen from "../screens/auth/OnBoardingScreen";
-import LoginScreen from "../screens/auth/LoginScreen";
-import RegisterScreen from "../screens/auth/Register";
-import BiometricAuthScreen from "../screens/auth/BiometricAuthScreen";
-import EnableBiometricScreen from "../screens/auth/EnableBiometricScreen";
 import BottomTabsNavigator from "./BottomTabsNavigator";
-import PasswordLoginScreen from "../screens/auth/PasswordLoginScreen";
-
-import VerifyEmail from "../screens/auth/VerifyEmail";
-import ProfileStepsScreen from "../screens/auth/ProfileStepsScreen";
-import PhoneInputScreen from "../screens/auth/PhoneInputScreen";
-import VerifyPhone from "../screens/auth/VerifyPhone";
+import SplashScreen from "../screens/SplashScreen" 
+import { OnboardingScreen, LoginScreen, RegisterScreen, BiometricAuthScreen, EnableBiometricScreen, PasswordLoginScreen, VerifyEmail, ProfileStepsScreen, PhoneInputScreen, VerifyPhone } from '../screens/auth';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

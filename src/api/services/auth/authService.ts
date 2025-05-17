@@ -2,13 +2,13 @@
 //funcion para hacer una peticion
 
 
-import { authApi } from "../../config/api";
+import { api } from "../../config/conexion";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const device_name = "mobile_app";
 
 export const loginService = async (dni, password) => {
     try {
-        const response = await authApi.post("/login", { dni, password, device_name });
+        const response = await api.post("/login", { dni, password, device_name });
         // console.log(response.data)
         return response.data;
     } catch (error) {
@@ -21,7 +21,7 @@ export const loginService = async (dni, password) => {
 
 export const authService = async (token) => {
     try {
-        const response = await authApi.get("/api/user", {
+        const response = await api.get("/api/user", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -41,7 +41,7 @@ export const logoutService = async () => {
         // Obtén el token de Bearer almacenado en AsyncStorage
         const token = await AsyncStorage.getItem("userToken");
         // Realiza la solicitud de logout con el token Bearer en los encabezados
-        const response = await authApi.post("/logout", {}, { headers: { Authorization: `Bearer ${token}` }, });
+        const response = await api.post("/logout", {}, { headers: { Authorization: `Bearer ${token}` }, });
 
         return response.data;
     } catch (error) {
