@@ -26,7 +26,6 @@ export default {
     },
     extra: {
       API_URL: process.env.API_URL,
-      AUTH_URL: process.env.AUTH_URL,
       ENTORNO: process.env.APP_ENV
     }
   }

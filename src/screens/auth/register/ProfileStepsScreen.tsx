@@ -11,7 +11,7 @@ const ProfileStepsScreen = () => {
       <OvalBackground color="#000" direction="left" />
 
       <Image
-        source={require("../../../assets/images/carAbove.png")} // Reemplazá con tu ruta
+        source={require("../../../../assets/images/carAbove.png")} // Reemplazá con tu ruta
         style={styles.carImage}
         resizeMode="contain"
       />
@@ -24,7 +24,7 @@ const ProfileStepsScreen = () => {
           onPress={() => navigation.navigate("PhoneInputScreen")}
         >
           <Image
-            source={require("../../../assets/images/carAbove.png")}
+            source={require("../../../../assets/images/carAbove.png")}
             style={styles.icon}
           />
           <Text style={styles.cardText}>Agregar numero de telefono</Text>
@@ -34,7 +34,7 @@ const ProfileStepsScreen = () => {
 
         <TouchableOpacity style={styles.card}>
           <Image
-            source={require("../../../assets/images/carAbove.png")}
+            source={require("../../../../assets/images/carAbove.png")}
             style={styles.icon}
           />
           <Text style={styles.cardText}>Completar informacion personal</Text>
@@ -43,7 +43,7 @@ const ProfileStepsScreen = () => {
 
         <TouchableOpacity style={styles.card}>
           <Image
-            source={require("../../../assets/images/carAbove.png")}
+            source={require("../../../../assets/images/carAbove.png")}
             style={styles.icon}
           />
           <Text style={styles.cardText}>Valida tu identidad</Text>

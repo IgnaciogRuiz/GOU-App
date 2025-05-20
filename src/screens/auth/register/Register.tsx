@@ -26,7 +26,7 @@ const BienvenidaScreen: React.FC = () => {
       </TouchableOpacity>
 
       <Image
-        source={require("../../../assets/images/carAbove.png")}
+        source={require("../../../../assets/images/carAbove.png")}
         style={styles.carImage}
         resizeMode="contain"
       />

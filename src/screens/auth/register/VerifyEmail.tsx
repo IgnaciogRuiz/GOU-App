@@ -20,7 +20,7 @@ const VerificationScreen = () => {
       <BackButton />
 
       <Image
-        source={require("../../../assets/images/email.png")} // Cambiá la ruta si tenés otro ícono
+        source={require("../../../../assets/images/email.png")} // Cambiá la ruta si tenés otro ícono
         style={styles.icon}
         resizeMode="contain"
       />

@@ -26,7 +26,7 @@ const PhoneInputScreen = () => {
       <View style={styles.fall}>
         <OvalBackground color="#000" direction="right" marginTop={100} />
         <Image
-          source={require("../../../assets/images/carAbove.png")} // ajustá la ruta
+          source={require("../../../../assets/images/carAbove.png")} // ajustá la ruta
           style={styles.carImage}
           resizeMode="contain"
         />
