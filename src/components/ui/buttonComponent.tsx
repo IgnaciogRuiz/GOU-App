@@ -6,6 +6,7 @@ interface ButtonProps {
   onPress: () => void;
   backgroundColor?: string;
   textColor?: string;
+  disabled: boolean;
 }
 
 const CustomButton: React.FC<ButtonProps> = ({

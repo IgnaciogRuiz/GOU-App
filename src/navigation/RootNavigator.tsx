@@ -1,26 +1,32 @@
-// RootNavigator.js
+// RootNavigator.tsx
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuth } from "../contexts/AuthContext";
 import { RootStackParamList } from "./types/NavigationTypes";
 import BottomTabsNavigator from "./BottomTabsNavigator";
-import SplashScreen from "../screens/SplashScreen" 
-import { OnboardingScreen, LoginScreen, RegisterScreen, BiometricAuthScreen, EnableBiometricScreen, PasswordLoginScreen, VerifyEmail, ProfileStepsScreen, PhoneInputScreen, VerifyPhone } from '../screens/auth';
+import SplashScreen from "../screens/SplashScreen";
+import {
+  OnboardingScreen,
+  LoginScreen,
+  RegisterScreen,
+  VerifyEmail,
+  PhoneInputScreen,
+  VerifyPhone,
+  ProfileStepsScreen,
+} from "../screens/auth";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
-  const { loading, hasSeenOnboarding, isAuthenticated, biometricEnabled } =
-    useAuth();
+  const { loading, hasSeenOnboarding, isAuthenticated } = useAuth();
 
-  if (loading) {
-    return <SplashScreen />;
-  }
+  if (loading) return <SplashScreen />;
 
-  const navigatorKey = `${hasSeenOnboarding}-${isAuthenticated}-${biometricEnabled}`;
+  const navigatorKey = `${hasSeenOnboarding}-${isAuthenticated}`;
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} key={navigatorKey} id={undefined}>
+    <Stack.Navigator id={undefined} screenOptions={{ headerShown: false }} key={navigatorKey}>
+      {/* Onboarding flow */}
       {!hasSeenOnboarding && (
         <>
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />
@@ -29,43 +35,21 @@ export default function RootNavigator() {
         </>
       )}
 
+      {/* Auth flow */}
       {hasSeenOnboarding && !isAuthenticated && (
         <>
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
-          {/* auth test, if works is extremely temporary*/}
           <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
           <Stack.Screen name="PhoneInputScreen" component={PhoneInputScreen} />
           <Stack.Screen name="VerifyPhone" component={VerifyPhone} />
-          <Stack.Screen
-            name="ProfileStepsScreen"
-            component={ProfileStepsScreen}
-          />
+          <Stack.Screen name="ProfileStepsScreen" component={ProfileStepsScreen} />
         </>
       )}
 
-      {hasSeenOnboarding && isAuthenticated && biometricEnabled === true && (
-        <>
-          <Stack.Screen name="BiometricAuth" component={BiometricAuthScreen} />
-          <Stack.Screen name="Home" component={BottomTabsNavigator} />
-        </>
-      )}
-
-      {hasSeenOnboarding && isAuthenticated && biometricEnabled === false && (
-        <>
-          <Stack.Screen
-            name="EnableBiometric"
-            component={EnableBiometricScreen}
-          />
-          <Stack.Screen name="Home" component={BottomTabsNavigator} />
-        </>
-      )}
-
-      {hasSeenOnboarding && isAuthenticated && biometricEnabled === "never" && (
-        <>
-          <Stack.Screen name="PasswordLogin" component={PasswordLoginScreen} />
-          <Stack.Screen name="Home" component={BottomTabsNavigator} />
-        </>
+      {/* App main */}
+      {hasSeenOnboarding && isAuthenticated && (
+        <Stack.Screen name="Home" component={BottomTabsNavigator} />
       )}
     </Stack.Navigator>
   );

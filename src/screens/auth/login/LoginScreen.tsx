@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Animated, Text, View, Dimensions, Image, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useLogin } from "../../../hooks";
 import { CustomButton, CustomInput, FadeInView } from '../../../components'
 const { width } = Dimensions.get("window");
 
 export default function LoginScreen({ navigation }) {
-  const { login } = useAuth();
+  const { mutate: login, isPending } = useLogin();
   const [form, setForm] = useState({ dni: "", password: "" });
   const [error, setError] = useState("");
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -51,7 +51,7 @@ export default function LoginScreen({ navigation }) {
     } else {
       setError(""); // Limpiar el error si los datos están correctos
       try {
-        await login(form.dni, form.password);
+        login({ dni: form.dni, password: form.password })
       } catch (errorMessage) {
         setError(errorMessage instanceof Error ? errorMessage.message : String(errorMessage));
       }
@@ -118,8 +118,10 @@ export default function LoginScreen({ navigation }) {
               </Text>
             </TouchableOpacity>
 
-            <CustomButton title="Iniciar Sesión" onPress={handleLogin} />
-            <CustomButton title="Test OnBoarding" onPress={resetOnboarding} />
+            <CustomButton   title={ isPending ? 'Cargando…' : 'Iniciar Sesión'}
+              disabled={isPending}
+              onPress={handleLogin}/>
+            <CustomButton title="Test OnBoarding"   disabled={false} onPress={resetOnboarding} />
 
             <View style={styles.registerContainer}>
               <Text style={styles.registerText}>
@@ -127,6 +129,7 @@ export default function LoginScreen({ navigation }) {
               </Text>
               <CustomButton
                 title="Registrarse"
+                disabled={false}
                 onPress={() => navigation.navigate("Register")}
               />
             </View>

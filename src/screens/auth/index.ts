@@ -1,10 +1,6 @@
 //AUTH SCREENS
 //login
-export { default as BiometricAuthScreen } from './login/BiometricAuthScreen';
-export { default as EnableBiometricScreen } from './login/EnableBiometricScreen';
 export { default as LoginScreen } from './login/LoginScreen';
-export { default as PasswordLoginScreen } from './login/PasswordLoginScreen';
-
 
 //register
 export { default as ProfileStepsScreen } from './register/ProfileStepsScreen';

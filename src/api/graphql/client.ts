@@ -11,7 +11,7 @@ export async function gqlRequest<T = any>(
   query: string,
   variables: Record<string, any> = {}
 ) {
-  const token = await AsyncStorage.getItem("userToken");
+  const token = await AsyncStorage.getItem("token");
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
   return client.request<T>(query, variables, headers);
 }

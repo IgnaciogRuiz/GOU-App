@@ -2,11 +2,13 @@ import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, SafeAreaView, View } from "react-native";
 import { useAuth } from "../../contexts/AuthContext";
+import { useLogout } from "../../hooks";
 import { CustomButton, ListItem, Title, ProfileHeader } from '../../components'
 import { useProfileNavigation } from "../../navigation/Navigation";
 
 export default function PerfilScreen() {
-  const { logout, eliminarStorage } = useAuth();
+  const { eliminarStorage } = useAuth();
+  const { mutate: logout, isPending } = useLogout();
   const navigation = useProfileNavigation();
   return (
     <SafeAreaView style={styles.container}>
@@ -24,9 +26,10 @@ export default function PerfilScreen() {
       <ListItem label="Información Cuenta" onPress={() => navigation.navigate("Info")} />
       <ListItem label="Configuraciones" onPress={() => navigation.navigate("Config")} />
       <View style={styles.fall}>
-        <CustomButton title="Cerrar Sesion" onPress={logout}></CustomButton>
+        <CustomButton title="Cerrar Sesion" disabled={isPending} onPress={() => logout()}></CustomButton>
         <CustomButton
           title="Eliminar Storage"
+          disabled={false}
           onPress={eliminarStorage}
         ></CustomButton>
       </View>
