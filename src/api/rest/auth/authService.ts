@@ -18,23 +18,6 @@ export const loginService = async (dni, password) => {
     }
 };
 
-export const authService = async (token) => {
-    try {
-        const response = await api.get("/api/user", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        // console.log(response.data);
-        return response.data;
-    } catch (error) {
-        const errorMessage = error.response?.data?.message ||
-            error.response?.data?.errors?.password?.[0] ||
-            "Error al hacer la petición";
-        throw errorMessage;
-    }
-};
-
 export const logoutService = async () => {
     try {
         // Obtén el token de Bearer almacenado en AsyncStorage
@@ -47,4 +30,27 @@ export const logoutService = async () => {
         const errorMessage = "Error al logout";
         throw errorMessage;
     }
+};
+
+export const authService = async (token) => {
+  try {
+    const response = await api.get("/user", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    const status = error.response?.status;
+    const message =
+      error.response?.data?.message ||
+      error.response?.data?.errors?.password?.[0] ||
+      "Error al hacer la petición";
+
+    if (status === 401) {
+      throw new Error("UNAUTHORIZED"); // Lanzás un error que podés capturar más fácilmente
+    }
+
+    throw new Error(message);
+  }
 };

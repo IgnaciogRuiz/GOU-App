@@ -1,6 +1,6 @@
 // src/hooks/useLogout.ts
 import { useMutation } from '@tanstack/react-query';
-import { logoutService } from '../../api/rest/auth/authService';
+import { logoutService } from '../../api/rest';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../../contexts/AuthContext';
 

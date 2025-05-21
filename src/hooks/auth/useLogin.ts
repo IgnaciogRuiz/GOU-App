@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { loginService } from '../../api/rest/auth/authService';
+import { loginService } from '../../api/rest';
 import { useAuth } from '../../contexts/AuthContext';
 
 type LoginVars = { dni: string; password: string };
