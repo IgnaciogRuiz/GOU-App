@@ -13,6 +13,7 @@ export { default as Title } from './ui/titleComponent';
 export { default as Subtitle } from './ui/subtitleComponent';
 export { default as Chat } from './ui/chatComponent';
 export { default as ListItem } from './ui/listComponent';
+export { TripCard } from './ui/tripCardComponent';
 
 
 //LAYOUT

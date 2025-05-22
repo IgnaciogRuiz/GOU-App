@@ -3,3 +3,6 @@
 //AUTH Hooks
 export { useLogin } from './auth/useLogin';
 export { useLogout } from './auth/useLogout';
+
+//APP
+export { useUserTrips } from './app/useUserTrips';

@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     height: "35%",
   },
   textContainer: {
-    width: "85%",
     alignItems: "center",
     marginBottom: 20,
   },

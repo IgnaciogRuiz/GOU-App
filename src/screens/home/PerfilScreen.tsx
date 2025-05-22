@@ -29,7 +29,7 @@ export default function PerfilScreen() {
         <CustomButton title="Cerrar Sesion" disabled={isPending} onPress={() => logout()}></CustomButton>
         <CustomButton
           title="Eliminar Storage"
-          disabled={false}
+          
           onPress={eliminarStorage}
         ></CustomButton>
       </View>

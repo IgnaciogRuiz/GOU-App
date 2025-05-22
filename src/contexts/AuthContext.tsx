@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authService } from "../api/rest";
 
@@ -10,6 +16,10 @@ interface AuthContextType {
   hasSeenOnboarding: boolean;
   setHasSeenOnboarding: (seen: boolean) => void;
   loading: boolean;
+  userId: string | null;
+  setUserId: (id: string | null) => Promise<void>;
+  token: string | null;
+  setToken: (token: string | null) => Promise<void>;
 }
 
 // Crear contexto con valor inicial nulo
@@ -24,45 +34,74 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [hasSeenOnboarding, setHasSeenOnboarding] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [userId, _setUserId] = useState<string | null>(null);
+  const [token, _setToken] = useState<string | null>(null);
+
+  // Setter que guarda y elimina en AsyncStorage automáticamente
+  const setToken = async (newToken: string | null) => {
+    if (newToken) {
+      await AsyncStorage.setItem("token", newToken);
+    } else {
+      await AsyncStorage.removeItem("token");
+    }
+    _setToken(newToken);
+  };
+
+  // Setter que guarda y elimina en AsyncStorage automáticamente
+  const setUserId = async (newUserId: string | null) => {
+    if (newUserId) {
+      await AsyncStorage.setItem("user_id", newUserId);
+    } else {
+      await AsyncStorage.removeItem("user_id");
+    }
+    _setUserId(newUserId);
+  };
 
   useEffect(() => {
-  const checkAuthStatus = async () => {
-    try {
-      const [seenOnboarding, token] = await Promise.all([
-        AsyncStorage.getItem("hasSeenOnboarding"),
-        AsyncStorage.getItem("token"),
-      ]);
+    const checkAuthStatus = async () => {
+      try {
+        const [seenOnboarding, storedToken, storedUserId] = await Promise.all([
+          AsyncStorage.getItem("hasSeenOnboarding"),
+          AsyncStorage.getItem("token"),
+          AsyncStorage.getItem("user_id"),
+        ]);
 
-      setHasSeenOnboarding(!!seenOnboarding);
+        setHasSeenOnboarding(!!seenOnboarding);
+        await setToken(storedToken);
+        await setUserId(storedUserId);
 
-      if (token) {
-        await authService(token); // ← si falla, va al catch
-        console.log('token valido');
-        setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
-      }
-    } catch (error) {
-        if (error.message === "UNAUTHORIZED") {
+        if (storedToken) {
+          await authService(storedToken); // si falla, va al catch
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        if (
+          (error as any).message?.includes("UNAUTHORIZED") ||
+          (error as any).status === 401
+        ) {
           console.log("Token inválido o expirado");
           await AsyncStorage.removeItem("token");
         } else {
-          console.error("Error al verificar autenticación:", error.message);
+          console.error("Error al verificar autenticación:", (error as any).message);
         }
 
-      setIsAuthenticated(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  checkAuthStatus();
-}, []);
+    checkAuthStatus();
+  }, []);
 
   const eliminarStorage = async () => {
-    await AsyncStorage.multiRemove(["token", "dni"]);
+    await AsyncStorage.multiRemove(["token", "user_id", "dni"]);
     setIsAuthenticated(false);
     setHasSeenOnboarding(false);
+    await setToken(null);
+    await setUserId(null);
   };
 
   return (
@@ -74,6 +113,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         hasSeenOnboarding,
         setHasSeenOnboarding,
         loading,
+        userId,
+        setUserId,
+        token,
+        setToken,
       }}
     >
       {children}

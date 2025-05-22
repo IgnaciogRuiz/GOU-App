@@ -121,7 +121,7 @@ export default function LoginScreen({ navigation }) {
             <CustomButton   title={ isPending ? 'Cargando…' : 'Iniciar Sesión'}
               disabled={isPending}
               onPress={handleLogin}/>
-            <CustomButton title="Test OnBoarding"   disabled={false} onPress={resetOnboarding} />
+            <CustomButton title="Test OnBoarding"    onPress={resetOnboarding} />
 
             <View style={styles.registerContainer}>
               <Text style={styles.registerText}>
@@ -129,7 +129,7 @@ export default function LoginScreen({ navigation }) {
               </Text>
               <CustomButton
                 title="Registrarse"
-                disabled={false}
+                
                 onPress={() => navigation.navigate("Register")}
               />
             </View>

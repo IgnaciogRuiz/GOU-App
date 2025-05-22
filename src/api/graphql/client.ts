@@ -1,17 +1,17 @@
-// api/services/graphql/client.ts
+// api/graphql/client.ts
 import { GraphQLClient } from 'graphql-request';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 
-const { API_URL, ENTORNO } = Constants.expoConfig.extra;
+const { API_URL } = Constants.expoConfig.extra;
 
-const client = new GraphQLClient(API_URL);
+const client = new GraphQLClient(API_URL+'/graphql');
+
 
 export async function gqlRequest<T = any>(
   query: string,
-  variables: Record<string, any> = {}
+  variables: Record<string, any> = {},
+  token?: string
 ) {
-  const token = await AsyncStorage.getItem("token");
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
   return client.request<T>(query, variables, headers);
 }

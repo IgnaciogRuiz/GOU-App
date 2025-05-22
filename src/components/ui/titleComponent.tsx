@@ -15,7 +15,7 @@ export default function Title({ title }: TituloProps) {
 
 const styles = StyleSheet.create({
     container: {
-        width: "100%",
+        width: "80%",
         paddingVertical: 10,
         alignItems: "center",
         backgroundColor: "white",

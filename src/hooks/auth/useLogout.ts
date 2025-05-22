@@ -1,16 +1,16 @@
 // src/hooks/useLogout.ts
 import { useMutation } from '@tanstack/react-query';
 import { logoutService } from '../../api/rest';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts';
 
 export const useLogout = () => {
-  const { setIsAuthenticated, setHasSeenOnboarding } = useAuth();
+  const { eliminarStorage, setIsAuthenticated, setToken, setUserId } = useAuth();
 
   return useMutation({
     mutationFn: logoutService,
     onSuccess: async () => {
-      await AsyncStorage.multiRemove(['userToken', 'biometricEnabled', 'dni']);
+      setToken(null);
+      setUserId(null);
       setIsAuthenticated(false);
     },
     onError: (error) => {

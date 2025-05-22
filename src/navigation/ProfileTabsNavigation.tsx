@@ -3,8 +3,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ProfileStackParamList } from "./types/NavigationTypes";
 
 // Importá las pantallas
-
-
 import { VehicleScreen, AddVehicleScreen, EditVehicleScreen, PaymentScreen, ChangePasswordScreen, SettingsScreen, PerfilScreen, AccountInfoScreen } from "../screens/profile";
 
 const Stack = createNativeStackNavigator<ProfileStackParamList>(); 
