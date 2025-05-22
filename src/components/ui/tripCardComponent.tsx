@@ -6,7 +6,9 @@ type TripCardProps = {
   destination: string;
   date: string;
   price: number;
-  availableSeats: number;
+  availableSeats?: number;
+  driverName?: string;
+  licensePlate?: string;
 };
 
 export function TripCard({ origin, destination, date, price, availableSeats }: TripCardProps) {

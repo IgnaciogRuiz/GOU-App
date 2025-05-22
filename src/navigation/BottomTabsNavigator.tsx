@@ -22,27 +22,30 @@ export default function BottomTabsNavigator() {
         tabBarStyle: styles.tabBarStyle,
         tabBarIcon: ({ color, size }) => {
           const icons = {
-            Viajes: "car-outline",
+            Publicar: "add",
             Buscar: "search-outline",
             Mensajes: "chatbubble-outline",
             Perfil: "person-outline",
           };
-          return <Icon name={icons[route.name]} size={size} color={color} />;
+          const iconName = icons[route.name];
+          return iconName ? (
+            <Icon name={iconName} size={size} color={color} />
+          ) : null;
         },
         tabBarActiveTintColor: "#000",
         tabBarInactiveTintColor: "gray",
       })}
     >
-      <Tab.Screen name="Viajes" component={ViajesScreen} />
+      <Tab.Screen name="Publicar" component={PublicarScreen} />
       <Tab.Screen name="Buscar" component={BuscarScreen} />
       <Tab.Screen
-        name="Publicar"
-        component={PublicarScreen}
+        name="Viajes"
+        component={ViajesScreen}
         options={{
           tabBarButton: (props) => (
             <TouchableOpacity style={styles.customButton} {...props}>
               <View style={styles.innerButton}>
-                <Icon name="add" size={30} color="#000" />
+                <Icon name="car-outline" size={30} color="#000" />
               </View>
             </TouchableOpacity>
           ),
@@ -64,11 +67,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   customButton: {
-    position: "absolute",
-    bottom: 20,
+    top: -30,
     justifyContent: "center",
     alignItems: "center",
-    zIndex: 10,
   },
   innerButton: {
     width: 70,

@@ -1,22 +1,21 @@
-// src/api/graphql/user/getUserTrips.ts
+// src/api/graphql/user/getUserReservations.ts
 
 import { gqlRequest } from '../client';
 
 const query = `
   query {
-    me {
-      vehicles {
-        license_plate
-        trips {
+	me {
+      reservations {
+        trip {
           origin
           destination
           price
-          available_seats
           date
-          reservations {
+          vehicle {
+            license_plate
             user {
-              id
               firstname
+              lastname
             }
           }
         }
@@ -26,6 +25,6 @@ const query = `
 `;
 
 
-export const getUserTrips = async (token: string) => {
+export const getUserReservations = async (token: string) => {
   return gqlRequest(query, {}, token);
 };

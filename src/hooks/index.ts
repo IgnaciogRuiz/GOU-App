@@ -6,3 +6,4 @@ export { useLogout } from './auth/useLogout';
 
 //APP
 export { useUserTrips } from './app/useUserTrips';
+export { useUserReservations } from './app/useUserReservations';

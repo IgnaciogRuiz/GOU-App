@@ -4,7 +4,7 @@ import { getUserTrips } from '../../api/graphql';
 import { useAuth } from "../../contexts";
 
 export function useUserTrips() {
-  const { userId, token } = useAuth();
+  const { token } = useAuth();
   const [loading, setLoading] = useState(true);
   const [trips, setTrips] = useState<any[]>([]);
   const [error, setError] = useState<any>(null);
@@ -13,10 +13,9 @@ export function useUserTrips() {
     async function fetchTrips() {
       try {
         setLoading(true);
-        if (!userId || !token) throw new Error('Datos de autenticación faltantes');
-
-        const data = await getUserTrips(userId, token);
-        const vehicles = data?.user?.vehicles || [];
+        if (!token) throw new Error('Datos de autenticación faltantes');
+        const data = await getUserTrips(token);
+        const vehicles = data?.me?.vehicles || [];
         const allTrips = vehicles.flatMap((v: any) => v.trips);
         setTrips(allTrips);
       } catch (err) {
@@ -26,8 +25,8 @@ export function useUserTrips() {
       }
     }   
 
-    if (userId && token) fetchTrips();
-  }, [userId, token]);
+    if (token) fetchTrips();
+  }, [token]);
 
   return { loading, trips, error };
 }
