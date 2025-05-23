@@ -1,7 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell, } from "react-native-confirmation-code-field";
-import { CustomButton, Title, BackButton } from '../../../components'
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+} from "react-native-confirmation-code-field";
+import { CustomButton, Title, BackButton } from "../../../components";
 import { useAuthNavigation } from "../../../navigation/Navigation";
 
 const CELL_COUNT = 6;
@@ -25,8 +30,7 @@ const VerificationScreen = () => {
         resizeMode="contain"
       />
 
-      <Title title="Codigo de" />
-      <Title title="verificación" />
+      <Title title="Codigo de Verificación" />
 
       <Text style={styles.emailInfo}>
         Verifica tu email tunomb***@gmail.com
