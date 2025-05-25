@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuthNavigation } from "../../../navigation/Navigation";
-import { CustomButton, OvalBackground } from '../../../components'
+import { OvalBackground, Title, CustomButton } from "../../../components";
 import { Dimensions } from "react-native";
 
 const BienvenidaScreen: React.FC = () => {
@@ -16,7 +23,7 @@ const BienvenidaScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <OvalBackground color="#0000" direction="down" />
+      <OvalBackground color="#000" direction="down" />
 
       <TouchableOpacity
         style={styles.backButton}
@@ -60,6 +67,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     overflow: "hidden",
+    position: "relative", // 🔧 necesario para que el absolute funcione dentro
   },
   backButton: {
     backgroundColor: "#000",
