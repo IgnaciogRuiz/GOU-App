@@ -1,5 +1,6 @@
 //QUERIES & MUTACION
 
-//TRIPS
-export { getUserTrips } from './trip/getUserTrips';
-export { getUserReservations } from './trip/getUserReservations';
+//USER
+export { getUserTrips } from './user/getUserTrips';
+export { getUserReservations } from './user/getUserReservations';
+export { getUserVehicles } from './user/getUserVehicle';

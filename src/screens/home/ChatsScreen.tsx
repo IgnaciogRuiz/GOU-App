@@ -4,7 +4,7 @@ import { StyleSheet, Text, SafeAreaView, } from "react-native";
 import { Title, Chat } from '../../components';
 import { useBottomTabNavigation } from "../../navigation/Navigation";
 
-export default function MensajesScreen() {
+export default function ChatsScreen() {
     const navigation = useBottomTabNavigation();
     return (
         <SafeAreaView style={styles.container}>

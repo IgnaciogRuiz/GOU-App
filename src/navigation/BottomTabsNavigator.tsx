@@ -6,7 +6,7 @@ import { BottomTabParamList } from "./types/NavigationTypes";
 
 // Screens
 import ProfileTabsNavigation from './ProfileTabsNavigation';
-import { ViajesScreen, BuscarScreen, PublicarScreen, MensajesScreen } from "../screens/home";
+import { ViajesScreen, BuscarScreen, PublicarScreen, ChatsScreen } from "../screens/home";
 
  
 
@@ -51,7 +51,7 @@ export default function BottomTabsNavigator() {
           ),
         }}
       />
-      <Tab.Screen name="Mensajes" component={MensajesScreen} />
+      <Tab.Screen name="Mensajes" component={ChatsScreen} />
       <Tab.Screen name="Perfil" component={ProfileTabsNavigation} />
     </Tab.Navigator>
   );
