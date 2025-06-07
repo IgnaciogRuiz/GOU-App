@@ -36,10 +36,6 @@ export default function LoginScreen({ navigation }) {
     };
   }, [error]);
 
-  const resetOnboarding = async () => {
-    await AsyncStorage.removeItem("hasSeenOnboarding");
-    console.log("Onboarding reset! Reinicia la app para verlo de nuevo.");
-  };
 
   const handleLogin = async () => {
     if (!form.dni) {
@@ -121,7 +117,7 @@ export default function LoginScreen({ navigation }) {
             <CustomButton   title={ isPending ? 'Cargando…' : 'Iniciar Sesión'}
               disabled={isPending}
               onPress={handleLogin}/>
-            <CustomButton title="Test OnBoarding"    onPress={resetOnboarding} />
+
 
             <View style={styles.registerContainer}>
               <Text style={styles.registerText}>

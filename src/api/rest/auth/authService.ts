@@ -14,7 +14,7 @@ export const loginService = async (dni, password) => {
         const errorMessage = error.response?.data?.message ||
             error.response?.data?.errors?.password?.[0] ||
             "Error al hacer la peticion";
-        throw error;
+        throw errorMessage;
     }
 };
 
