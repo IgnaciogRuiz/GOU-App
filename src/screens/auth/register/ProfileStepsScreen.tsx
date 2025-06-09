@@ -3,21 +3,30 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { OvalBackground, Title, CustomButton } from '../../../components'
 import { Ionicons } from "@expo/vector-icons";
 import { useAuthNavigation } from "../../../navigation/Navigation";
+import { useRoute, RouteProp, } from "@react-navigation/native";
+import { RootStackParamList } from "../../../navigation/types/NavigationTypes";
+
+type ProfileStepsRouteProp = RouteProp<RootStackParamList, "ProfileStepsScreen">;
+
+
 
 const ProfileStepsScreen = () => {
   const navigation = useAuthNavigation();
+  const route = useRoute<ProfileStepsRouteProp>();
+  const phoneVerified = route.params?.phoneVerified;
+  const infoVer = route.params?.infoVer;
+
   return (
     <View style={styles.container}>
       <OvalBackground color="#000" direction="left" />
-
       <Image
-        source={require("../../../../assets/images/carAbove.png")} // Reemplazá con tu ruta
+        source={require("../../../../assets/images/carAbove.png")}
         style={styles.carImage}
         resizeMode="contain"
       />
       <View style={styles.fall}>
         <Title title="Datos a completar" />
-        <Text style={styles.subtitle}>completa los siguientes requisitos</Text>
+        <Text style={styles.subtitle}>Completa los siguientes requisitos</Text>
 
         <TouchableOpacity
           style={styles.card}
@@ -28,17 +37,21 @@ const ProfileStepsScreen = () => {
             style={styles.icon}
           />
           <Text style={styles.cardText}>Agregar numero de telefono</Text>
-          <Ionicons name="chevron-forward" size={24} color="#000" />
-          {/* <View style={styles.check}></View> --> when the number is set and confirmed*/}
+          {phoneVerified ? (<Ionicons name="checkmark" size={24} color="green" />) : (<Ionicons name="chevron-forward" size={24} color="#000" />)}
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.card}>
+        {/* Los otros dos pasos todavía con flecha */}
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => navigation.navigate("PersonalInfo")}
+        >
           <Image
             source={require("../../../../assets/images/carAbove.png")}
             style={styles.icon}
           />
           <Text style={styles.cardText}>Completar informacion personal</Text>
-          <Ionicons name="chevron-forward" size={24} color="#000" />
+          {!infoVer ? (<Ionicons name="checkmark" size={24} color="green" />) : (<Ionicons name="chevron-forward" size={24} color="#000" />)}
+          
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.card}>
@@ -50,7 +63,7 @@ const ProfileStepsScreen = () => {
           <Ionicons name="chevron-forward" size={24} color="#000" />
         </TouchableOpacity>
 
-        <CustomButton title="Finalizar" onPress={() => console.log('Presionado')}/>
+        <CustomButton title="Finalizar" onPress={() => navigation.navigate("AddOptVehicle")} />
       </View>
     </View>
   );

@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Image } from "react-native";
-import {
-  Title,
-  CustomInput,
-  CustomButton,
-  OvalBackground,
-} from "../../../components";
+import { Title, CustomInput, CustomButton, OvalBackground,} from "../../../components";
+import { useAuthNavigation } from "../../../navigation/Navigation";
 
 const PhoneInputScreen = () => {
+  const navigation = useAuthNavigation();
   const [phone, setPhone] = useState("");
 
   const handleSubmit = () => {
     console.log("Número enviado:", phone);
+    navigation.navigate("VerifyPhone");
     // lógica para enviar número
   };
 

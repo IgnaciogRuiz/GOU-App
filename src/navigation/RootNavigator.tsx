@@ -13,6 +13,11 @@ import {
   PhoneInputScreen,
   VerifyPhone,
   ProfileStepsScreen,
+  PersonalInfo,
+  // DNIBack,
+  // DNIFront,
+  AddOptVehicle,
+  VehicleAdd,
 } from "../screens/auth";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -44,6 +49,11 @@ export default function RootNavigator() {
           <Stack.Screen name="PhoneInputScreen" component={PhoneInputScreen} />
           <Stack.Screen name="VerifyPhone" component={VerifyPhone} />
           <Stack.Screen name="ProfileStepsScreen" component={ProfileStepsScreen} />
+          <Stack.Screen name="PersonalInfo" component={PersonalInfo} />
+          {/* <Stack.Screen name="DNIFront" component={DNIFront} />
+          <Stack.Screen name="DNIBack" component={DNIBack} /> */}
+          <Stack.Screen name="AddOptVehicle" component={AddOptVehicle} />
+          <Stack.Screen name="VehicleAdd" component={VehicleAdd} />
         </>
       )}
 

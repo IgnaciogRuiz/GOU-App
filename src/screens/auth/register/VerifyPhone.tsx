@@ -4,6 +4,7 @@ import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from "react-
 import { CustomButton, Title, BackButton } from '../../../components'
 import { useAuthNavigation } from "../../../navigation/Navigation";
 
+
 const CELL_COUNT = 6;
 
 const VerificationScreen = () => {
@@ -15,10 +16,8 @@ const VerificationScreen = () => {
     setValue,
   });
   const handleComenzar = () => {
-    navigation.navigate("ProfileStepsScreen"); // Redirigir si querés
-    console.log(
-      "phone verified, later make a variable to put a check in the ProfileStepsScreen"
-    );
+    navigation.navigate("ProfileStepsScreen", { phoneVerified: true }); // Redirigir si querés
+    console.log("phone verified, later make a variable to put a check in the ProfileStepsScreen");
   };
 
   return (

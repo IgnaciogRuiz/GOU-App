@@ -23,9 +23,14 @@ export type RootStackParamList = {
   VerifyEmail: undefined;
   PhoneInputScreen: undefined;
   VerifyPhone: undefined;
-  ProfileStepsScreen: undefined;
+  ProfileStepsScreen: { phoneVerified?: boolean, infoVer?: boolean};
   BiometricAuth: undefined;
   EnableBiometric: undefined;
   PasswordLogin: undefined;
-  Home: undefined;          // BottomTabsNavigator
+  Home: undefined;      
+  PersonalInfo: undefined;
+  // DNIFront: undefined;
+  // DNIBack: undefined;
+  AddOptVehicle: undefined;
+  VehicleAdd: undefined;
 };
