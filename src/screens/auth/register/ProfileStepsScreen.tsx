@@ -9,7 +9,6 @@ import { RootStackParamList } from "../../../navigation/types/NavigationTypes";
 type ProfileStepsRouteProp = RouteProp<RootStackParamList, "ProfileStepsScreen">;
 
 
-
 const ProfileStepsScreen = () => {
   const navigation = useAuthNavigation();
   const route = useRoute<ProfileStepsRouteProp>();
@@ -50,7 +49,8 @@ const ProfileStepsScreen = () => {
             style={styles.icon}
           />
           <Text style={styles.cardText}>Completar informacion personal</Text>
-          {!infoVer ? (<Ionicons name="checkmark" size={24} color="green" />) : (<Ionicons name="chevron-forward" size={24} color="#000" />)}
+          
+          {infoVer ? (<Ionicons name="checkmark" size={24} color="green" />) : (<Ionicons name="chevron-forward" size={24} color="#000" />)}
           
         </TouchableOpacity>
 
