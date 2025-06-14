@@ -1,15 +1,14 @@
 // components/MyReservationsSection.tsx
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Reservation } from './types';
-import { homeStyles } from './homeStyles';
 import SectionHeader from './sectionHeaderComponent';
 import ReservationCard from './reservationCardComponent';
 
 const MyReservationsSection: React.FC = () => {
   const reservations: Reservation[] = [
     {
-      id: 1,
+      id: "1",
       route: 'Cordoba → CABA',
       driver: 'Carlos M.',
       date: 'Mañana',
@@ -18,7 +17,7 @@ const MyReservationsSection: React.FC = () => {
       statusColor: '#10B981',
     },
     {
-      id: 2,
+      id: "2",
       route: 'CABA → Mendoza',
       driver: 'Maria L.',
       date: '1 de Octubre',
@@ -41,5 +40,11 @@ const MyReservationsSection: React.FC = () => {
     </View>
   );
 };
+
+const homeStyles = StyleSheet.create({
+  section: {
+    marginBottom: 24,
+  },
+});
 
 export default MyReservationsSection;

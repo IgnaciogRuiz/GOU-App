@@ -30,7 +30,7 @@ export { default as HomeHeader } from './home/homeHeaderComponent';
 export { default as QuickActions } from './home/quickActionsComponent';
 export { default as SectionHeader } from './home/sectionHeaderComponent';
 export { default as ReservationCard } from './home/reservationCardComponent';
-export { default as PublishedTripCard } from './home/PublishedTripCard';
+export { default as PublishedTripCard } from './home/publishedTripCard';
 export { default as ActivityItem } from './home/activityItemComponent';
 export { default as MyReservationsSection } from './home/myReservationSection';
 export { default as MyPublishedTripsSection } from './home/myPublishedSection';

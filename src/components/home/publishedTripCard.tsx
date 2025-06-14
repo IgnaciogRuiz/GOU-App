@@ -1,9 +1,8 @@
 // components/PublishedTripCard.tsx
 import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import { PublishedTrip } from './types';
-import { homeStyles } from './homeStyles';
 
 interface PublishedTripCardProps {
   item: PublishedTrip;
@@ -11,7 +10,7 @@ interface PublishedTripCardProps {
 
 const PublishedTripCard: React.FC<PublishedTripCardProps> = ({ item }) => {
   const handleManage = () => {
-    console.log('Manage pressed for:', item.route);
+    console.log('Manage pressed for:', item.id);
   };
 
   return (
@@ -52,5 +51,84 @@ const PublishedTripCard: React.FC<PublishedTripCardProps> = ({ item }) => {
     </View>
   );
 };
+
+ const homeStyles = StyleSheet.create({
+  card: {
+    backgroundColor: '#111827',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#374151',
+    padding: 16,
+    marginBottom: 12,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  routeText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#FFFFFF',
+  },
+  driverText: {
+    fontSize: 14,
+    color: '#9CA3AF',
+  },
+  priceInfo: {
+    alignItems: 'flex-end',
+  },
+  priceText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  perSeatText: {
+    fontSize: 12,
+    color: '#9CA3AF',
+  },
+  cardFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  seatsInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  seatsText: {
+    fontSize: 14,
+    color: '#9CA3AF',
+  },
+  tripStatus: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+  },
+  statusInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  statusText: {
+    fontSize: 14,
+  },
+  primaryButton: {
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  primaryButtonText: {
+    color: '#000000',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  pressedPrimaryButton: {
+    backgroundColor: '#F3F4F6',
+  },
+});
 
 export default PublishedTripCard;

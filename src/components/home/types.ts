@@ -1,6 +1,6 @@
 // types/index.ts
 export interface Reservation {
-  id: number;
+  id: string;
   route: string;
   driver: string;
   date: string;
@@ -10,7 +10,7 @@ export interface Reservation {
 }
 
 export interface PublishedTrip {
-  id: number;
+  id: string;
   route: string;
   date: string;
   price: string;
@@ -21,7 +21,7 @@ export interface PublishedTrip {
 }
 
 export interface Activity {
-  id: number;
+  id: string;
   title: string;
   description: string;
   time: string;

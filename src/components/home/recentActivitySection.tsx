@@ -1,30 +1,29 @@
 // components/RecentActivitySection.tsx
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet} from 'react-native';
 import { Activity } from './types';
-import { homeStyles } from './homeStyles';
 import SectionHeader from './sectionHeaderComponent';
 import ActivityItem from './activityItemComponent';
 
 const RecentActivitySection: React.FC = () => {
-  const activities: Activity[] = [
+    const activities: Activity[] = [
     {
-      id: 1,
-      title: 'Trip completed',
-      description: 'Barcelona → Madrid with Carlos M.',
-      time: '2 days ago',
-      icon: 'check',
-      iconColor: '#10B981',
+        id: 1,
+        title: 'Viaje completado',
+        description: 'Córdoba → Rosario con Lucas G.',
+        time: 'hace 2 días',
+        icon: 'check',
+        iconColor: '#10B981',
     },
     {
-      id: 2,
-      title: 'New passenger joined',
-      description: 'Ana R. booked your Madrid → Seville trip',
-      time: '1 week ago',
-      icon: 'user-plus',
-      iconColor: '#3B82F6',
+        id: 2,
+        title: 'Nuevo pasajero agregado',
+        description: 'Sofía T. reservó tu viaje Buenos Aires → Mar del Plata',
+        time: 'hace 1 semana',
+        icon: 'user-plus',
+        iconColor: '#3B82F6',
     },
-  ];
+    ];
 
   return (
     <View style={homeStyles.section}>
@@ -37,5 +36,14 @@ const RecentActivitySection: React.FC = () => {
     </View>
   );
 };
+
+const homeStyles = StyleSheet.create({
+  section: {
+    marginBottom: 24,
+  },
+  activityList: {
+    gap: 12,
+  },
+});
 
 export default RecentActivitySection;

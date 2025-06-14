@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuth } from "../contexts/AuthContext";
 import { RootStackParamList } from "./types/NavigationTypes";
 import BottomTabsNavigator from "./BottomTabsNavigator";
-import SplashScreen from "../screens/SplashScreen";
 import {
   OnboardingScreen,
   LoginScreen,
@@ -24,8 +23,6 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
   const { loading, hasSeenOnboarding, isAuthenticated } = useAuth();
-
-  if (loading) return <SplashScreen />;
 
   const navigatorKey = `${hasSeenOnboarding}-${isAuthenticated}`;
 

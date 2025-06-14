@@ -1,7 +1,7 @@
 // components/SectionHeader.tsx
 import React from 'react';
-import { View, Text, Pressable } from 'react-native';
-import { homeStyles } from './homeStyles';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
+
 
 interface SectionHeaderProps {
   title: string;
@@ -23,5 +23,28 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({ title, onViewAll }) => {
     </View>
   );
 };
+
+
+const homeStyles = StyleSheet.create({
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
+  viewAllText: {
+    fontSize: 14,
+    color: '#D1D5DB',
+    fontWeight: '500',
+  },
+  pressedViewAll: {
+    opacity: 0.7,
+  },
+});
 
 export default SectionHeader;

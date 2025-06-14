@@ -16,8 +16,6 @@ interface AuthContextType {
   hasSeenOnboarding: boolean;
   setHasSeenOnboarding: (seen: boolean) => void;
   loading: boolean;
-  userId: string | null;
-  setUserId: (id: string | null) => Promise<void>;
   token: string | null;
   setToken: (token: string | null) => Promise<void>;
 }
@@ -34,7 +32,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [hasSeenOnboarding, setHasSeenOnboarding] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [userId, _setUserId] = useState<string | null>(null);
   const [token, _setToken] = useState<string | null>(null);
 
   // Setter que guarda y elimina en AsyncStorage automáticamente
@@ -47,28 +44,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     _setToken(newToken);
   };
 
-  // Setter que guarda y elimina en AsyncStorage automáticamente
-  const setUserId = async (newUserId: string | null) => {
-    if (newUserId) {
-      await AsyncStorage.setItem("user_id", newUserId);
-    } else {
-      await AsyncStorage.removeItem("user_id");
-    }
-    _setUserId(newUserId);
-  };
-
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const [seenOnboarding, storedToken, storedUserId] = await Promise.all([
+        const [seenOnboarding, storedToken] = await Promise.all([
           AsyncStorage.getItem("hasSeenOnboarding"),
           AsyncStorage.getItem("token"),
-          AsyncStorage.getItem("user_id"),
         ]);
 
         setHasSeenOnboarding(!!seenOnboarding);
         await setToken(storedToken);
-        await setUserId(storedUserId);
 
         if (storedToken) {
           await authService(storedToken); // si falla, va al catch
@@ -101,7 +86,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsAuthenticated(false);
     setHasSeenOnboarding(false);
     await setToken(null);
-    await setUserId(null);
   };
 
   return (
@@ -113,8 +97,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         hasSeenOnboarding,
         setHasSeenOnboarding,
         loading,
-        userId,
-        setUserId,
         token,
         setToken,
       }}

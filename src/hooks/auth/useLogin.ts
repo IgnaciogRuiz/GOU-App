@@ -5,7 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 type LoginVars = { dni: string; password: string };
 
 export const useLogin = () => {
-  const { setIsAuthenticated, setUserId, setToken } = useAuth();
+  const { setIsAuthenticated, setToken } = useAuth();
 
   return useMutation({
     mutationFn: ({ dni, password }: LoginVars) =>
@@ -13,8 +13,7 @@ export const useLogin = () => {
 
     onSuccess: async (data) => {
       // ✅ Guardar datos en el contexto
-      setToken(data.token);
-      setUserId(data.user_id);
+      setToken(data.data.token);
       setIsAuthenticated(true);
     },
 
