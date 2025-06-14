@@ -14,6 +14,7 @@ export type BottomTabParamList = {
   Publicar: undefined;
   Mensajes: undefined;
   Perfil: undefined;
+  TripDetails: undefined;
 };
 
 export type RootStackParamList = {

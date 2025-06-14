@@ -14,7 +14,7 @@ export const useLogin = () => {
     onSuccess: async (data) => {
       // ✅ Guardar datos en el contexto
       setToken(data.token);
-      setUserId(data.user_id.toString());
+      setUserId(data.user_id);
       setIsAuthenticated(true);
     },
 

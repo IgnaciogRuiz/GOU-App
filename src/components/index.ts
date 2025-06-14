@@ -3,21 +3,35 @@
 //FORM
 export { default as VehiculoForm } from './form/vehiculoFormComponent';
 export { default as CustomInput } from './form/inputComponent';
-export { default as InputLocation } from './form/locationSelectoComponent';
 
 
 //UI
 export { default as CustomButton } from './ui/buttonComponent';
-export { default as Card } from './ui/cardComponent';
-export { default as Title } from './ui/titleComponent';
-export { default as Subtitle } from './ui/subtitleComponent';
-export { default as Chat } from './ui/chatComponent';
-export { default as ListItem } from './ui/listComponent';
-export { TripCard } from './ui/tripCardComponent';
+
 
 
 //LAYOUT
+export { default as Header } from './layout/headerComponent';
 export { default as FadeInView } from './layout/fadeInComponent';
 export { default as OvalBackground } from './layout/ovalBackgroungComponent';
 export { default as BackButton } from './layout/backButtonComponent';
 export { default as ProfileHeader } from './layout/profileHeaderComponent';
+
+//MESSAGE
+export { default as ChatItem } from './message/chatItemComponent';
+
+//PROFILE
+export { default as MenuItem } from './perfil/menuItemComponent';
+export { default as UserInfoCard } from './perfil/userInfoCardComponent';
+
+
+//HOME
+export { default as HomeHeader } from './home/homeHeaderComponent';
+export { default as QuickActions } from './home/quickActionsComponent';
+export { default as SectionHeader } from './home/sectionHeaderComponent';
+export { default as ReservationCard } from './home/reservationCardComponent';
+export { default as PublishedTripCard } from './home/PublishedTripCard';
+export { default as ActivityItem } from './home/activityItemComponent';
+export { default as MyReservationsSection } from './home/myReservationSection';
+export { default as MyPublishedTripsSection } from './home/myPublishedSection';
+export { default as RecentActivitySection } from './home/recentActivitySection';
