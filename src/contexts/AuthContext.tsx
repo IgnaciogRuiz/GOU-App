@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const eliminarStorage = async () => {
-    await AsyncStorage.multiRemove(["token", "user_id", "dni"]);
+    await AsyncStorage.multiRemove(["token"]);
     setIsAuthenticated(false);
     setHasSeenOnboarding(false);
     await setToken(null);

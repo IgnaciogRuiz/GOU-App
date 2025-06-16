@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Animated, Text, View, Dimensions, Image, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLogin } from "../../../hooks";
 import { CustomButton, CustomInput, FadeInView } from '../../../components'
 const { width } = Dimensions.get("window");
@@ -12,6 +11,7 @@ export default function LoginScreen({ navigation }) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(-10)).current;
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
 
   useEffect(() => {
     if (error) {
@@ -117,8 +117,7 @@ export default function LoginScreen({ navigation }) {
             <CustomButton   title={ isPending ? 'Cargando…' : 'Iniciar Sesión'}
               disabled={isPending}
               onPress={handleLogin}/>
-
-
+          
             <View style={styles.registerContainer}>
               <Text style={styles.registerText}>
                 ¿Aún no tienes cuenta en GOU!?
@@ -222,3 +221,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
 });
+function setHasSeenOnboarding(arg0: boolean) {
+  throw new Error("Function not implemented.");
+}
+

@@ -1,8 +1,8 @@
 import React from "react";
-import { View, StatusBar, Platform } from "react-native";
+import { View, StatusBar} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import RootNavigator from "./navigation/RootNavigator";
-import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaProvider, useSafeAreaInsets, SafeAreaView } from "react-native-safe-area-context";
 import { AuthProvider } from "./contexts";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -12,12 +12,12 @@ function AppWrapper() {
   const insets = useSafeAreaInsets(); 
 
   return (
-    <View style={{ flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#111827' }} edges={['left', 'right', 'bottom']}>
       {/* Status Bar */}
       <StatusBar
-        barStyle="light-content" // blanco en iOS, también cambia íconos en Android
+        barStyle="light-content"
         backgroundColor="#000000" // solo tiene efecto en Android
-        translucent={false} // asegura que no se superponga con el contenido
+        translucent={true} 
       />
 
       <QueryClientProvider client={queryClient}>
@@ -27,7 +27,7 @@ function AppWrapper() {
           </NavigationContainer>
         </AuthProvider>
       </QueryClientProvider>
-    </View>
+    </SafeAreaView>
   );
 }
 

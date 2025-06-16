@@ -4,13 +4,12 @@ import { logoutService } from '../../api/rest';
 import { useAuth } from '../../contexts';
 
 export const useLogout = () => {
-  const { eliminarStorage, setIsAuthenticated, setToken, setUserId } = useAuth();
+  const { setIsAuthenticated, setToken } = useAuth();
 
   return useMutation({
     mutationFn: logoutService,
     onSuccess: async () => {
       setToken(null);
-      setUserId(null);
       setIsAuthenticated(false);
     },
     onError: (error) => {

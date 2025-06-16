@@ -1,5 +1,5 @@
 export type ProfileStackParamList = {
-  Perfil: undefined;
+  PerfilInfo: undefined;
   Vehicle: undefined;
   Config: undefined;
   Info: undefined;

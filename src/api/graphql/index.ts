@@ -1,9 +1,9 @@
 //QUERIES & MUTACION
 
 //HOME
-export { getHomeData } from './user/getHomeInfo';
+export { getHomeData } from './queries/getHomeInfo';
+export { getChats } from './queries/getChats';
+export { getProfileData } from './queries/gerProfileInfo';
 
 //USER
-export { getUserTrips } from './user/getUserTrips';
-export { getUserReservations } from './user/getUserReservations';
-export { getUserVehicles } from './user/getUserVehicle';
+export { getUserVehicles } from './queries/getUserVehicle';

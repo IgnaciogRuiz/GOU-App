@@ -4,7 +4,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, } from 'react-native';
 // Componente para cada item de chat
 const ChatItem = ({ item, onPress }) => {
   const isUnread = item.unreadCount > 0;
-  
+
   return (
     <TouchableOpacity 
       style={[styles.chatItem, isUnread && styles.chatItemUnread]} 

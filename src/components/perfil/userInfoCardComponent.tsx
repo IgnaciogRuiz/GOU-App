@@ -1,6 +1,8 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome6';
+import Constants from "expo-constants";
+
 
 
 interface UserStats {
@@ -17,6 +19,8 @@ interface UserInfo {
   avatar: string;
   stats: UserStats;
 }
+
+
 
 // Star Rating Component
 const StarRating: React.FC<{ rating: number }> = ({ rating }) => {
@@ -38,10 +42,12 @@ const StarRating: React.FC<{ rating: number }> = ({ rating }) => {
 
 // User Info Component
 const UserInfoCard: React.FC<{ userInfo: UserInfo }> = ({ userInfo }) => {
+  const { STORAGE_URL } = Constants.expoConfig?.extra || {};
+
   return (
     <View style={styles.userInfoCard}>
       <View style={styles.userInfoHeader}>
-        <Image source={{ uri: userInfo.avatar }} style={styles.avatar} />
+        <Image source={{ uri: STORAGE_URL + userInfo.avatar }} style={styles.avatar} />
         <View style={styles.userDetails}>
           <Text style={styles.userName}>{userInfo.name}</Text>
           <Text style={styles.memberSince}>Miembro desde {userInfo.memberSince}</Text>
@@ -56,16 +62,18 @@ const UserInfoCard: React.FC<{ userInfo: UserInfo }> = ({ userInfo }) => {
 
       <View style={styles.statsContainer}>
         <View style={styles.statItem}>
+          <Text style={styles.statValue}>{userInfo.stats.published}</Text>
+          <Text style={styles.statLabel}>
+            {userInfo.stats.published === 1 ? 'Publicado' : 'Publicados'}
+          </Text>
+        </View>
+        <View style={styles.statItem}>
           <Text style={styles.statValue}>{userInfo.stats.trips}</Text>
           <Text style={styles.statLabel}>Viajes</Text>
         </View>
         <View style={styles.statItem}>
-          <Text style={styles.statValue}>{userInfo.stats.published}</Text>
-          <Text style={styles.statLabel}>Publicados</Text>
-        </View>
-        <View style={styles.statItem}>
           <Text style={styles.statValue}>{userInfo.stats.recorrido}</Text>
-          <Text style={styles.statLabel}>Recorrido</Text>
+          <Text style={styles.statLabel}>KMs Recorridos</Text>
         </View>
       </View>
     </View>

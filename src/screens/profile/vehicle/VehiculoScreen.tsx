@@ -1,7 +1,6 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, SafeAreaView, View, Image } from "react-native";
-import { Title, Card, CustomButton } from '../../../components';
+import { CustomButton } from '../../../components';
 import { useProfileNavigation } from "../../../navigation/Navigation";
 
 export default function VehiculoScreen() {
@@ -13,8 +12,6 @@ export default function VehiculoScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="dark" backgroundColor="light" />
-      <Title title="Vehiculos" />
       {/* <Card title="Mi Auto"
       info="Toyota Corolla 2021"
       items={[

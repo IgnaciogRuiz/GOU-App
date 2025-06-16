@@ -3,13 +3,14 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import SectionHeader from './sectionHeaderComponent';
 import PublishedTripCard from './publishedTripCard';
-import { transformTripData } from '../../utils/tripDataTransformer';
+import { formtaTripData } from '../../utils/formatPublishedTrips';
 
 interface Props {
   publishedTrips: any[];
 }
 
 const MyPublishedTripsSection: React.FC<Props> = ({ publishedTrips }) => {
+  const transformedTrips = formtaTripData(publishedTrips); //formateamos la info de los viajes publicados
   const handleViewAll = () => {
     console.log('View All Published Trips pressed');
   };
@@ -22,8 +23,7 @@ const MyPublishedTripsSection: React.FC<Props> = ({ publishedTrips }) => {
       </View>
     );
   }
-
-  const transformedTrips = transformTripData(publishedTrips);
+  
 
   return (
     <View style={homeStyles.section}>

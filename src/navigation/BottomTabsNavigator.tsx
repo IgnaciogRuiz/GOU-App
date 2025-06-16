@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#111827',
     borderTopWidth: 1,
     borderTopColor: '#374151',
-    paddingBottom: 20, // Safe area
+    paddingBottom: 20,
     paddingTop: 8,
     height: 80,
   },

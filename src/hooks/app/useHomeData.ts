@@ -10,16 +10,17 @@ export function useHomeData() {
   const [error, setError] = useState<any>(null);
 
   useEffect(() => {
+    if (!token) return;
+
     async function fetchDashboardData() {
       try {
         setLoading(true);
-        if (!token) throw new Error('Token faltante');
 
         const data = await getHomeData(token);
-        console.log('Datos del dashboard obtenidos:', data?.dashboardData);
+        //console.log('Datos del dashboard obtenidos:', data?.dashboardData);
         setDashboardData(data?.dashboardData ?? null);
       } catch (err) {
-        console.error('Error al obtener datos del dashboard:', err);
+        //console.error('Error al obtener datos del dashboard:', err);
         setError(err);
       } finally {
         setLoading(false);

@@ -19,6 +19,7 @@ import {
   VehicleAdd,
 } from "../screens/auth";
 
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {

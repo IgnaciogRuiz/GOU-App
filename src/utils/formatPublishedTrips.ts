@@ -23,7 +23,7 @@ interface ApiTrip {
 }
 
 
-export const transformTripData = (apiTrips: ApiTrip[]): ApiTripTransformed[] => {
+export const formtaTripData = (apiTrips: ApiTrip[]): ApiTripTransformed[] => {
   return apiTrips.map(trip => {
     const reservedSeats = trip.reservations.length;
     const availableSeats = trip.available_seats;
@@ -45,48 +45,6 @@ export const transformTripData = (apiTrips: ApiTrip[]): ApiTripTransformed[] => 
   });
 };
 
-interface ReservationCardData {
-  id: string;
-  route: string;
-  driver: string;
-  date: string;
-  time: string;
-  seats: string;
-  statusColor: string;
-}
-
-interface ApiReservation {
-  id: string;
-  trip: {
-    origin: string;
-    destination: string;
-    date: string;
-    available_seats: number;
-    price: number;
-    user: {
-      name: string;
-    };
-  };
-  seats: number;
-}
-
-export const transformReservationData = (apiReservations: ApiReservation[]): ReservationCardData[] => {
-  return apiReservations.map((res) => {
-    const tripDate = new Date(res.trip.date);
-    const hours = tripDate.getHours().toString().padStart(2, '0');
-    const minutes = tripDate.getMinutes().toString().padStart(2, '0');
-
-    return {
-      id: res.id,
-      route: `${formatLocation(res.trip.origin)} → ${formatLocation(res.trip.destination)}`,
-      driver: res.trip.user.name,
-      date: formatDate(res.trip.date),
-      time: `${hours}:${minutes}`,
-      seats: `${res.seats} asiento${res.seats > 1 ? 's' : ''} reservado${res.seats > 1 ? 's' : ''}`,
-      statusColor: '#10B981', // o usás lógica de estado si querés
-    };
-  });
-};
 
 // Ejemplo de formateo solo para texto de origen y destino (si necesitás)
 const formatLocation = (location: string): string => {

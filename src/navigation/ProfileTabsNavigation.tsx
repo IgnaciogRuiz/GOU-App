@@ -10,7 +10,7 @@ const Stack = createNativeStackNavigator<ProfileStackParamList>();
 const ProfileTabsNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} id={undefined}>
-      <Stack.Screen name="Perfil" component={PerfilScreen} />
+      <Stack.Screen name="PerfilInfo" component={PerfilScreen} />
       <Stack.Screen name="Vehicle" component={VehicleScreen} />
       <Stack.Screen name="Config" component={SettingsScreen} />
       <Stack.Screen name="Info" component={AccountInfoScreen} />

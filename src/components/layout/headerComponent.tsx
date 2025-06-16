@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Platform, StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome6";
 
 interface HeaderProps {
@@ -25,12 +25,13 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#111827',
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    paddingBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
-    height: 60,
+    height: 40,
     borderBottomColor: '#374151',
   },
   headerTitle: {
@@ -39,6 +40,6 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   searchButton: {
-    padding: 8,
+    padding: 0,
   }
 });

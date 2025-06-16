@@ -1,9 +1,16 @@
 // components/Header.tsx
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Platform, StatusBar } from 'react-native';
 import QuickActions from './quickActionsComponent';
+import Constants from 'expo-constants';
+const { STORAGE_URL } = Constants.expoConfig.extra;
 
-const HomeHeader: React.FC = () => {
+interface Props {
+  profile_photo: [string];
+}
+
+const HomeHeader: React.FC<Props> = ({ profile_photo }) => {
+
   return (
     <View style={headerStyles.header}>
       <View style={headerStyles.headerContent}>
@@ -12,7 +19,7 @@ const HomeHeader: React.FC = () => {
           <Text style={headerStyles.subtitleText}>¿Listo para tu proximo viaje?</Text>
         </View>
         <Image
-          source={{ uri: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg' }}
+          source={{ uri:  `${STORAGE_URL}/${profile_photo}` }}
           style={headerStyles.profileImage}
         />
       </View>
@@ -25,7 +32,7 @@ const HomeHeader: React.FC = () => {
   header: {
     backgroundColor: '#000000',
     paddingHorizontal: 16,
-    paddingTop: 24,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     paddingBottom: 24,
   },
   headerContent: {
