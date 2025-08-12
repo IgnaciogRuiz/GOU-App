@@ -19,6 +19,7 @@ import {
   VehicleAdd,
 } from "../screens/auth";
 
+import { IntroductionAnimationScreen } from "../screens/introduction_animation";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -32,7 +33,7 @@ export default function RootNavigator() {
       {/* Onboarding flow */}
       {!hasSeenOnboarding && (
         <>
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+          <Stack.Screen name="Onboarding" component={IntroductionAnimationScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
         </>
@@ -41,6 +42,7 @@ export default function RootNavigator() {
       {/* Auth flow */}
       {hasSeenOnboarding && !isAuthenticated && (
         <>
+          <Stack.Screen name="Onboarding" component={IntroductionAnimationScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
