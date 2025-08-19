@@ -10,11 +10,7 @@
   "dependencies": {
     "@expo/metro-runtime": "~5.0.4",
     "@react-native-async-storage/async-storage": "2.1.2",
-<<<<<<< HEAD
     "@react-native-picker/picker": "^2.11.1",
-=======
-    "@react-native-picker/picker": "^2.11.0",
->>>>>>> c42c7e3f9d3b407327a332fdaf394d7306e9a5a0
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
     "@react-navigation/native-stack": "^7.2.0",
@@ -30,10 +26,12 @@
     "expo-local-authentication": "^16.0.5",
     "expo-router": "^5.1.4",
     "expo-status-bar": "~2.2.3",
+    "git-head": "1.20.1",
     "graphql-request": "^7.1.2",
+    "lottie-react-native": "7.2.2",
     "lucide-react": "^0.515.0",
     "react": "19.0.0",
-    "react-native": "^0.79.3",
+    "react-native": "^0.79.5",
     "react-native-confirmation-code-field": "^7.6.1",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-pager-view": "6.7.1",
@@ -41,8 +39,7 @@
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "^4.11.1",
     "react-native-vector-icons": "^10.2.0",
-    "react-native-vision-camera": "^4.6.4",
-    "lottie-react-native": "7.2.2"
+    "react-native-vision-camera": "^4.6.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

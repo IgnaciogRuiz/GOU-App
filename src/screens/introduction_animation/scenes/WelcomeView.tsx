@@ -48,6 +48,7 @@ const WelcomeView: React.FC<Props> = ({ animationController }) => {
       <Text style={styles.subtitle}>
         Stay organised and live stress-free with you-do app
       </Text>
+      
     </Animated.View>
   );
 };
