@@ -1,10 +1,150 @@
-import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet, Animated, Text, View, Dimensions, Image, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { useLogin } from "../../../hooks";
-import { CustomButton, CustomInput, FadeInView } from '../../../components'
-const { width } = Dimensions.get("window");
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import { CustomButton } from "../../../components";
+import { useNavigation } from "@react-navigation/native";
 
-export default function LoginScreen({ navigation }) {
+const LoginScreen = () => {
+  const navigation = useNavigation();
+
+  return (
+    <View style={styles.container}>
+      {/* Imagen principal */}
+      <Image
+        source={require("../../../../assets/images/car.png")}
+        style={styles.banner}
+      />
+
+      {/* Inputs */}
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>DNI</Text>
+        <View style={styles.inputBox}>
+          <TextInput
+            placeholder="Ingresa tu DNI"
+            placeholderTextColor="#aaa"
+            style={styles.input}
+            keyboardType="numeric"
+          />
+        </View>
+
+        <Text style={[styles.label, { marginTop: 20 }]}>Contraseña</Text>
+        <View style={styles.inputBox}>
+          <TextInput
+            placeholder="Ingresa tu contraseña"
+            placeholderTextColor="#aaa"
+            style={styles.input}
+            secureTextEntry
+          />
+        </View>
+
+        <TouchableOpacity>
+          <Text style={styles.forgotText}>¿Olvidaste tu contraseña?</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Botones */}
+      <View style={styles.buttonContainer}>
+        <CustomButton title="Iniciar Sesión ➜" onPress={() => {}} />
+        <CustomButton
+          title="Registrarse"
+          onPress={() => navigation.navigate("Register")}
+          backgroundColor="#fff"
+          textColor="#000"
+        />
+      </View>
+
+      {/* Footer */}
+      <Text style={styles.terms}>
+        Al continuar, aceptás nuestros{" "}
+        <Text style={styles.link}>Términos de Servicio</Text> y{" "}
+        <Text style={styles.link}>Política de Privacidad</Text>
+      </Text>
+    </View>
+  );
+};
+
+export default LoginScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#000",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingTop: 60,
+  },
+  banner: {
+  width: 400,
+  height: 300,
+  // resizeMode: "contain",
+  marginBottom: 20,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  subtitle: {
+    color: "#aaa",
+    marginBottom: 30,
+    textAlign: "center",
+  },
+  inputContainer: {
+    width: "100%",
+    backgroundColor: "#111827",
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 30,
+  },
+  label: {
+    color: "#fff",
+    marginBottom: 6,
+  },
+  inputBox: {
+    backgroundColor: "#000",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderColor: "#2D2D2D",
+    borderWidth: 1,
+  },
+  input: {
+    color: "#fff",
+  },
+  forgotText: {
+    color: "#3182CE",
+    marginTop: 10,
+    fontSize: 12,
+    alignSelf: "flex-end",
+  },
+  buttonContainer: {
+    flex: 1,
+    alignItems: "center",
+    width: "110%",
+  },
+  terms: {
+    fontSize: 11,
+    color: "#aaa",
+    textAlign: "center",
+    marginTop: "auto",
+    marginBottom: 10,
+  },
+  link: {
+    color: "#3182CE",
+    textDecorationLine: "underline",
+  },
+});
+
+
+
+
+/* codigo onboarding dsp implementar
   const { mutate: login, isPending } = useLogin();
   const [form, setForm] = useState({ dni: "", password: "" });
   const [error, setError] = useState("");
@@ -64,164 +204,4 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <FadeInView style={styles.animatedContainer}>
-
-        <View style={styles.imageContainer}>
-          <Image
-            source={require("../../../../assets/images/car.png")}
-            style={styles.image}
-          />
-        </View>
-
-        <View style={styles.containerText}>
-          <Animated.View
-            style={[
-              styles.errorContainer,
-              {
-                opacity: fadeAnim,
-                transform: [{ translateY }],
-                display: error ? "flex" : "none",
-              },
-            ]}
-          >
-            {error ? <Text style={styles.errorText}>{error}</Text> : null}
-          </Animated.View>
-
-          <View style={styles.containerform}>
-            <Text style={styles.label}>DNI</Text>
-            <CustomInput
-              placeholder="46762316"
-              secureTextEntry={false}
-              keyboardType="numeric"
-              value={form.dni}
-              onChangeText={(text) => handleChange("dni", text)}
-            />
-
-            <Text style={styles.label}>Contraseña</Text>
-            <CustomInput
-              placeholder="************"
-              secureTextEntry={true}
-              keyboardType="default"
-              value={form.password}
-              onChangeText={(text) => handleChange("password", text)}
-            />
-
-            <TouchableOpacity style={styles.forgotPasswordContainer}>
-              <Text style={styles.forgotPassword}>
-                ¿Olvidaste la contraseña?
-              </Text>
-            </TouchableOpacity>
-
-            <CustomButton   title={ isPending ? 'Cargando…' : 'Iniciar Sesión'}
-              disabled={isPending}
-              onPress={handleLogin}/>
-          
-            <View style={styles.registerContainer}>
-              <Text style={styles.registerText}>
-                ¿Aún no tienes cuenta en GOU!?
-              </Text>
-              <CustomButton
-                title="Registrarse"
-                
-                onPress={() => navigation.navigate("Register")}
-              />
-            </View>
-          </View>
-        </View>
-      </FadeInView>
-    </TouchableWithoutFeedback >
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000",
-    alignItems: "center",
-  },
-  animatedContainer: {
-    flex: 1,
-    width: "100%",
-  },
-  containerText: {
-    flex: 1,
-    width: "100%",
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  containerform: {
-    flex: 1,
-    width: "100%",
-    alignItems: "center",
-    marginTop: 25,
-  },
-  errorContainer: {
-    position: "absolute",
-    top: -5,
-    backgroundColor: "red", // Fondo rojo
-    padding: 10,
-    marginBottom: 10,
-    alignItems: "center",
-    width: "100%",
-  },
-  errorText: {
-    color: "white", // Texto blanco
-    fontWeight: "bold",
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    marginTop: 40,
-  },
-  imageContainer: {
-    width: "100%",
-    height: width * 0.8, // Ajusta la altura en base al ancho (relación 16:9 aprox)
-    overflow: "hidden", // Evita que la imagen sobresalga
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover", // Cubre el área manteniendo proporciones
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "gray",
-    marginBottom: 20,
-  },
-  label: {
-    alignSelf: "flex-start",
-    fontSize: 14,
-    fontWeight: "bold",
-    marginTop: 10,
-    marginLeft: 30,
-    marginBottom: 10,
-  },
-  left: {
-    textAlign: "left",
-  },
-  forgotPasswordContainer: {
-    alignSelf: "flex-end", // 📌 Ahora se alinea a la izquierda
-    width: "100%", // 📌 Ocupar todo el ancho disponible
-    paddingRight: 30, // 📌 Ajusta el margen izquierdo para alinearlo con el input
-  },
-  forgotPassword: {
-    color: "#2879ff",
-    textAlign: "right", // Asegura que el texto se alinee a la izquierda
-  },
-  registerText: {
-    marginVertical: 10,
-  },
-  registerContainer: {
-    flex: 1,
-    marginBottom: 20,
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-});
-function setHasSeenOnboarding(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}
-
+*/
