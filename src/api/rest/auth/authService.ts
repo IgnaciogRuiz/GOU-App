@@ -11,6 +11,7 @@ export const loginService = async (dni, password) => {
         //console.log(response.data)
         return response.data;
     } catch (error) {
+      console.log("Error en loginService:", error);
         const errorMessage = error.response?.data?.message ||
             error.response?.data?.errors?.password?.[0] ||
             "Error al hacer la peticion";
