@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet, Text, Animated } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import NextButtonArrow from './components/NextButtonArrow';
+import { useAuthNavigation } from '../../../navigation/Navigation';
+import MyPressable from '../../../components/ui/MyPressable';
 
 interface Props {
   onNextClick: () => void;
@@ -43,9 +45,14 @@ const CenterNextButton: React.FC<Props> = ({
   onNextClick,
   animationController,
 }) => {
+  const navigation = useAuthNavigation();
   const opacity = useRef<Animated.Value>(new Animated.Value(0));
   const currentOpacity = useRef<number>(0);
   const listenerRef = useRef<string | null>(null);
+
+  const onBtnPress = () => {
+    navigation.navigate("Login"); // Redirigir si querés
+  };
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -159,6 +166,7 @@ const CenterNextButton: React.FC<Props> = ({
         onBtnPress={handleNextClick} 
       />
 
+      
       <Animated.View
         style={[
           styles.footerTextContainer,
@@ -166,9 +174,14 @@ const CenterNextButton: React.FC<Props> = ({
         ]}
       >
         <Text style={styles.footerText}>
-          Already have an account?{' '}
+          ¿Tienes una cuenta?{' '}
         </Text>
-        <Text style={styles.loginText}>Login</Text>
+          <MyPressable onPress={() => {
+          //console.log('NextButtonArrow pressed');
+          onBtnPress();
+        }}>
+          <Text style={styles.loginText}>Iniciar Sesion</Text>
+          </MyPressable>
       </Animated.View>
     </Animated.View>
   );

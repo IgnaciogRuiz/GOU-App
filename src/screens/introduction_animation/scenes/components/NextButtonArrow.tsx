@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import { StyleSheet, Text, Animated, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyPressable from '../../../../components/ui/MyPressable';
+import { useAuthNavigation } from '../../../../navigation/Navigation';
 
 interface Props {
   onBtnPress: () => void;
@@ -10,9 +11,12 @@ interface Props {
 }
 
 const NextButtonArrow: React.FC<Props> = ({
-  onBtnPress,
   animationController,
 }) => {
+  const navigation = useAuthNavigation();
+  const onBtnPress = () => {
+    navigation.navigate("Register"); // Redirigir si querés
+  };
   //console.log('NextButtonArrow render - animationController:', animationController);
   //console.log('NextButtonArrow render - animationController.current:', animationController.current);
 
@@ -155,7 +159,7 @@ const NextButtonArrow: React.FC<Props> = ({
             },
           ]}
         >
-          <Text style={styles.signupText}>Sign Up</Text>
+          <Text style={styles.signupText}>Registrarse</Text>
           <Icon name="arrow-forward" size={24} color="white" />
         </Animated.View>
         
