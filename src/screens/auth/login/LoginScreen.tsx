@@ -1,10 +1,78 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  Animated,
+} from "react-native";
 import { CustomButton } from "../../../components";
 import { useNavigation } from "@react-navigation/native";
+import { useLogin } from "../../../hooks";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
+  const { mutate: login, isPending } = useLogin();
+
+  const [form, setForm] = useState({ dni: "", password: "" });
+  const [error, setError] = useState("");
+
+  // Animaciones para error
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(-10)).current;
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (error) {
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateY, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start();
+
+      timeoutRef.current = setTimeout(() => setError(""), 5000);
+    }
+
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [error]);
+
+  const handleChange = (name: string, value: string) => {
+    setForm({ ...form, [name]: value });
+    setError("");
+  };
+
+  const handleLogin = () => {
+    if (!form.dni) {
+      setError("El DNI es obligatorio");
+    } else if (form.dni.length < 7) {
+      setError("El DNI debe tener al menos 8 caracteres");
+    } else if (!form.password) {
+      setError("La contraseña es obligatoria");
+    } else {
+      setError("");
+      login(
+        { dni: form.dni, password: form.password },
+        {
+          onError: (err) => {
+            setError(
+              err instanceof Error ? err.message : "Error al iniciar sesión"
+            );
+          },
+        }
+      );
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -23,6 +91,8 @@ const LoginScreen = () => {
             placeholderTextColor="#aaa"
             style={styles.input}
             keyboardType="numeric"
+            value={form.dni}
+            onChangeText={(text) => handleChange("dni", text)}
           />
         </View>
 
@@ -33,17 +103,36 @@ const LoginScreen = () => {
             placeholderTextColor="#aaa"
             style={styles.input}
             secureTextEntry
+            value={form.password}
+            onChangeText={(text) => handleChange("password", text)}
           />
         </View>
 
         <TouchableOpacity>
           <Text style={styles.forgotText}>¿Olvidaste tu contraseña?</Text>
         </TouchableOpacity>
+
+        {/* Error animado */}
+        {error ? (
+          <Animated.View
+            style={{
+              opacity: fadeAnim,
+              transform: [{ translateY }],
+              marginTop: 10,
+            }}
+          >
+            <Text style={styles.errorText}>{error}</Text>
+          </Animated.View>
+        ) : null}
       </View>
 
       {/* Botones */}
       <View style={styles.buttonContainer}>
-        <CustomButton title="Iniciar Sesión ➜" onPress={() => {}} />
+        <CustomButton
+          title={isPending ? "Cargando..." : "Iniciar Sesión ➜"}
+          onPress={handleLogin}
+          disabled={isPending}
+        />
         <CustomButton
           title="Registrarse"
           onPress={() => navigation.navigate("Register")}
@@ -73,20 +162,9 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   banner: {
-  width: 400,
-  height: 300,
-  // resizeMode: "contain",
-  marginBottom: 20,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#fff",
-  },
-  subtitle: {
-    color: "#aaa",
-    marginBottom: 30,
-    textAlign: "center",
+    width: 400,
+    height: 300,
+    marginBottom: 20,
   },
   inputContainer: {
     width: "100%",
@@ -116,6 +194,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     alignSelf: "flex-end",
   },
+  errorText: {
+    color: "#f87171",
+    fontSize: 13,
+  },
   buttonContainer: {
     flex: 1,
     alignItems: "center",
@@ -133,68 +215,3 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
 });
-
-
-
-
-/* codigo onboarding dsp implementar
-  const { mutate: login, isPending } = useLogin();
-  const [form, setForm] = useState({ dni: "", password: "" });
-  const [error, setError] = useState("");
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const translateY = useRef(new Animated.Value(-10)).current;
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-
-  useEffect(() => {
-    if (error) {
-      Animated.parallel([
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-        Animated.timing(translateY, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-      ]).start();
-
-      timeoutRef.current = setTimeout(() => setError(""), 5000);
-    }
-
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, [error]);
-
-
-  const handleLogin = async () => {
-    if (!form.dni) {
-      setError("El DNI es obligatorio");
-    } else if (form.dni.length < 7) {
-      setError("El DNI debe tener al menos 8 caracteres");
-    } else if (!form.password) {
-      setError("La contraseña es obligatoria");
-    } else {
-      setError(""); // Limpiar el error si los datos están correctos
-      try {
-        login({ dni: form.dni, password: form.password })
-      } catch (errorMessage) {
-        setError(errorMessage instanceof Error ? errorMessage.message : String(errorMessage));
-      }
-    }
-  };
-
-
-  const handleChange = (name: string, value: string) => {
-    setForm({ ...form, [name]: value });
-    setError("");
-
-    if (name === "dni" && value.length >= 7) {
-      setError("");
-    }
-  };
-
-*/
