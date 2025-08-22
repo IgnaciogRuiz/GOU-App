@@ -1,38 +1,28 @@
-// NextButtonArrow.tsx - Versión con debug y solución
-import React, { useRef } from 'react';
+// NextButtonArrow.tsx - Versión corregida: usa onBtnPress pasado por props
+import React from 'react';
 import { StyleSheet, Text, Animated, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyPressable from '../../../../components/ui/MyPressable';
-import { useAuthNavigation } from '../../../../navigation/Navigation';
 
 interface Props {
   onBtnPress: () => void;
   animationController: React.MutableRefObject<Animated.Value>;
 }
 
-const NextButtonArrow: React.FC<Props> = ({
-  animationController,
-}) => {
-  const navigation = useAuthNavigation();
-  const onBtnPress = () => {
-    navigation.navigate("Register"); // Redirigir si querés
-  };
-  //console.log('NextButtonArrow render - animationController:', animationController);
-  //console.log('NextButtonArrow render - animationController.current:', animationController.current);
-
+const NextButtonArrow: React.FC<Props> = ({ animationController, onBtnPress }) => {
   // Verificar que animationController existe antes de usarlo
   if (!animationController?.current) {
-    console.error('animationController.current is null or undefined');
-    return null; // O renderizar un fallback
+    console.error('NextButtonArrow: animationController.current is null or undefined');
+    return null;
   }
 
-  // Crear todas las animaciones usando React.useMemo para evitar recálculos
+  // Interpolaciones (mantuve las tuyas, solo las genero con useMemo implícito aquí)
   const arrowAnim = React.useMemo(() => {
     try {
       return animationController.current.interpolate({
         inputRange: [0, 0.2, 0.4, 0.6, 0.8],
         outputRange: [0, 0, 0, 0, 1],
-        extrapolate: 'clamp', // Agregar extrapolate para mayor estabilidad
+        extrapolate: 'clamp',
       });
     } catch (error) {
       console.error('Error creating arrowAnim interpolation:', error);
@@ -146,8 +136,13 @@ const NextButtonArrow: React.FC<Props> = ({
         style={{ flex: 1, justifyContent: 'center' }}
         android_ripple={{ color: 'darkgrey' }}
         onPress={() => {
-          //console.log('NextButtonArrow pressed');
-          onBtnPress();
+          // IMPORTANT: ahora LLAMAMOS la función pasada por props,
+          // el padre decide si hace onNextClick() o navega a Register.
+          try {
+            onBtnPress();
+          } catch (e) {
+            console.error('NextButtonArrow: error calling onBtnPress', e);
+          }
         }}
       >
         <Animated.View
@@ -162,8 +157,7 @@ const NextButtonArrow: React.FC<Props> = ({
           <Text style={styles.signupText}>Registrarse</Text>
           <Icon name="arrow-forward" size={24} color="white" />
         </Animated.View>
-        
-        {/* Solución: Envolver el ícono en Animated.View en lugar de usar AnimatedIcon */}
+
         <Animated.View
           style={[
             styles.icon,
@@ -173,11 +167,7 @@ const NextButtonArrow: React.FC<Props> = ({
             },
           ]}
         >
-          <Icon
-            name="arrow-forward-ios"
-            size={24}
-            color="white"
-          />
+          <Icon name="arrow-forward-ios" size={24} color="white" />
         </Animated.View>
       </MyPressable>
     </Animated.View>

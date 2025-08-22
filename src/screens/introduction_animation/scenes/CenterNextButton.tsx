@@ -15,10 +15,7 @@ interface DotIndicatorProps {
   selectedIndex: number;
 }
 
-const DotIndicator: React.FC<DotIndicatorProps> = ({
-  index,
-  selectedIndex,
-}) => {
+const DotIndicator: React.FC<DotIndicatorProps> = ({ index, selectedIndex }) => {
   const activeIndexRef = useRef(new Animated.Value(0));
 
   useEffect(() => {
@@ -34,24 +31,17 @@ const DotIndicator: React.FC<DotIndicatorProps> = ({
     outputRange: ['#E3E4E4', '#132137'],
   });
 
-  return (
-    <Animated.View
-      style={[styles.pageIndicator, { backgroundColor: bgColor }]}
-    />
-  );
+  return <Animated.View style={[styles.pageIndicator, { backgroundColor: bgColor }]} />;
 };
 
-const CenterNextButton: React.FC<Props> = ({
-  onNextClick,
-  animationController,
-}) => {
+const CenterNextButton: React.FC<Props> = ({ onNextClick, animationController }) => {
   const navigation = useAuthNavigation();
   const opacity = useRef<Animated.Value>(new Animated.Value(0));
   const currentOpacity = useRef<number>(0);
   const listenerRef = useRef<string | null>(null);
 
   const onBtnPress = () => {
-    navigation.navigate("Login"); // Redirigir si querés
+    navigation.navigate('Login');
   };
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -62,22 +52,15 @@ const CenterNextButton: React.FC<Props> = ({
   const dots = useMemo(() => [0, 1, 2, 3], []);
 
   useEffect(() => {
-    // VALIDAR que animationController.current existe antes de usarlo
     if (!animationController?.current) {
       console.error('CenterNextButton: animationController.current is null');
       return;
     }
 
-    // Agregar listener con cleanup
     const listener = animationController.current.addListener(({ value }) => {
-      //console.log('CenterNextButton animation value:', value);
-      
       const isVisible = value >= 0.2 && value <= 0.6;
-      
-      if (
-        (isVisible && currentOpacity.current === 0) ||
-        (!isVisible && currentOpacity.current === 1)
-      ) {
+
+      if ((isVisible && currentOpacity.current === 0) || (!isVisible && currentOpacity.current === 1)) {
         Animated.timing(opacity.current, {
           toValue: isVisible ? 1 : 0,
           duration: 480,
@@ -97,10 +80,9 @@ const CenterNextButton: React.FC<Props> = ({
         setSelectedIndex(0);
       }
     });
-    
+
     listenerRef.current = listener;
 
-    // Cleanup function
     return () => {
       if (listenerRef.current && animationController?.current) {
         animationController.current.removeListener(listenerRef.current);
@@ -108,7 +90,6 @@ const CenterNextButton: React.FC<Props> = ({
     };
   }, [animationController]);
 
-  // MOVER LAS INTERPOLACIONES FUERA DEL RENDER Y AGREGAR VALIDACIÓN
   const topViewAnim = useMemo(() => {
     if (!animationController?.current) {
       return new Animated.Value(96 * 5);
@@ -119,7 +100,7 @@ const CenterNextButton: React.FC<Props> = ({
       extrapolate: 'clamp',
     });
   }, [animationController]);
-  
+
   const loginTextMoveAnimation = useMemo(() => {
     if (!animationController?.current) {
       return new Animated.Value(30 * 5);
@@ -131,12 +112,15 @@ const CenterNextButton: React.FC<Props> = ({
     });
   }, [animationController]);
 
+  // Aquí está la única modificación: si estamos en la última página (index 3), navegar a Register.
   const handleNextClick = () => {
-    //console.log('CenterNextButton: onNextClick called');
-    onNextClick();
+    if (selectedIndex === 3) {
+      navigation.navigate('Register');
+    } else {
+      onNextClick();
+    }
   };
 
-  // RENDERIZADO CONDICIONAL si no hay animationController
   if (!animationController?.current) {
     console.error('CenterNextButton: animationController is null, rendering fallback');
     return null;
@@ -144,44 +128,27 @@ const CenterNextButton: React.FC<Props> = ({
 
   return (
     <Animated.View
-      style={[
-        styles.container,
-        { paddingBottom, transform: [{ translateY: topViewAnim }] },
-      ]}
+      style={[styles.container, { paddingBottom, transform: [{ translateY: topViewAnim }] }]}
     >
-      <Animated.View
-        style={[styles.dotsContainer, { opacity: opacity.current }]}
-      >
+      <Animated.View style={[styles.dotsContainer, { opacity: opacity.current }]}>
         {dots.map(item => (
-          <DotIndicator
-            key={item}
-            index={item}
-            selectedIndex={selectedIndex}
-          />
+          <DotIndicator key={item} index={item} selectedIndex={selectedIndex} />
         ))}
       </Animated.View>
 
-      <NextButtonArrow 
-        animationController={animationController} 
-        onBtnPress={handleNextClick} 
-      />
+      <NextButtonArrow animationController={animationController} onBtnPress={handleNextClick} />
 
-      
       <Animated.View
-        style={[
-          styles.footerTextContainer,
-          { transform: [{ translateY: loginTextMoveAnimation }] },
-        ]}
+        style={[styles.footerTextContainer, { transform: [{ translateY: loginTextMoveAnimation }] }]}
       >
-        <Text style={styles.footerText}>
-          ¿Tienes una cuenta?{' '}
-        </Text>
-          <MyPressable onPress={() => {
-          //console.log('NextButtonArrow pressed');
-          onBtnPress();
-        }}>
+        <Text style={styles.footerText}>¿Tienes una cuenta? </Text>
+        <MyPressable
+          onPress={() => {
+            onBtnPress();
+          }}
+        >
           <Text style={styles.loginText}>Iniciar Sesion</Text>
-          </MyPressable>
+        </MyPressable>
       </Animated.View>
     </Animated.View>
   );
