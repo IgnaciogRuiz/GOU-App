@@ -18,16 +18,21 @@ const colors = {
 // Componente Header reutilizable
 const StepHeader = ({ title, onBack, onSaveDraft }) => (
   <View style={styles.header}>
-    <TouchableOpacity style={styles.backButton} onPress={onBack}>
-      <Icon name="arrow-left" size={16} color="#9ca3af" />
-    </TouchableOpacity>
+    {onBack ? (
+      <TouchableOpacity style={styles.backButton} onPress={onBack}>
+        <Icon name="arrow-left" size={16} color="#9ca3af" />
+      </TouchableOpacity>
+    ) : (
+      <View style={{ width: 40 }} /> 
+    )}
     <Text style={styles.headerTitle}>{title}</Text>
-    <TouchableOpacity onPress={onSaveDraft}>
-      <Text style={styles.saveDraft}>Save Draft</Text>
-    </TouchableOpacity>
+    {onSaveDraft && (
+      <TouchableOpacity onPress={onSaveDraft}>
+        <Text style={styles.saveDraft}></Text>
+      </TouchableOpacity>
+    )}
   </View>
 );
-
 // Componente Progress Bar
 const ProgressBar = ({ currentStep, totalSteps }) => {
   const percentage = Math.round((currentStep / totalSteps) * 100);
@@ -36,7 +41,7 @@ const ProgressBar = ({ currentStep, totalSteps }) => {
   return (
     <View style={styles.progressContainer}>
       <View style={styles.progressHeader}>
-        <Text style={styles.progressText}>Step {currentStep} of {totalSteps}</Text>
+        <Text style={styles.progressText}>Paso {currentStep} de {totalSteps}</Text>
         <Text style={styles.progressPercentage}>{percentage}%</Text>
       </View>
       <View style={styles.progressBarBg}>
@@ -88,7 +93,11 @@ const InputWithIcon = ({
   </View>
 );
 
-// Step 1: Origin & Destination
+
+
+/*------------------------------------------------------------
+------------------STEP 1: ORIGEN Y DESTINO--------------------
+------------------------------------------------------------*/
 const Step1 = ({ formData, updateFormData, onNext }) => {
   const recentLocations = [
     { name: 'Downtown Plaza', address: '123 Main Street' },
@@ -98,13 +107,13 @@ const Step1 = ({ formData, updateFormData, onNext }) => {
   return (
     <ScrollView style={styles.content}>
       <View style={styles.stepHeader}>
-        <Text style={styles.stepTitle}>Where are you going?</Text>
-        <Text style={styles.stepSubtitle}>Let's start with your trip route</Text>
+        <Text style={styles.stepTitle}>¿Cuál es tu próximo destino?</Text>
+        <Text style={styles.stepSubtitle}>Empecemos con tu ruta de viaje.</Text>
       </View>
 
       <InputWithIcon
-        label="From"
-        placeholder="Enter pickup location"
+        label="Origen"
+        placeholder="Ingrese el lugar de busqueda"
         value={formData.origin}
         onChangeText={(text) => updateFormData('origin', text)}
         leftIcon={<View style={[styles.locationDot, { backgroundColor: colors.primary }]} />}
@@ -113,7 +122,7 @@ const Step1 = ({ formData, updateFormData, onNext }) => {
       />
 
       <InputWithIcon
-        label="To"
+        label="Destino"
         placeholder="Enter destination"
         value={formData.destination}
         onChangeText={(text) => updateFormData('destination', text)}
@@ -125,12 +134,12 @@ const Step1 = ({ formData, updateFormData, onNext }) => {
       {/* Map Preview */}
       <View style={styles.mapPreview}>
         <Icon name="map" size={32} color="#4b5563" />
-        <Text style={styles.mapText}>Route will appear here</Text>
+        <Text style={styles.mapText}>La ruta aparecera aquí</Text>
       </View>
 
       {/* Recent Locations */}
       <View style={styles.recentSection}>
-        <Text style={styles.sectionTitle}>Recent locations</Text>
+        <Text style={styles.sectionTitle}>Destinos recientes</Text>
         {recentLocations.map((location, index) => (
           <TouchableOpacity key={index} style={styles.recentItem}>
             <Icon name="clock-rotate-left" size={16} color="#6b7280" style={styles.recentIcon} />
@@ -145,7 +154,10 @@ const Step1 = ({ formData, updateFormData, onNext }) => {
   );
 };
 
-// Step 2: Date & Time
+
+/*------------------------------------------------------------
+---------------STEP 2: FECHA Y HORA DE SALIDA-----------------
+------------------------------------------------------------*/
 const Step2 = ({ formData, updateFormData, onNext }) => {
   const quickTimes = [
     { label: 'Morning', time: '08:00' },
@@ -156,13 +168,13 @@ const Step2 = ({ formData, updateFormData, onNext }) => {
   return (
     <ScrollView style={styles.content}>
       <View style={styles.stepHeader}>
-        <Text style={styles.stepTitle}>When do you depart?</Text>
-        <Text style={styles.stepSubtitle}>Choose your departure date and time</Text>
+        <Text style={styles.stepTitle}>¿Cuál es tu horario de salida?</Text>
+        <Text style={styles.stepSubtitle}>Elige una fecha y un horario de salidas</Text>
       </View>
 
       <InputWithIcon
-        label="Departure Date"
-        placeholder="Select date"
+        label="Fecha"
+        placeholder="Selecciona una fecha"
         value={formData.date}
         onChangeText={(text) => updateFormData('date', text)}
         leftIcon={null}
@@ -171,8 +183,8 @@ const Step2 = ({ formData, updateFormData, onNext }) => {
       />
 
       <InputWithIcon
-        label="Departure Time"
-        placeholder="Select time"
+        label="Hora"
+        placeholder="Selecciona una hora"
         value={formData.time}
         onChangeText={(text) => updateFormData('time', text)}
         leftIcon={null}
@@ -182,7 +194,7 @@ const Step2 = ({ formData, updateFormData, onNext }) => {
 
       {/* Quick Time Options */}
       <View style={styles.quickTimeSection}>
-        <Text style={styles.sectionTitle}>Quick select</Text>
+        <Text style={styles.sectionTitle}>Seccion rapida</Text>
         <View style={styles.quickTimeGrid}>
           {quickTimes.map((item, index) => (
             <TouchableOpacity 
@@ -200,8 +212,8 @@ const Step2 = ({ formData, updateFormData, onNext }) => {
       {/* Estimated Arrival */}
       <View style={styles.arrivalCard}>
         <View>
-          <Text style={styles.arrivalTitle}>Estimated arrival</Text>
-          <Text style={styles.arrivalSubtitle}>Based on typical traffic</Text>
+          <Text style={styles.arrivalTitle}>Llegada estimada</Text>
+          <Text style={styles.arrivalSubtitle}>Basado en un promedio</Text>
         </View>
         <Text style={styles.arrivalTime}>16:30</Text>
       </View>
@@ -209,11 +221,45 @@ const Step2 = ({ formData, updateFormData, onNext }) => {
   );
 };
 
-// Step 3: Vehicle & Seats
+
+/*------------------------------------------------------------
+----------------STEP 3: VEHICULOS Y ASIENTOS------------------
+------------------------------------------------------------*/
 const Step3 = ({ formData, updateFormData, onNext }) => {
   const vehicles = [
     { id: 1, name: 'Honda Civic 2020', details: 'Blue • ABC-123', selected: true },
     { id: 2, name: 'Toyota Camry 2019', details: 'White • XYZ-789', selected: false },
+  ];
+
+  const vehicleFeatures = [
+    { 
+      id: 'airConditioning', 
+      name: 'Aire Acondicionado', 
+      icon: 'snowflake', 
+      color: colors.primary,
+      selected: formData.features?.airConditioning || false 
+    },
+    { 
+      id: 'musicSystem', 
+      name: 'Musica', 
+      icon: 'music', 
+      color: '#8b5cf6',
+      selected: formData.features?.musicSystem || false 
+    },
+    { 
+      id: 'luggageSpace', 
+      name: 'Baul', 
+      icon: 'briefcase', 
+      color: '#f59e0b',
+      selected: formData.features?.luggageSpace || false 
+    },
+    { 
+      id: 'smoking', 
+      name: 'Fumar', 
+      icon: 'smoking', 
+      color: colors.accent,
+      selected: formData.features?.phoneCharger || false 
+    },
   ];
 
   const adjustSeats = (increment) => {
@@ -222,19 +268,28 @@ const Step3 = ({ formData, updateFormData, onNext }) => {
     updateFormData('seats', newSeats);
   };
 
+  const toggleFeature = (featureId) => {
+    const currentFeatures = formData.features || {};
+    const updatedFeatures = {
+      ...currentFeatures,
+      [featureId]: !currentFeatures[featureId]
+    };
+    updateFormData('features', updatedFeatures);
+  };
+
   return (
     <ScrollView style={styles.content}>
       <View style={styles.stepHeader}>
-        <Text style={styles.stepTitle}>Your vehicle</Text>
-        <Text style={styles.stepSubtitle}>Select your car and available seats</Text>
+        <Text style={styles.stepTitle}>Tu vehiculo</Text>
+        <Text style={styles.stepSubtitle}>Selecciona tu auto y los asientos disponibles</Text>
       </View>
 
       {/* Vehicle Selection */}
       <View style={styles.vehicleSection}>
-        <Text style={styles.sectionTitle}>Choose Vehicle</Text>
+        <Text style={styles.sectionTitle}>Selecciona vehiculo</Text>
         {vehicles.map((vehicle) => (
-          <TouchableOpacity 
-            key={vehicle.id} 
+          <TouchableOpacity
+            key={vehicle.id}
             style={[
               styles.vehicleCard,
               vehicle.selected && styles.vehicleCardSelected
@@ -242,65 +297,102 @@ const Step3 = ({ formData, updateFormData, onNext }) => {
             onPress={() => updateFormData('vehicleId', vehicle.id)}
           >
             <View style={styles.vehicleInfo}>
-              <Icon 
-                name="car" 
-                size={24} 
-                color={vehicle.selected ? colors.primary : '#6b7280'} 
+              <Icon
+                name="car"
+                size={24}
+                color={vehicle.selected ? colors.primary : '#6b7280'}
               />
               <View style={styles.vehicleDetails}>
                 <Text style={styles.vehicleName}>{vehicle.name}</Text>
                 <Text style={styles.vehicleSpecs}>{vehicle.details}</Text>
               </View>
             </View>
-            <Icon 
-              name={vehicle.selected ? "check-circle" : "circle"} 
-              size={20} 
-              color={vehicle.selected ? colors.primary : '#d1d5db'} 
+            <Icon
+              name={vehicle.selected ? "check-circle" : "circle"}
+              size={20}
+              color={vehicle.selected ? colors.primary : '#d1d5db'}
             />
           </TouchableOpacity>
         ))}
       </View>
 
+      {/* Vehicle Features */}
+      <View style={styles.featuresSection}>
+        <Text style={styles.sectionTitle}>Características del vehículo</Text>
+        <View style={styles.featuresGrid}>
+          {vehicleFeatures.map((feature) => (
+            <TouchableOpacity
+              key={feature.id}
+              style={[
+                styles.featureCard,
+                feature.selected && styles.featureCardSelected
+              ]}
+              onPress={() => toggleFeature(feature.id)}
+            >
+              <View style={[
+                styles.featureIconContainer,
+                { backgroundColor: feature.selected ? feature.color + '15' : colors.gray800 }
+              ]}>
+                <Icon
+                  name={feature.icon}
+                  size={20}
+                  color={feature.selected ? feature.color : colors.gray400}
+                />
+              </View>
+              <Text style={[
+                styles.featureName,
+                { color: feature.selected ? colors.white : colors.gray400 }
+              ]}>
+                {feature.name}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+
       {/* Seats Selection */}
       <View style={styles.seatsSection}>
-        <Text style={styles.sectionTitle}>Available Seats</Text>
+        <Text style={styles.sectionTitle}>Asientos disponibles</Text>
         <View style={styles.seatsControl}>
           <View style={styles.seatsButtons}>
-            <TouchableOpacity 
-              style={styles.seatButton} 
+            <TouchableOpacity
+              style={styles.seatButton}
               onPress={() => adjustSeats(-1)}
             >
               <Icon name="minus" size={16} color="#4b5563" />
             </TouchableOpacity>
             <Text style={styles.seatsNumber}>{formData.seats || 3}</Text>
-            <TouchableOpacity 
-              style={styles.seatButton} 
+            <TouchableOpacity
+              style={styles.seatButton}
               onPress={() => adjustSeats(1)}
             >
               <Icon name="plus" size={16} color="#4b5563" />
             </TouchableOpacity>
           </View>
           <View style={styles.seatsInfo}>
-            <Text style={styles.seatsLabel}>seats</Text>
-            <Text style={styles.seatsTotal}>out of 4 total</Text>
+            <Text style={styles.seatsLabel}>Asientos</Text>
+            <Text style={styles.seatsTotal}>de un total de 4</Text>
           </View>
         </View>
       </View>
-
     </ScrollView>
   );
 };
 
-// Step 4: Price & Notes
+
+/*------------------------------------------------------------
+----------------STEP 4: PRECIOS Y NOTAS------------------
+------------------------------------------------------------*/
+
 const Step4 = ({ formData, updateFormData, onNext }) => (
   <ScrollView style={styles.content}>
     <View style={styles.stepHeader}>
-      <Text style={styles.stepTitle}>Price & Details</Text>
-      <Text style={styles.stepSubtitle}>Set your price and add trip notes</Text>
+      <Text style={styles.stepTitle}>Precios y Aclaraciones</Text>
+      <Text style={styles.stepSubtitle}>Pon un precio y aclara tus condiciones</Text>
     </View>
 
     <View style={styles.priceSection}>
-      <Text style={styles.sectionTitle}>Price per seat</Text>
+      <Text style={styles.sectionTitle}>Precio por asiento</Text>
       <View style={styles.priceInputContainer}>
         <Text style={styles.currencySymbol}>$</Text>
         <TextInput
@@ -311,14 +403,14 @@ const Step4 = ({ formData, updateFormData, onNext }) => (
         />
       </View>
       <View style={styles.priceHint}>
-        <Text style={styles.priceHintText}>💡 Suggested price: $22-28 per seat</Text>
-        <Text style={styles.priceHintSubtext}>Based on distance and fuel costs</Text>
+        <Text style={styles.priceHintText}>💡 Precio sugerido: $22.000-28.000 por asiento</Text>
+        <Text style={styles.priceHintSubtext}>Basado en costos de gasolina y peajes</Text>
       </View>
     </View>
 
     <InputWithIcon
-      label="Trip Notes (Optional)"
-      placeholder="Add any important details for passengers..."
+      label="Aclaraciones del viaje (Opcional)"
+      placeholder="Agregue cualquier detalle importante para los pasajeros..."
       value={formData.notes}
       onChangeText={(text) => updateFormData('notes', text)}
       leftIcon={null}
@@ -329,9 +421,269 @@ const Step4 = ({ formData, updateFormData, onNext }) => (
   </ScrollView>
 );
 
+/*------------------------------------------------------------
+----------------STEP 5: REVISAR Y CONFIRMAR------------------
+------------------------------------------------------------*/
+const Step5 = ({ formData, updateFormData, onNext, setCurrentStep, acceptTerms, setAcceptTerms }) => {
+
+  // Función para obtener el nombre del vehículo seleccionado
+  const getSelectedVehicle = () => {
+    const vehicles = [
+      { id: 1, name: 'Honda Civic 2020', details: 'Blue • ABC-123' },
+      { id: 2, name: 'Toyota Camry 2019', details: 'White • XYZ-789' },
+    ];
+    return vehicles.find(v => v.id === formData.vehicleId) || vehicles[0];
+  };
+
+  // Función para obtener características seleccionadas
+  const getSelectedFeatures = () => {
+    const features = formData.features || {};
+    const selectedFeatures = [];
+    
+    if (features.airConditioning) selectedFeatures.push('Aire Acondicionado');
+    if (features.musicSystem) selectedFeatures.push('Música');
+    if (features.luggageSpace) selectedFeatures.push('Baúl');
+    if (features.smoking) selectedFeatures.push('Fumar');
+    
+    return selectedFeatures;
+  };
+
+  const selectedVehicle = getSelectedVehicle();
+  const selectedFeatures = getSelectedFeatures();
+
+  return (
+    <ScrollView style={styles.content}>
+      <View style={styles.stepHeader}>
+        <Text style={styles.stepTitle}>Revisar y Confirmar</Text>
+        <Text style={styles.stepSubtitle}>Revisa los detalles de tu viaje antes de publicar</Text>
+      </View>
+
+      {/* Ruta */}
+      <View style={styles.reviewSection}>
+        <View style={styles.reviewSectionHeader}>
+          <View style={styles.reviewIconContainer}>
+            <Icon name="map-location-dot" size={20} color={colors.accent} />
+          </View>
+          <View style={styles.reviewSectionInfo}>
+            <Text style={styles.reviewSectionTitle}>Ruta</Text>
+            <Text style={styles.reviewSectionSubtitle}>
+              {formData.origin || 'Downtown Plaza'} → {formData.destination || 'Airport Terminal'}
+            </Text>
+          </View>
+          <TouchableOpacity 
+            style={styles.editButton}
+            onPress={() => setCurrentStep(1)}
+          >
+            <Text style={styles.editButtonText}>Editar</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Fecha y Hora */}
+      <View style={styles.reviewSection}>
+        <View style={styles.reviewSectionHeader}>
+          <View style={styles.reviewIconContainer}>
+            <Icon name="calendar-days" size={20} color={colors.primary} />
+          </View>
+          <View style={styles.reviewSectionInfo}>
+            <Text style={styles.reviewSectionTitle}>Fecha y Hora</Text>
+            <Text style={styles.reviewSectionSubtitle}>
+              {formData.date || 'Mañana, Dic 15'} • {formData.time || '2:30 PM'}
+            </Text>
+          </View>
+          <TouchableOpacity 
+            style={styles.editButton}
+            onPress={() => setCurrentStep(2)}
+          >
+            <Text style={styles.editButtonText}>Editar</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Vehículo */}
+      <View style={styles.reviewSection}>
+        <View style={styles.reviewSectionHeader}>
+          <View style={styles.reviewIconContainer}>
+            <Icon name="car" size={20} color={colors.gray400} />
+          </View>
+          <View style={styles.reviewSectionInfo}>
+            <Text style={styles.reviewSectionTitle}>{selectedVehicle.name}</Text>
+            <Text style={styles.reviewSectionSubtitle}>{selectedVehicle.details}</Text>
+          </View>
+          <TouchableOpacity 
+            style={styles.editButton}
+            onPress={() => setCurrentStep(3)}
+          >
+            <Text style={styles.editButtonText}>Editar</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Asientos */}
+      <View style={styles.reviewSection}>
+        <View style={styles.reviewSectionHeader}>
+          <View style={styles.reviewIconContainer}>
+            <Icon name="users" size={20} color={colors.gray400} />
+          </View>
+          <View style={styles.reviewSectionInfo}>
+            <Text style={styles.reviewSectionTitle}>Asientos</Text>
+            <Text style={styles.reviewSectionSubtitle}>
+              {formData.seats || 3} asientos disponibles • Total ganancias: ${((formData.price || 25) * (formData.seats || 3)).toLocaleString()}
+            </Text>
+          </View>
+          <TouchableOpacity 
+            style={styles.editButton}
+            onPress={() => setCurrentStep(3)}
+          >
+            <Text style={styles.editButtonText}>Editar</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Precio */}
+      <View style={styles.reviewSection}>
+        <View style={styles.reviewSectionHeader}>
+          <View style={styles.reviewIconContainer}>
+            <Icon name="dollar-sign" size={20} color={colors.accent} />
+          </View>
+          <View style={styles.reviewSectionInfo}>
+            <Text style={styles.reviewSectionTitle}>${(formData.price || 25).toLocaleString()} por asiento</Text>
+            <Text style={styles.reviewSectionSubtitle}>Ganancias promedio: ${((formData.price || 25) * 0.85).toFixed(0)}</Text>
+          </View>
+          <TouchableOpacity 
+            style={styles.editButton}
+            onPress={() => setCurrentStep(4)}
+          >
+            <Text style={styles.editButtonText}>Editar</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Notas del Viaje */}
+      {formData.notes && (
+        <View style={styles.reviewSection}>
+          <View style={styles.reviewSectionHeader}>
+            <View style={styles.reviewIconContainer}>
+              <Icon name="note-sticky" size={20} color={colors.gray400} />
+            </View>
+            <View style={styles.reviewSectionInfo}>
+              <Text style={styles.reviewSectionTitle}>Notas del Viaje</Text>
+              <Text style={styles.reviewSectionSubtitle} numberOfLines={2}>
+                {formData.notes}
+              </Text>
+            </View>
+            <TouchableOpacity 
+              style={styles.editButton}
+              onPress={() => setCurrentStep(4)}
+            >
+              <Text style={styles.editButtonText}>Editar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+
+      {/* Características del Vehículo */}
+      {selectedFeatures.length > 0 && (
+        <View style={styles.reviewSection}>
+          <View style={styles.reviewSectionHeader}>
+            <View style={styles.reviewIconContainer}>
+              <Icon name="star" size={20} color={colors.primary} />
+            </View>
+            <View style={styles.reviewSectionInfo}>
+              <Text style={styles.reviewSectionTitle}>Características</Text>
+              <Text style={styles.reviewSectionSubtitle}>
+                {selectedFeatures.join(' • ')}
+              </Text>
+            </View>
+            <TouchableOpacity 
+              style={styles.editButton}
+              onPress={() => setCurrentStep(3)}
+            >
+              <Text style={styles.editButtonText}>Editar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+
+      {/* Vista Previa del Viaje */}
+      <View style={styles.tripPreviewSection}>
+        <Text style={styles.sectionTitle}>Vista Previa de tu Viaje</Text>
+        <Text style={styles.stepSubtitle}>Así verán los pasajeros tu viaje</Text>
+        
+        <View style={styles.tripPreviewCard}>
+          <View style={styles.tripPreviewHeader}>
+            <View style={styles.driverInfo}>
+              <View style={styles.driverAvatar}>
+                <Text style={styles.driverInitial}>J</Text>
+              </View>
+              <View>
+                <Text style={styles.driverName}>John D.</Text>
+                <Text style={styles.driverRating}>⭐ 4.8 (42 trips)</Text>
+              </View>
+            </View>
+            <View style={styles.priceDisplay}>
+              <Text style={styles.priceAmount}>${formData.price || 25}</Text>
+              <Text style={styles.priceLabel}>por asiento</Text>
+            </View>
+          </View>
+          
+          <View style={styles.tripDetails}>
+            <View style={styles.tripDetailItem}>
+              <Icon name="clock" size={16} color={colors.gray400} />
+              <Text style={styles.tripDetailText}>
+                {formData.date || 'Mañana'} {formData.time || '2:30 PM'}
+              </Text>
+            </View>
+            <View style={styles.tripDetailItem}>
+              <Icon name="users" size={16} color={colors.gray400} />
+              <Text style={styles.tripDetailText}>{formData.seats || 3} asientos disponibles</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* Antes de Publicar */}
+      <View style={styles.beforePublishSection}>
+        <View style={styles.warningContainer}>
+          <Icon name="triangle-exclamation" size={20} color="#f59e0b" />
+          <Text style={styles.warningTitle}>Antes de publicar</Text>
+        </View>
+        
+        <View style={styles.warningList}>
+          <Text style={styles.warningItem}>• Asegúrate de que tu vehículo esté limpio y funcional</Text>
+          <Text style={styles.warningItem}>• Llega al punto de encuentro puntualmente</Text>
+          <Text style={styles.warningItem}>• Mantén una comunicación clara con los pasajeros</Text>
+          <Text style={styles.warningItem}>• Respeta las reglas de tránsito y conduce con seguridad</Text>
+          <Text style={styles.warningSubtext}>
+            Recuerda: No podrás cancelar tu viaje hasta 2 horas antes del tiempo de salida.
+          </Text>
+        </View>
+      </View>
+
+      {/* Términos y Condiciones */}
+      <View style={styles.termsSection}>
+        <TouchableOpacity 
+          style={styles.termsCheckbox}
+          onPress={() => setAcceptTerms(!acceptTerms)}
+        >
+          <View style={[styles.checkbox, acceptTerms && styles.checkboxSelected]}>
+            {acceptTerms && <Icon name="check" size={14} color={colors.white} />}
+          </View>
+          <Text style={styles.termsText}>
+            Acepto los <Text style={styles.termsLink}>Términos de Servicio</Text> y{' '}
+            <Text style={styles.termsLink}>Condiciones de la Comunidad</Text>.{' '}
+            Confirmo que toda la información del viaje es precisa.
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+};
+
 // Componente principal
 const PublishTripScreen = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [acceptTerms, setAcceptTerms] = useState(false); // Agregar este estado
   const [formData, setFormData] = useState({
     origin: '',
     destination: '',
@@ -341,20 +693,32 @@ const PublishTripScreen = () => {
     seats: 3,
     price: 25,
     notes: '',
+    features: {
+      airConditioning: false,
+      musicSystem: false,
+      luggageSpace: false,
+      smoking: false,
+    },
   });
 
-  const totalSteps = 4;
+  const totalSteps = 5; // Actualizar a 5 pasos
 
   const updateFormData = (key, value) => {
     setFormData(prev => ({ ...prev, [key]: value }));
   };
 
   const handleNext = () => {
+    // Validar términos y condiciones en el último paso
+    if (currentStep === totalSteps && !acceptTerms) {
+      Alert.alert('Error', 'Debes aceptar los términos y condiciones para continuar');
+      return;
+    }
+
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     } else {
       // Publicar viaje
-      Alert.alert('Success', 'Trip published successfully!');
+      Alert.alert('¡Éxito!', 'Tu viaje ha sido publicado exitosamente');
     }
   };
 
@@ -365,7 +729,7 @@ const PublishTripScreen = () => {
   };
 
   const handleSaveDraft = () => {
-    Alert.alert('Draft', 'Trip saved as draft');
+    Alert.alert('Borrador', 'Viaje guardado como borrador');
   };
 
   const renderStep = () => {
@@ -378,17 +742,28 @@ const PublishTripScreen = () => {
         return <Step3 formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
       case 4:
         return <Step4 formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
+      case 5:
+        return (
+          <Step5 
+            formData={formData} 
+            updateFormData={updateFormData} 
+            onNext={handleNext}
+            setCurrentStep={setCurrentStep}
+            acceptTerms={acceptTerms}
+            setAcceptTerms={setAcceptTerms}
+          />
+        );
       default:
         return null;
     }
   };
 
+  // El resto del componente permanece igual...
   return (
     <SafeAreaView style={styles.container}>
-      
       <StepHeader 
-        title="Publish a Trip" 
-        onBack={handleBack}
+        title="Publicar viaje" 
+        onBack={currentStep > 1 ? handleBack : undefined} 
         onSaveDraft={handleSaveDraft}
       />
       
@@ -399,9 +774,16 @@ const PublishTripScreen = () => {
       </View>
 
       <View style={styles.bottomCTA}>
-        <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
+        <TouchableOpacity 
+          style={[
+            styles.nextButton,
+            currentStep === totalSteps && !acceptTerms && styles.nextButtonDisabled
+          ]} 
+          onPress={handleNext}
+          disabled={currentStep === totalSteps && !acceptTerms}
+        >
           <Text style={styles.nextButtonText}>
-            {currentStep === totalSteps ? 'Publish Trip' : 'Next'}
+            {currentStep === totalSteps ? 'Publicar Viaje' : 'Siguiente'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -417,6 +799,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    height: 80,
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 12,
@@ -424,17 +807,22 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.gray800,
   },
   backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: colors.secondary,
     alignItems: 'center',
     justifyContent: 'center',
+    elevation: 4,
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: '600',
     color: colors.white,
+    flex: 1,
+    alignItems: 'center',
+    textAlign: 'center',
+    marginLeft: -40, 
   },
   saveDraft: {
     fontSize: 14,
@@ -681,7 +1069,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#f9fafb',
+    backgroundColor: "#111827",
     borderRadius: 12,
     padding: 16,
   },
@@ -692,9 +1080,8 @@ const styles = StyleSheet.create({
   seatButton: {
     width: 40,
     height: 40,
+    color: colors.white,
     backgroundColor: colors.white,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
@@ -702,7 +1089,7 @@ const styles = StyleSheet.create({
   seatsNumber: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#111827',
+    color: '#ffffffff',
     marginHorizontal: 24,
     minWidth: 48,
     textAlign: 'center',
@@ -713,7 +1100,7 @@ const styles = StyleSheet.create({
   seatsLabel: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#111827',
+    color: '#ffffffff',
   },
   seatsTotal: {
     fontSize: 12,
@@ -769,6 +1156,49 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     gap: 16,
+  },
+    // Sección de características
+  featuresSection: {
+    marginBottom: 24,
+  },
+  
+  featuresGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginTop: 12,
+  },
+  
+  featureCard: {
+    width: '48%',
+    backgroundColor: colors.gray800,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  
+  featureCardSelected: {
+    borderColor: colors.primary,
+    backgroundColor: colors.gray700,
+  },
+  
+  featureIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  
+  featureName: {
+    fontSize: 14,
+    fontWeight: '500',
+    textAlign: 'center',
+    lineHeight: 18,
   },
   legendItem: {
     flexDirection: 'row',
@@ -834,10 +1264,233 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: 'center',
   },
+   nextButtonDisabled: {
+    backgroundColor: colors.gray700,
+  },
   nextButtonText: {
     fontSize: 18,
     fontWeight: '500',
     color: colors.white,
+  },
+
+  // Sección de revisión
+  reviewSection: {
+    marginBottom: 16,
+  },
+
+  reviewSectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.secondary,
+    borderWidth: 1,
+    borderColor: colors.gray700,
+    borderRadius: 12,
+    padding: 16,
+  },
+
+  reviewIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.gray800,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+
+  reviewSectionInfo: {
+    flex: 1,
+  },
+
+  reviewSectionTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.white,
+    marginBottom: 4,
+  },
+
+  reviewSectionSubtitle: {
+    fontSize: 14,
+    color: colors.gray400,
+    lineHeight: 20,
+  },
+
+  editButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: colors.primary,
+  },
+
+  editButtonText: {
+    fontSize: 14,
+    color: colors.primary,
+    fontWeight: '500',
+  },
+
+  // Vista previa del viaje
+  tripPreviewSection: {
+    marginTop: 24,
+    marginBottom: 24,
+  },
+
+  tripPreviewCard: {
+    backgroundColor: colors.primary,
+    borderRadius: 16,
+    padding: 20,
+    marginTop: 12,
+  },
+
+  tripPreviewHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+
+  driverInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  driverAvatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+
+  driverInitial: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.white,
+  },
+
+  driverName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.white,
+    marginBottom: 2,
+  },
+
+  driverRating: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
+
+  priceDisplay: {
+    alignItems: 'flex-end',
+  },
+
+  priceAmount: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: colors.white,
+  },
+
+  priceLabel: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
+
+  tripDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  tripDetailItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  tripDetailText: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.9)',
+    marginLeft: 8,
+  },
+
+  // Sección "Antes de Publicar"
+  beforePublishSection: {
+    backgroundColor: '#fef3c7',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 24,
+  },
+
+  warningContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+
+  warningTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#92400e',
+    marginLeft: 8,
+  },
+
+  warningList: {
+    marginLeft: 28,
+  },
+
+  warningItem: {
+    fontSize: 14,
+    color: '#92400e',
+    marginBottom: 6,
+    lineHeight: 20,
+  },
+
+  warningSubtext: {
+    fontSize: 13,
+    color: '#d97706',
+    marginTop: 8,
+    fontStyle: 'italic',
+    lineHeight: 18,
+  },
+
+  // Términos y condiciones
+  termsSection: {
+    marginBottom: 24,
+  },
+
+  termsCheckbox: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: colors.gray400,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+    marginTop: 2,
+  },
+
+  checkboxSelected: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+
+  termsText: {
+    flex: 1,
+    fontSize: 14,
+    color: colors.gray400,
+    lineHeight: 20,
+  },
+
+  termsLink: {
+    color: colors.primary,
+    textDecorationLine: 'underline',
   },
 });
 

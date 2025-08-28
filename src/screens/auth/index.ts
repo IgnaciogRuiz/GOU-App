@@ -14,7 +14,3 @@ export { default as PersonalInfo } from './register/PersonalInfo';
 export { default as AddOptVehicle } from './register/AddOptVehicle';
 export { default as VehicleAdd } from './register/VehicleAdd';
 //forgot-password
-
-
-//onboarding
-export { default as OnboardingScreen } from './OnBoardingScreen';

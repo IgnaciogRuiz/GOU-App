@@ -28,6 +28,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(true);
   const [token, _setToken] = useState<string | null>(null);
 
+ 
+
   // Setter que guarda y elimina en AsyncStorage automáticamente
   const setToken = async (newToken: string | null) => {
     if (newToken) {
@@ -37,7 +39,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
     _setToken(newToken);
   };
-
+ 
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
@@ -48,6 +50,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
         setHasSeenOnboarding(!!seenOnboarding);
         await setToken(storedToken);
+
+        //console.log(seenOnboarding); //Saber si hizo la verificacion
 
         if (storedToken) {
           await authService(storedToken); // si falla, va al catch

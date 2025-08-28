@@ -1,19 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  Animated,
-} from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Animated } from "react-native";
 import { CustomButton } from "../../../components";
-import { useNavigation } from "@react-navigation/native";
 import { useLogin } from "../../../hooks";
+import { useAuthNavigation } from "../../../navigation/Navigation";
 
 const LoginScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useAuthNavigation();
   const { mutate: login, isPending } = useLogin();
 
   const [form, setForm] = useState({ dni: "", password: "" });
@@ -47,6 +39,7 @@ const LoginScreen = () => {
     };
   }, [error]);
 
+
   const handleChange = (name: string, value: string) => {
     setForm({ ...form, [name]: value });
     setError("");
@@ -76,41 +69,39 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Imagen principal */}
-      <Image
-        source={require("../../../../assets/images/car.png")}
-        style={styles.banner}
-      />
+      {/* Header con título y slogan */}
+      <View style={styles.header}>
+        <Text style={styles.title}>GOU!</Text>
+        <Text style={styles.slogan}>comparte el viaje, disfruta el camino!</Text>
+      </View>
 
       {/* Inputs */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>DNI</Text>
-        <View style={styles.inputBox}>
-          <TextInput
-            placeholder="Ingresa tu DNI"
-            placeholderTextColor="#aaa"
-            style={styles.input}
-            keyboardType="numeric"
-            value={form.dni}
-            onChangeText={(text) => handleChange("dni", text)}
-          />
-        </View>
+        <TextInput
+          placeholder="Ingresa tu DNI"
+          placeholderTextColor="#aaa"
+          style={styles.input}
+          keyboardType="numeric"
+          value={form.dni}
+          onChangeText={(text) => handleChange("dni", text)}
+        />
 
-        <Text style={[styles.label, { marginTop: 20 }]}>Contraseña</Text>
-        <View style={styles.inputBox}>
-          <TextInput
-            placeholder="Ingresa tu contraseña"
-            placeholderTextColor="#aaa"
-            style={styles.input}
-            secureTextEntry
-            value={form.password}
-            onChangeText={(text) => handleChange("password", text)}
-          />
-        </View>
+          <>
+            <Text style={[styles.label, { marginTop: 20 }]}>Contraseña</Text>
+            <TextInput
+              placeholder="Ingresa tu contraseña"
+              placeholderTextColor="#aaa"
+              style={styles.input}
+              secureTextEntry
+              value={form.password}
+              onChangeText={(text) => handleChange("password", text)}
+            />
+          </>
 
-        <TouchableOpacity>
-          <Text style={styles.forgotText}>¿Olvidaste tu contraseña?</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.forgotContainer}>
+            <Text style={styles.forgotText}>¿Olvidaste tu contraseña?</Text>
+          </TouchableOpacity>
 
         {/* Error animado */}
         {error ? (
@@ -118,7 +109,7 @@ const LoginScreen = () => {
             style={{
               opacity: fadeAnim,
               transform: [{ translateY }],
-              marginTop: 10,
+              marginTop: 15,
             }}
           >
             <Text style={styles.errorText}>{error}</Text>
@@ -129,7 +120,7 @@ const LoginScreen = () => {
       {/* Botones */}
       <View style={styles.buttonContainer}>
         <CustomButton
-          title={isPending ? "Cargando..." : "Iniciar Sesión ➜"}
+          title={isPending ? "Cargando..." : "Iniciar Sesión"}
           onPress={handleLogin}
           disabled={isPending}
         />
@@ -159,44 +150,58 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingTop: 60,
+    paddingTop: 80,
   },
-  banner: {
-    width: 400,
-    height: 300,
-    marginBottom: 20,
+  header: {
+    marginTop: 40,
+    alignItems: "center",
+    marginBottom: 60,
+  },
+  title: {
+    fontSize: 48,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 8,
+  },
+  slogan: {
+    fontSize: 16,
+    color: "#aaa",
+    textAlign: "center",
+    fontStyle: "italic",
   },
   inputContainer: {
     width: "100%",
-    backgroundColor: "#111827",
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 30,
+    marginBottom: 40,
   },
   label: {
     color: "#fff",
-    marginBottom: 6,
-  },
-  inputBox: {
-    backgroundColor: "#000",
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderColor: "#2D2D2D",
-    borderWidth: 1,
+    marginBottom: 8,
+    fontSize: 16,
+    fontWeight: "500",
   },
   input: {
+    backgroundColor: "#111827",
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    borderColor: "#2D2D2D",
+    borderWidth: 1,
     color: "#fff",
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  forgotContainer: {
+    alignItems: "flex-end",
+    marginTop: 8,
   },
   forgotText: {
     color: "#3182CE",
-    marginTop: 10,
-    fontSize: 12,
-    alignSelf: "flex-end",
+    fontSize: 16,
   },
   errorText: {
     color: "#f87171",
-    fontSize: 13,
+    fontSize: 14,
+    textAlign: "center",
   },
   buttonContainer: {
     flex: 1,

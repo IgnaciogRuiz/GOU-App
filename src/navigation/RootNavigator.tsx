@@ -4,20 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuth } from "../contexts/AuthContext";
 import { RootStackParamList } from "./types/NavigationTypes";
 import BottomTabsNavigator from "./BottomTabsNavigator";
-import {
-  OnboardingScreen,
-  LoginScreen,
-  RegisterScreen,
-  VerifyEmail,
-  PhoneInputScreen,
-  VerifyPhone,
-  ProfileStepsScreen,
-  PersonalInfo,
-  // DNIBack,
-  // DNIFront,
-  AddOptVehicle,
-  VehicleAdd,
-} from "../screens/auth";
+import { LoginScreen, RegisterScreen, VerifyEmail, PhoneInputScreen, VerifyPhone, ProfileStepsScreen, PersonalInfo, AddOptVehicle, VehicleAdd } from "../screens/auth";
 
 import { IntroductionAnimationScreen } from "../screens/introduction_animation";
 
@@ -25,7 +12,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
   const { loading, hasSeenOnboarding, isAuthenticated } = useAuth();
-
+  console.log("Auth loading:", loading, "Onboarding seen:", hasSeenOnboarding, "Authenticated:", isAuthenticated);
   const navigatorKey = `${hasSeenOnboarding}-${isAuthenticated}`;
 
   return (
@@ -42,7 +29,6 @@ export default function RootNavigator() {
       {/* Auth flow */}
       {hasSeenOnboarding && !isAuthenticated && (
         <>
-          <Stack.Screen name="Onboarding" component={IntroductionAnimationScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="VerifyEmail" component={VerifyEmail} />

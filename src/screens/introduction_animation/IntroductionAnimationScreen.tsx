@@ -1,23 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  useWindowDimensions,
-  Animated,
-  Easing,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import {
-  SplashView,
-  RelaxView,
-  CareView,
-  MoodDiaryView,
-  WelcomeView,
-  TopBackSkipView,
-  CenterNextButton,
-} from './scenes';
+import { StyleSheet, View, useWindowDimensions, Animated, Easing } from 'react-native';
+import { SplashView, RelaxView, CareView, MoodDiaryView, WelcomeView, TopBackSkipView, CenterNextButton, } from './scenes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../../contexts/AuthContext';
+import { useAuthNavigation } from '../../navigation/Navigation';
 
 const LAST_INDEX = 3;
 
@@ -30,7 +16,7 @@ const valueToIndex = (v: number) => {
 
 const IntroductionAnimationScreen: React.FC = () => {
   const { setHasSeenOnboarding } = useAuth();
-  const navigation = useNavigation();
+  const navigation = useAuthNavigation();
   const window = useWindowDimensions();
 
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -119,7 +105,6 @@ const IntroductionAnimationScreen: React.FC = () => {
   // callback que pasa al CenterNextButton para la acción del último slide
   const handleLastClick = useCallback(async () => {
   try {
-    await AsyncStorage.setItem("hasSeenOnboarding", "true");
     setHasSeenOnboarding(true);
     navigation.navigate('Register'); // o 'Login'
   } catch (e) {
