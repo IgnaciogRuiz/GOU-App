@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, } from 'react-native';
-
+import Constants from 'expo-constants';
+const { STORAGE_URL } = Constants.expoConfig.extra;
 // Componente para cada item de chat
 const ChatItem = ({ item, onPress }) => {
   const isUnread = item.unreadCount > 0;
-
+  console.log('Chat Item:', item);
   return (
     <TouchableOpacity 
       style={[styles.chatItem, isUnread && styles.chatItemUnread]} 

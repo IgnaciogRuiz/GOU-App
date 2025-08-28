@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, SafeAreaView, View, StyleSheet, Text } from 'react-native';
 import { HomeHeader, MyPublishedTripsSection, MyReservationsSection, RecentActivitySection } from '../../components';
 import { useHomeData } from '../../hooks';
+import Constants from 'expo-constants';
 
 const HomeScreen: React.FC = () => {
   const { dashboardData, loading, error } = useHomeData();
@@ -9,6 +10,8 @@ const HomeScreen: React.FC = () => {
   if (loading) {
     return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Loading...</Text></View>;
   }
+
+
 
   return (
     <SafeAreaView style={homeStyles.container}>

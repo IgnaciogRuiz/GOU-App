@@ -10,7 +10,7 @@ interface Props {
 }
 
 const HomeHeader: React.FC<Props> = ({ profile_photo }) => {
-
+  console.log('Profile Photo URL:', `${STORAGE_URL}${profile_photo}`);
   return (
     <View style={headerStyles.header}>
       <View style={headerStyles.headerContent}>

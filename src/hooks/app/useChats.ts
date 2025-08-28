@@ -20,6 +20,7 @@ export function useChats() {
         const data = await getChats(token);
         //console.log('Chats Data:', data?.me?.chats);
         setChats(data?.me?.chats ?? null);
+        console.log('Fetched Chats:', data?.me?.chats);
       } catch (err) {
         setError(err);
       } finally {

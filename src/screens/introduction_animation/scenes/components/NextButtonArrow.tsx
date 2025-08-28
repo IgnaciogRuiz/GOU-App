@@ -156,6 +156,7 @@ const NextButtonArrow: React.FC<Props> = ({ animationController, onBtnPress }) =
         >
           <Text style={styles.signupText}>Registrarse</Text>
           <Icon name="arrow-forward" size={24} color="white" />
+          
         </Animated.View>
 
         <Animated.View

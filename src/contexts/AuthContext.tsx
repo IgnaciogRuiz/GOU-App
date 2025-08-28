@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           console.log("Token inválido o expirado");
           await AsyncStorage.removeItem("token");
         } else {
-          console.error("Error al verificar autenticación:", (error as any).message);
+          //console.error("Error al verificar autenticación:", (error as any).message);
         }
 
         setIsAuthenticated(false);

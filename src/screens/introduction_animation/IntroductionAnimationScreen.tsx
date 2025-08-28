@@ -16,6 +16,8 @@ import {
   TopBackSkipView,
   CenterNextButton,
 } from './scenes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from '../../contexts/AuthContext';
 
 const LAST_INDEX = 3;
 
@@ -27,6 +29,7 @@ const valueToIndex = (v: number) => {
 };
 
 const IntroductionAnimationScreen: React.FC = () => {
+  const { setHasSeenOnboarding } = useAuth();
   const navigation = useNavigation();
   const window = useWindowDimensions();
 
@@ -114,10 +117,15 @@ const IntroductionAnimationScreen: React.FC = () => {
   }, [playAnimation]);
 
   // callback que pasa al CenterNextButton para la acción del último slide
-  const handleLastClick = useCallback(() => {
-    // el padre decide: ir a Register
-    navigation.navigate('Register');
-  }, [navigation]);
+  const handleLastClick = useCallback(async () => {
+  try {
+    await AsyncStorage.setItem("hasSeenOnboarding", "true");
+    setHasSeenOnboarding(true);
+    navigation.navigate('Register'); // o 'Login'
+  } catch (e) {
+    console.error("Error completing onboarding:", e);
+  }
+}, [navigation, setHasSeenOnboarding]);
 
   const renderSafeComponent = (ComponentName: string, Component: React.ComponentType<any>, props: any) => {
     try {
@@ -129,9 +137,9 @@ const IntroductionAnimationScreen: React.FC = () => {
   };
 
   // DEBUG: imprime el currentPage en consola
-  useEffect(() => {
-    console.log('[Intro] currentPage=', currentPage);
-  }, [currentPage]);
+  // useEffect(() => {
+  //   console.log('[Intro] currentPage=', currentPage);
+  // }, [currentPage]);
 
   return (
     <View style={{ flex: 1, backgroundColor: 'rgb(0, 0, 0)' }}>
