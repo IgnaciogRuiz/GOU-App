@@ -1,230 +1,268 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  ScrollView,
-  Image,
-  StyleSheet,
-  SafeAreaView,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Header } from '../../components';
 
-// Componente de input de búsqueda
-const SearchInput = ({ placeholder, value, onChangeText, dotColor = '#2563eb' }) => (
-  <View style={styles.searchInputRow}>
-    <View style={[styles.dot, { backgroundColor: dotColor }]} />
-    <TextInput
-      style={styles.searchInput}
-      placeholder={placeholder}
-      value={value}
-      onChangeText={onChangeText}
-      placeholderTextColor="#6b7280"
-    />
-  </View>
-);
+const SearchScreen = () => {
+  const [origen, setOrigen] = useState('');
+  const [destino, setDestino] = useState('');
+  const [fecha, setFecha] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [pasajeros, setPasajeros] = useState(1);
+  const [precioMin, setPrecioMin] = useState('');
+  const [precioMax, setPrecioMax] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
 
-// Componente de botón con icono
-const IconButton = ({ icon, onPress, style, iconColor = '#6b7280' }) => (
-  <Pressable style={[styles.iconButton, style]} onPress={onPress}>
-    <Icon name={icon} size={16} color={iconColor} />
-  </Pressable>
-);
-
-// Componente de filtros de fecha
-const DateFilters = () => (
-  <View style={styles.dateFilters}>
-    <Pressable style={styles.dateButton}>
-      <View style={styles.dateButtonContent}>
-        <Icon name="calendar" size={14} color="#9ca3af" style={styles.dateIcon} />
-        <Text style={styles.dateText}>Today</Text>
-      </View>
-      <Icon name="chevron-down" size={12} color="#9ca3af" />
-    </Pressable>
-    <IconButton icon="sliders" style={styles.filterButton} onPress={() => {}} />
-  </View>
-);
-
-// Componente de información del viaje (tiempo)
-const TripTimeInfo = ({ startTime, endTime, duration }) => (
-  <View style={styles.tripTimeContainer}>
-    <View style={styles.timeInfo}>
-      <Icon name="clock-o" size={14} color="#9ca3af" />
-      <Text style={styles.timeText}>{startTime}</Text>
-    </View>
-    <View style={styles.durationLine}>
-      <View style={styles.durationBorder} />
-      <View style={styles.durationLabel}>
-        <Text style={styles.durationText}>{duration}</Text>
-      </View>
-    </View>
-    <View style={styles.timeInfo}>
-      <Icon name="clock-o" size={14} color="#9ca3af" />
-      <Text style={styles.timeText}>{endTime}</Text>
-    </View>
-  </View>
-);
-
-// Componente de tarjeta de viaje
-const TripCard = ({ trip, onViewDetails }) => (
-  <View style={styles.tripCard}>
-    <View style={styles.tripHeader}>
-      <View style={styles.driverInfo}>
-        <Image source={{ uri: trip.avatar }} style={styles.avatar} />
-        <View>
-          <Text style={styles.driverName}>{trip.driverName}</Text>
-          <Text style={styles.driverRating}>
-            {trip.rating} ⭐ ({trip.trips} trips)
-          </Text>
-        </View>
-      </View>
-      <View style={styles.priceInfo}>
-        <Text style={styles.price}>€{trip.price}</Text>
-        <Text style={styles.priceLabel}>per seat</Text>
-      </View>
-    </View>
-
-    <TripTimeInfo
-      startTime={trip.startTime}
-      endTime={trip.endTime}
-      duration={trip.duration}
-    />
-
-    <View style={styles.tripFooter}>
-      <View style={styles.seatsInfo}>
-        <Icon name="users" size={14} color="#9ca3af" />
-        <Text style={styles.seatsText}>{trip.seatsLeft} seats left</Text>
-      </View>
-      <Pressable style={styles.viewDetailsButton} onPress={() => onViewDetails(trip)}>
-        <Text style={styles.viewDetailsText}>View Details</Text>
-      </Pressable>
-    </View>
-  </View>
-);
-
-// Componente principal
-const BuscarScreen = () => {
-  const [fromLocation, setFromLocation] = useState('Barcelona');
-  const [toLocation, setToLocation] = useState('Madrid');
-
-  const trips = [
-    {
-      id: 1,
-      driverName: 'Carlos M.',
-      rating: 4.8,
-      trips: 127,
-      price: 25,
-      startTime: '08:30',
-      endTime: '15:00',
-      duration: '6h 30m',
-      seatsLeft: 3,
-      avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg',
-    },
-    {
-      id: 2,
-      driverName: 'Maria L.',
-      rating: 4.9,
-      trips: 89,
-      price: 22,
-      startTime: '10:15',
-      endTime: '16:30',
-      duration: '6h 15m',
-      seatsLeft: 1,
-      avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg',
-    },
-  ];
-
-  const handleViewDetails = (trip) => {
-    console.log('View details for trip:', trip.id);
+  const handleDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || fecha;
+    setShowDatePicker(false);
+    setFecha(currentDate);
   };
 
-  const handleGoBack = () => {
-    console.log('Go back');
+  const formatDate = (date) => {
+    return date.toLocaleDateString('es-ES', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
   };
 
-  const handleSort = () => {
-    console.log('Sort trips');
+  const handleSearch = () => {
+    // Aquí iría la lógica de búsqueda
+    console.log('Buscando viajes...', { origen, destino, fecha, pasajeros });
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <>
+      <SafeAreaView style={{ backgroundColor: '#111827' }}>
+        <Header
+          title="Buscar Viajes"
+          showSearch={true}
+          onSearchPress={() => console.log("Buscar viajes")}
+        />
+      </SafeAreaView>
+      
       <ScrollView style={styles.scrollView}>
-        {/* Header */}
-        <View style={styles.header}>
-          {/* Search Section */}
-          <View style={styles.searchSection}>
-            <SearchInput
-              placeholder="From: Barcelona"
-              value={fromLocation}
-              onChangeText={setFromLocation}
-              dotColor="#2563eb"
-            />
-            <SearchInput
-              placeholder="To: Madrid"
-              value={toLocation}
-              onChangeText={setToLocation}
-              dotColor="#ef4444"
-            />
-          </View>
-
-          <DateFilters />
-
-          {/* Results Header */}
-          <View style={styles.resultsHeader}>
-            <IconButton icon="arrow-left" onPress={handleGoBack} style={{}} />
-            <View style={styles.resultsInfo}>
-              <Text style={styles.resultsTitle}>Available Trips</Text>
-              <Text style={styles.resultsCount}>{trips.length} trips found</Text>
+        {/* Tarjeta de búsqueda */}
+        <View style={styles.searchCard}>
+          {/* Origen */}
+          <View style={styles.inputSection}>
+            <View style={styles.searchInputRow}>
+              <View style={[styles.dot, { backgroundColor: '#10b981' }]} />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="¿Desde dónde sales?"
+                placeholderTextColor="#9ca3af"
+                value={origen}
+                onChangeText={setOrigen}
+              />
             </View>
-            <IconButton 
-              icon="sort" 
-              onPress={handleSort} 
-              style={styles.sortButton}
-            />
           </View>
+
+          {/* Destino */}
+          <View style={styles.inputSection}>
+            <View style={styles.searchInputRow}>
+              <View style={[styles.dot, { backgroundColor: '#ef4444' }]} />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="¿A dónde vas?"
+                placeholderTextColor="#9ca3af"
+                value={destino}
+                onChangeText={setDestino}
+              />
+            </View>
+          </View>
+
+          {/* Fecha */}
+          <TouchableOpacity
+            style={styles.dateButton}
+            onPress={() => setShowDatePicker(true)}
+          >
+            <View style={styles.dateButtonContent}>
+              <Text style={styles.dateIcon}>📅</Text>
+              <Text style={styles.dateText}>
+                {formatDate(fecha)}
+              </Text>
+            </View>
+            <Text style={styles.chevron}>›</Text>
+          </TouchableOpacity>
+
+          {/* Pasajeros */}
+          <View style={styles.passengersSection}>
+            <Text style={styles.sectionLabel}>Pasajeros</Text>
+            <View style={styles.counterContainer}>
+              <TouchableOpacity
+                style={[styles.counterButton, pasajeros <= 1 && styles.counterButtonDisabled]}
+                onPress={() => pasajeros > 1 && setPasajeros(pasajeros - 1)}
+                disabled={pasajeros <= 1}
+              >
+                <Text style={[styles.counterButtonText, pasajeros <= 1 && styles.counterButtonTextDisabled]}>−</Text>
+              </TouchableOpacity>
+              <Text style={styles.counterText}>{pasajeros}</Text>
+              <TouchableOpacity
+                style={styles.counterButton}
+                onPress={() => setPasajeros(pasajeros + 1)}
+              >
+                <Text style={styles.counterButtonText}>+</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Filtros adicionales */}
+          <TouchableOpacity
+            style={styles.filtersToggle}
+            onPress={() => setShowFilters(!showFilters)}
+          >
+            <Text style={styles.filtersToggleText}>Filtros adicionales</Text>
+            <Text style={[styles.chevron, showFilters && styles.chevronUp]}>
+              {showFilters ? '︿' : '﹀'}
+            </Text>
+          </TouchableOpacity>
+
+          {showFilters && (
+            <View style={styles.filtersContainer}>
+              <Text style={styles.sectionLabel}>Rango de precio por asiento</Text>
+              <View style={styles.priceRangeContainer}>
+                <View style={styles.priceInputContainer}>
+                  <Text style={styles.priceLabel}>Mín</Text>
+                  <TextInput
+                    style={styles.priceInput}
+                    placeholder="€0"
+                    placeholderTextColor="#9ca3af"
+                    value={precioMin}
+                    onChangeText={setPrecioMin}
+                    keyboardType="numeric"
+                  />
+                </View>
+                <Text style={styles.priceSeparator}>-</Text>
+                <View style={styles.priceInputContainer}>
+                  <Text style={styles.priceLabel}>Máx</Text>
+                  <TextInput
+                    style={styles.priceInput}
+                    placeholder="€100"
+                    placeholderTextColor="#9ca3af"
+                    value={precioMax}
+                    onChangeText={setPrecioMax}
+                    keyboardType="numeric"
+                  />
+                </View>
+              </View>
+            </View>
+          )}
+
+          {/* Botón de búsqueda */}
+          <TouchableOpacity
+            style={[styles.searchButton, (!origen || !destino) && styles.searchButtonDisabled]}
+            onPress={handleSearch}
+            disabled={!origen || !destino}
+          >
+            <Text style={styles.searchButtonText}>Buscar Viajes</Text>
+          </TouchableOpacity>
         </View>
 
-        {/* Trip Results */}
-        <View style={styles.tripResults}>
-          {trips.map((trip) => (
-            <TripCard
-              key={trip.id}
-              trip={trip}
-              onViewDetails={handleViewDetails}
-            />
-          ))}
+        {/* Sugerencias recientes */}
+         {/* 
+        <View style={styles.suggestionsSection}>
+          <Text style={styles.sectionTitle}>Búsquedas recientes</Text>
+          
+          <TouchableOpacity style={styles.suggestionItem}>
+            <View style={styles.suggestionIconContainer}>
+              <Text style={styles.suggestionIcon}>🚗</Text>
+            </View>
+            <View style={styles.suggestionContent}>
+              <Text style={styles.suggestionRoute}>Barcelona → Madrid</Text>
+              <View style={styles.suggestionDetails}>
+                <Text style={styles.suggestionDate}>Hoy, 15:30</Text>
+                <Text style={styles.suggestionPrice}>25€</Text>
+              </View>
+            </View>
+            <View style={styles.suggestionArrow}>
+              <Text style={styles.chevron}>›</Text>
+            </View>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.suggestionItem}>
+            <View style={styles.suggestionIconContainer}>
+              <Text style={styles.suggestionIcon}>🚙</Text>
+            </View>
+            <View style={styles.suggestionContent}>
+              <Text style={styles.suggestionRoute}>Madrid → Valencia</Text>
+              <View style={styles.suggestionDetails}>
+                <Text style={styles.suggestionDate}>Mañana, 09:15</Text>
+                <Text style={styles.suggestionPrice}>18€</Text>
+              </View>
+            </View>
+            <View style={styles.suggestionArrow}>
+              <Text style={styles.chevron}>›</Text>
+            </View>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.suggestionItem}>
+            <View style={styles.suggestionIconContainer}>
+              <Text style={styles.suggestionIcon}>🚘</Text>
+            </View>
+            <View style={styles.suggestionContent}>
+              <Text style={styles.suggestionRoute}>Sevilla → Málaga</Text>
+              <View style={styles.suggestionDetails}>
+                <Text style={styles.suggestionDate}>12 Jun, 17:45</Text>
+                <Text style={styles.suggestionPrice}>15€</Text>
+              </View>
+            </View>
+            <View style={styles.suggestionArrow}>
+              <Text style={styles.chevron}>›</Text>
+            </View>
+          </TouchableOpacity>
         </View>
+         */}
       </ScrollView>
-    </SafeAreaView>
+
+      {/* DatePicker Modal */}
+      {showDatePicker && (
+        <DateTimePicker
+          value={fecha}
+          mode="date"
+          display="spinner"
+          themeVariant="dark"
+          minimumDate={new Date()}
+          onChange={handleDateChange}
+        />
+      )}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  scrollView: {
     flex: 1,
     backgroundColor: '#000000',
   },
-  scrollView: {
-    flex: 1,
-  },
-  header: {
+  searchCard: {
     backgroundColor: '#111827',
-    borderBottomWidth: 1,
-    borderBottomColor: '#374151',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    borderWidth: 1,
+    borderColor: '#374151',
+    borderRadius: 16,
+    padding: 20,
+    margin: 16,
+    marginTop: 24,
+    shadowColor: '#2563eb',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
   },
-  searchSection: {
-    backgroundColor: '#ffffff',
-    borderRadius: 8,
-    padding: 12,
+  inputSection: {
     marginBottom: 16,
   },
   searchInputRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#374151',
   },
   dot: {
     width: 8,
@@ -234,27 +272,22 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    fontSize: 14,
-    color: '#374151',
+    fontSize: 16,
+    color: '#ffffff',
     fontFamily: 'Inter',
-  },
-  dateFilters: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-    gap: 8,
+    paddingVertical: 4,
   },
   dateButton: {
-    flex: 1,
-    backgroundColor: '#f3f4f6',
+    backgroundColor: '#1f2937',
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: '#374151',
     borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginBottom: 16,
   },
   dateButtonContent: {
     flexDirection: 'row',
@@ -262,171 +295,197 @@ const styles = StyleSheet.create({
   },
   dateIcon: {
     marginRight: 8,
+    fontSize: 16,
   },
   dateText: {
     fontSize: 14,
-    color: '#6b7280',
+    color: '#ffffff',
+    fontFamily: 'Inter',
   },
-  filterButton: {
-    backgroundColor: '#f3f4f6',
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
+  chevron: {
+    fontSize: 20,
+    color: '#9ca3af',
+    fontWeight: 'bold',
   },
-  iconButton: {
-    padding: 8,
-    borderRadius: 8,
+  chevronUp: {
+    transform: [{ rotate: '180deg' }],
+  },
+  passengersSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  sectionLabel: {
+    fontSize: 16,
+    color: '#e5e7eb',
+    fontWeight: '500',
+    fontFamily: 'Inter',
+  },
+  counterContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  counterButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#2563eb',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  resultsHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  counterButtonDisabled: {
+    backgroundColor: '#374151',
   },
-  resultsInfo: {
-    flex: 1,
-    marginLeft: 12,
-  },
-  resultsTitle: {
-    fontSize: 18,
-    fontWeight: '600',
+  counterButtonText: {
     color: '#ffffff',
-    fontFamily: 'Inter',
-  },
-  resultsCount: {
-    fontSize: 14,
-    color: '#6b7280',
-    fontFamily: 'Inter',
-  },
-  sortButton: {
-    backgroundColor: '#f3f4f6',
-  },
-  tripResults: {
-    padding: 16,
-    gap: 12,
-  },
-  tripCard: {
-    backgroundColor: '#111827',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#374151',
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
-  },
-  tripHeader: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    marginBottom: 12,
-  },
-  driverInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 12,
-  },
-  driverName: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#ffffff',
-    fontFamily: 'Inter',
-  },
-  driverRating: {
-    fontSize: 12,
-    color: '#6b7280',
-    fontFamily: 'Inter',
-  },
-  priceInfo: {
-    alignItems: 'flex-end',
-  },
-  price: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#2563eb',
+  },
+  counterButtonTextDisabled: {
+    color: '#6b7280',
+  },
+  counterText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#e5e7eb',
+    marginHorizontal: 16,
     fontFamily: 'Inter',
+  },
+  filtersToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#374151',
+    marginBottom: 16,
+  },
+  filtersToggleText: {
+    fontSize: 14,
+    color: '#9ca3af',
+    fontFamily: 'Inter',
+  },
+  filtersContainer: {
+    marginBottom: 16,
+  },
+  priceRangeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 12,
+  },
+  priceInputContainer: {
+    flex: 1,
   },
   priceLabel: {
     fontSize: 12,
-    color: '#6b7280',
+    color: '#9ca3af',
+    marginBottom: 4,
     fontFamily: 'Inter',
   },
-  tripTimeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 12,
-  },
-  timeInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  timeText: {
-    fontSize: 14,
-    marginLeft: 4,
-    color: '#374151',
-    fontFamily: 'Inter',
-  },
-  durationLine: {
-    flex: 1,
-    marginHorizontal: 16,
-    position: 'relative',
-  },
-  durationBorder: {
-    height: 1,
-    backgroundColor: '#9CA3AF',
-    borderStyle: 'dashed',
+  priceInput: {
+    backgroundColor: '#1f2937',
     borderWidth: 1,
-  },
-  durationLabel: {
-    position: 'absolute',
-    top: -8,
-    alignSelf: 'center',
-    backgroundColor: '#ffffff',
-    paddingHorizontal: 8,
-  },
-  durationText: {
-    fontSize: 12,
-    color: '#6b7280',
-    fontFamily: 'Inter',
-  },
-  tripFooter: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  seatsInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  seatsText: {
-    fontSize: 14,
-    color: '#4b5563',
-    marginLeft: 4,
-    fontFamily: 'Inter',
-  },
-  viewDetailsButton: {
-    backgroundColor: '#2563eb',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    borderColor: '#374151',
     borderRadius: 8,
-  },
-  viewDetailsText: {
-    color: '#ffffff',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     fontSize: 14,
-    fontWeight: '500',
+    color: '#ffffff',
     fontFamily: 'Inter',
+  },
+  priceSeparator: {
+    fontSize: 16,
+    color: '#9ca3af',
+    marginHorizontal: 12,
+    marginTop: 16,
+  },
+  searchButton: {
+    backgroundColor: '#2563eb',
+    paddingVertical: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  searchButtonDisabled: {
+    backgroundColor: '#374151',
+  },
+  searchButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
+    fontFamily: 'Inter',
+  },
+  suggestionsSection: {
+    paddingHorizontal: 16,
+    marginBottom: 24,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#ffffff',
+    marginBottom: 16,
+    fontFamily: 'Inter',
+  },
+  suggestionItem: {
+    backgroundColor: '#1a2535',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#2d3748',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  suggestionIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#2563eb',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  suggestionIcon: {
+    fontSize: 20,
+  },
+  suggestionContent: {
+    flex: 1,
+  },
+  suggestionRoute: {
+    fontSize: 16,
+    color: '#ffffff',
+    fontWeight: '600',
+    fontFamily: 'Inter',
+    marginBottom: 4,
+  },
+  suggestionDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  suggestionDate: {
+    fontSize: 12,
+    color: '#9ca3af',
+    fontFamily: 'Inter',
+  },
+  suggestionPrice: {
+    fontSize: 14,
+    color: '#10b981',
+    fontWeight: 'bold',
+    fontFamily: 'Inter',
+  },
+  suggestionArrow: {
+    marginLeft: 8,
   },
 });
 
-export default BuscarScreen;
+export default SearchScreen;

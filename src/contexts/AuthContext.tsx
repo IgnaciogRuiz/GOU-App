@@ -1,8 +1,10 @@
+// src/contexts/AuthContext.tsx
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authService } from "../api/rest";
+import { useHomeData } from "../hooks";
+import { Loader } from "../components";
 
-// Tipos para los valores del contexto
 interface AuthContextType {
   isAuthenticated: boolean;
   setIsAuthenticated: (auth: boolean) => void;
@@ -12,12 +14,12 @@ interface AuthContextType {
   loading: boolean;
   token: string | null;
   setToken: (token: string | null) => Promise<void>;
+  dashboardData: any | null;
+  homeError: any | null;
 }
 
-// Crear contexto con valor inicial nulo
 const AuthContext = createContext<AuthContextType | null>(null);
 
-// Props para el proveedor del contexto
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -28,9 +30,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(true);
   const [token, _setToken] = useState<string | null>(null);
 
- 
-
-  // Setter que guarda y elimina en AsyncStorage automáticamente
   const setToken = async (newToken: string | null) => {
     if (newToken) {
       await AsyncStorage.setItem("token", newToken);
@@ -39,7 +38,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
     _setToken(newToken);
   };
- 
+
+  // ✅ hook independiente que ahora podemos usar sin ciclo
+  const { dashboardData, loading: homeLoading, error: homeError } = useHomeData(token);
+
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
@@ -51,10 +53,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setHasSeenOnboarding(!!seenOnboarding);
         await setToken(storedToken);
 
-        //console.log(seenOnboarding); //Saber si hizo la verificacion
-
         if (storedToken) {
-          await authService(storedToken); // si falla, va al catch
+          await authService(storedToken);
           setIsAuthenticated(true);
         } else {
           setIsAuthenticated(false);
@@ -66,10 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         ) {
           console.log("Token inválido o expirado");
           await AsyncStorage.removeItem("token");
-        } else {
-          //console.error("Error al verificar autenticación:", (error as any).message);
         }
-
         setIsAuthenticated(false);
       } finally {
         setLoading(false);
@@ -86,6 +83,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     await setToken(null);
   };
 
+  // 👇 Loader global: espera auth + home
+  const stillLoading = loading || (isAuthenticated && homeLoading);
+
   return (
     <AuthContext.Provider
       value={{
@@ -94,12 +94,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         eliminarStorage,
         hasSeenOnboarding,
         setHasSeenOnboarding,
-        loading,
+        loading: stillLoading,
         token,
         setToken,
+        dashboardData,
+        homeError,
       }}
     >
-      {children}
+      {stillLoading ? <Loader /> : children}
     </AuthContext.Provider>
   );
 };

@@ -35,3 +35,6 @@ export { default as ActivityItem } from './home/activityItemComponent';
 export { default as MyReservationsSection } from './home/myReservationSection';
 export { default as MyPublishedTripsSection } from './home/myPublishedSection';
 export { default as RecentActivitySection } from './home/recentActivitySection';
+
+//LOADDER
+export { default as Loader } from './layout/loaderComponent';

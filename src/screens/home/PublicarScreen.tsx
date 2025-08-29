@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
+import { Header } from '../../components';
 
 // Colores del tema
 const colors = {
@@ -15,37 +16,29 @@ const colors = {
   red500: '#ef4444',
 };
 
-// Componente Header reutilizable
-const StepHeader = ({ title, onBack, onSaveDraft }) => (
-  <View style={styles.header}>
-    {onBack ? (
-      <TouchableOpacity style={styles.backButton} onPress={onBack}>
-        <Icon name="arrow-left" size={16} color="#9ca3af" />
-      </TouchableOpacity>
-    ) : (
-      <View style={{ width: 40 }} /> 
-    )}
-    <Text style={styles.headerTitle}>{title}</Text>
-    {onSaveDraft && (
-      <TouchableOpacity onPress={onSaveDraft}>
-        <Text style={styles.saveDraft}></Text>
-      </TouchableOpacity>
-    )}
-  </View>
-);
-// Componente Progress Bar
-const ProgressBar = ({ currentStep, totalSteps }) => {
+// Componente Progress Bar con botón de back integrado
+const ProgressBar = ({ currentStep, totalSteps, onBack, onSaveDraft }) => {
   const percentage = Math.round((currentStep / totalSteps) * 100);
-  const progressWidth = `${percentage}%`;
 
   return (
     <View style={styles.progressContainer}>
       <View style={styles.progressHeader}>
-        <Text style={styles.progressText}>Paso {currentStep} de {totalSteps}</Text>
-        <Text style={styles.progressPercentage}>{percentage}%</Text>
+        <View style={styles.progressLeft}>
+          {onBack && (
+            <TouchableOpacity style={styles.backButton} onPress={onBack}>
+              <Icon name="arrow-left" size={16} color="#9ca3af" />
+            </TouchableOpacity>
+          )}
+          <View style={styles.progressInfo}>
+            <Text style={styles.progressText}>Paso {currentStep} de {totalSteps}</Text>
+          </View>
+        </View>
+        <View style={styles.progressRight}>
+          <Text style={styles.progressPercentage}>{percentage}%</Text>
+        </View>
       </View>
       <View style={styles.progressBarBg}>
-        <View style={styles.progressBarFill} />
+        <View style={[styles.progressBarFill, { width: `${percentage}%` }]} />
       </View>
     </View>
   );
@@ -92,8 +85,6 @@ const InputWithIcon = ({
     </View>
   </View>
 );
-
-
 
 /*------------------------------------------------------------
 ------------------STEP 1: ORIGEN Y DESTINO--------------------
@@ -153,7 +144,6 @@ const Step1 = ({ formData, updateFormData, onNext }) => {
     </ScrollView>
   );
 };
-
 
 /*------------------------------------------------------------
 ---------------STEP 2: FECHA Y HORA DE SALIDA-----------------
@@ -220,7 +210,6 @@ const Step2 = ({ formData, updateFormData, onNext }) => {
     </ScrollView>
   );
 };
-
 
 /*------------------------------------------------------------
 ----------------STEP 3: VEHICULOS Y ASIENTOS------------------
@@ -379,11 +368,9 @@ const Step3 = ({ formData, updateFormData, onNext }) => {
   );
 };
 
-
 /*------------------------------------------------------------
 ----------------STEP 4: PRECIOS Y NOTAS------------------
 ------------------------------------------------------------*/
-
 const Step4 = ({ formData, updateFormData, onNext }) => (
   <ScrollView style={styles.content}>
     <View style={styles.stepHeader}>
@@ -425,7 +412,6 @@ const Step4 = ({ formData, updateFormData, onNext }) => (
 ----------------STEP 5: REVISAR Y CONFIRMAR------------------
 ------------------------------------------------------------*/
 const Step5 = ({ formData, updateFormData, onNext, setCurrentStep, acceptTerms, setAcceptTerms }) => {
-
   // Función para obtener el nombre del vehículo seleccionado
   const getSelectedVehicle = () => {
     const vehicles = [
@@ -683,7 +669,7 @@ const Step5 = ({ formData, updateFormData, onNext, setCurrentStep, acceptTerms, 
 // Componente principal
 const PublishTripScreen = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [acceptTerms, setAcceptTerms] = useState(false); // Agregar este estado
+  const [acceptTerms, setAcceptTerms] = useState(false);
   const [formData, setFormData] = useState({
     origin: '',
     destination: '',
@@ -701,14 +687,13 @@ const PublishTripScreen = () => {
     },
   });
 
-  const totalSteps = 5; // Actualizar a 5 pasos
+  const totalSteps = 5;
 
   const updateFormData = (key, value) => {
     setFormData(prev => ({ ...prev, [key]: value }));
   };
 
   const handleNext = () => {
-    // Validar términos y condiciones en el último paso
     if (currentStep === totalSteps && !acceptTerms) {
       Alert.alert('Error', 'Debes aceptar los términos y condiciones para continuar');
       return;
@@ -717,7 +702,6 @@ const PublishTripScreen = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Publicar viaje
       Alert.alert('¡Éxito!', 'Tu viaje ha sido publicado exitosamente');
     }
   };
@@ -758,36 +742,40 @@ const PublishTripScreen = () => {
     }
   };
 
-  // El resto del componente permanece igual...
   return (
-    <SafeAreaView style={styles.container}>
-      <StepHeader 
-        title="Publicar viaje" 
-        onBack={currentStep > 1 ? handleBack : undefined} 
-        onSaveDraft={handleSaveDraft}
-      />
+    <>
+      <SafeAreaView style={{ backgroundColor: '#111827' }}>
+        <Header title="Publicar viaje" />
+      </SafeAreaView>
       
-      <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
-      
-      <View style={styles.stepContainer}>
-        {renderStep()}
-      </View>
+      <View style={styles.container}>
+        <ProgressBar 
+          currentStep={currentStep} 
+          totalSteps={totalSteps} 
+          onBack={currentStep > 1 ? handleBack : undefined}
+          onSaveDraft={handleSaveDraft}
+        />
+        
+        <View style={styles.stepContainer}>
+          {renderStep()}
+        </View>
 
-      <View style={styles.bottomCTA}>
-        <TouchableOpacity 
-          style={[
-            styles.nextButton,
-            currentStep === totalSteps && !acceptTerms && styles.nextButtonDisabled
-          ]} 
-          onPress={handleNext}
-          disabled={currentStep === totalSteps && !acceptTerms}
-        >
-          <Text style={styles.nextButtonText}>
-            {currentStep === totalSteps ? 'Publicar Viaje' : 'Siguiente'}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.bottomCTA}>
+          <TouchableOpacity 
+            style={[
+              styles.nextButton,
+              currentStep === totalSteps && !acceptTerms && styles.nextButtonDisabled
+            ]} 
+            onPress={handleNext}
+            disabled={currentStep === totalSteps && !acceptTerms}
+          >
+            <Text style={styles.nextButtonText}>
+              {currentStep === totalSteps ? 'Publicar Viaje' : 'Siguiente'}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </SafeAreaView>
+    </>
   );
 };
 
@@ -796,55 +784,58 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 80,
-    justifyContent: 'space-between',
+  progressContainer: {
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: colors.gray800,
   },
-  backButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: colors.secondary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 4,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.white,
-    flex: 1,
-    alignItems: 'center',
-    textAlign: 'center',
-    marginLeft: -40, 
-  },
-  saveDraft: {
-    fontSize: 14,
-    color: colors.gray400,
-  },
-  progressContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
   progressHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 8,
+  },
+  progressLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.secondary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+    elevation: 2,
+  },
+  progressInfo: {
+    flex: 1,
   },
   progressText: {
     fontSize: 14,
     color: colors.gray400,
   },
+  progressRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   progressPercentage: {
     fontSize: 14,
     color: colors.primary,
     fontWeight: '500',
+    marginRight: 12,
+  },
+  saveDraftButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.secondary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 2,
   },
   progressBarBg: {
     width: '100%',
@@ -1069,7 +1060,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: "#111827",
+    backgroundColor: colors.secondary,
     borderRadius: 12,
     padding: 16,
   },
@@ -1080,7 +1071,6 @@ const styles = StyleSheet.create({
   seatButton: {
     width: 40,
     height: 40,
-    color: colors.white,
     backgroundColor: colors.white,
     borderRadius: 20,
     alignItems: 'center',
@@ -1089,7 +1079,7 @@ const styles = StyleSheet.create({
   seatsNumber: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#ffffffff',
+    color: colors.white,
     marginHorizontal: 24,
     minWidth: 48,
     textAlign: 'center',
@@ -1100,75 +1090,21 @@ const styles = StyleSheet.create({
   seatsLabel: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#ffffffff',
+    color: colors.white,
   },
   seatsTotal: {
     fontSize: 12,
-    color: '#6b7280',
+    color: colors.gray400,
   },
-  seatVisual: {
-    backgroundColor: '#f9fafb',
-    borderRadius: 12,
-    padding: 24,
-    marginBottom: 24,
-  },
-  seatVisualTitle: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#374151',
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-  seatLayout: {
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  seatRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-    gap: 32,
-  },
-  seatRowBack: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-  },
-  seat: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  seatDriver: {
-    backgroundColor: colors.gray800,
-  },
-  seatAvailable: {
-    backgroundColor: colors.accent,
-  },
-  seatReserved: {
-    backgroundColor: '#e5e7eb',
-  },
-  seatLegend: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 16,
-  },
-    // Sección de características
   featuresSection: {
     marginBottom: 24,
   },
-  
   featuresGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginTop: 12,
   },
-  
   featureCard: {
     width: '48%',
     backgroundColor: colors.gray800,
@@ -1179,12 +1115,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'transparent',
   },
-  
   featureCardSelected: {
     borderColor: colors.primary,
     backgroundColor: colors.gray700,
   },
-  
   featureIconContainer: {
     width: 48,
     height: 48,
@@ -1193,26 +1127,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 8,
   },
-  
   featureName: {
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'center',
     lineHeight: 18,
-  },
-  legendItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  legendDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginRight: 4,
-  },
-  legendText: {
-    fontSize: 12,
-    color: '#6b7280',
   },
   priceSection: {
     marginBottom: 24,
@@ -1229,7 +1148,7 @@ const styles = StyleSheet.create({
   },
   currencySymbol: {
     fontSize: 18,
-    color: '#6b7280',
+    color: colors.gray400,
     marginRight: 8,
   },
   priceInput: {
@@ -1264,7 +1183,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: 'center',
   },
-   nextButtonDisabled: {
+  nextButtonDisabled: {
     backgroundColor: colors.gray700,
   },
   nextButtonText: {
@@ -1272,12 +1191,9 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: colors.white,
   },
-
-  // Sección de revisión
   reviewSection: {
     marginBottom: 16,
   },
-
   reviewSectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1287,7 +1203,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
   },
-
   reviewIconContainer: {
     width: 40,
     height: 40,
@@ -1297,24 +1212,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 12,
   },
-
   reviewSectionInfo: {
     flex: 1,
   },
-
   reviewSectionTitle: {
     fontSize: 16,
     fontWeight: '600',
     color: colors.white,
     marginBottom: 4,
   },
-
   reviewSectionSubtitle: {
     fontSize: 14,
     color: colors.gray400,
     lineHeight: 20,
   },
-
   editButton: {
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -1322,38 +1233,31 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.primary,
   },
-
   editButtonText: {
     fontSize: 14,
     color: colors.primary,
     fontWeight: '500',
   },
-
-  // Vista previa del viaje
   tripPreviewSection: {
     marginTop: 24,
     marginBottom: 24,
   },
-
   tripPreviewCard: {
     backgroundColor: colors.primary,
     borderRadius: 16,
     padding: 20,
     marginTop: 12,
   },
-
   tripPreviewHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
   },
-
   driverInfo: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-
   driverAvatar: {
     width: 40,
     height: 40,
@@ -1363,88 +1267,72 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 12,
   },
-
   driverInitial: {
     fontSize: 18,
     fontWeight: 'bold',
     color: colors.white,
   },
-
   driverName: {
     fontSize: 16,
     fontWeight: '600',
     color: colors.white,
     marginBottom: 2,
   },
-
   driverRating: {
     fontSize: 14,
     color: 'rgba(255, 255, 255, 0.8)',
   },
-
   priceDisplay: {
     alignItems: 'flex-end',
   },
-
   priceAmount: {
     fontSize: 24,
     fontWeight: 'bold',
     color: colors.white,
   },
-
   priceLabel: {
     fontSize: 14,
     color: 'rgba(255, 255, 255, 0.8)',
   },
-
   tripDetails: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-
   tripDetailItem: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-
   tripDetailText: {
     fontSize: 14,
     color: 'rgba(255, 255, 255, 0.9)',
     marginLeft: 8,
   },
-
-  // Sección "Antes de Publicar"
   beforePublishSection: {
     backgroundColor: '#fef3c7',
     borderRadius: 12,
     padding: 16,
     marginBottom: 24,
   },
-
   warningContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 12,
   },
-
   warningTitle: {
     fontSize: 16,
     fontWeight: '600',
     color: '#92400e',
     marginLeft: 8,
   },
-
   warningList: {
     marginLeft: 28,
   },
-
   warningItem: {
     fontSize: 14,
     color: '#92400e',
     marginBottom: 6,
     lineHeight: 20,
   },
-
   warningSubtext: {
     fontSize: 13,
     color: '#d97706',
@@ -1452,17 +1340,13 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     lineHeight: 18,
   },
-
-  // Términos y condiciones
   termsSection: {
     marginBottom: 24,
   },
-
   termsCheckbox: {
     flexDirection: 'row',
     alignItems: 'flex-start',
   },
-
   checkbox: {
     width: 20,
     height: 20,
@@ -1475,19 +1359,16 @@ const styles = StyleSheet.create({
     marginRight: 12,
     marginTop: 2,
   },
-
   checkboxSelected: {
     backgroundColor: colors.primary,
     borderColor: colors.primary,
   },
-
   termsText: {
     flex: 1,
     fontSize: 14,
     color: colors.gray400,
     lineHeight: 20,
   },
-
   termsLink: {
     color: colors.primary,
     textDecorationLine: 'underline',

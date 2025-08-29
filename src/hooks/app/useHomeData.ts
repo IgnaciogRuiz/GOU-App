@@ -1,26 +1,25 @@
 // src/hooks/useHomeData.ts
-import { useEffect, useState } from 'react';
-import { getHomeData } from '../../api/graphql';
-import { useAuth } from '../../contexts';
+import { useEffect, useState } from "react";
+import { getHomeData } from "../../api/graphql";
 
-export function useHomeData() {
-  const { token } = useAuth();
+export function useHomeData(token: string | null) {
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
 
   useEffect(() => {
-    if (!token) return;
+    if (!token) {
+      setDashboardData(null);
+      setLoading(false);
+      return;
+    }
 
     async function fetchDashboardData() {
       try {
         setLoading(true);
-
         const data = await getHomeData(token);
-        //console.log('Datos del dashboard obtenidos:', data?.dashboardData);
         setDashboardData(data?.dashboardData ?? null);
       } catch (err) {
-        //console.error('Error al obtener datos del dashboard:', err);
         setError(err);
       } finally {
         setLoading(false);
@@ -32,4 +31,3 @@ export function useHomeData() {
 
   return { dashboardData, loading, error };
 }
- 
