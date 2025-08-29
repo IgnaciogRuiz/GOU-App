@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { StyleSheet, Text, Animated, useWindowDimensions } from 'react-native';
+import { StyleSheet, Text, Animated, useWindowDimensions, Image} from 'react-native';
 import { AppImages } from '../../../assets';
 
 interface Props {
@@ -36,18 +36,23 @@ const MoodDiaryView: React.FC<Props> = ({ animationController }) => {
       style={[styles.container, { transform: [{ translateX: slideAnim }] }]}
     >
       <Text style={styles.title} ref={careRef}>
-        Mood Dairy
+       Conectá con personas
       </Text>
       <Animated.Text
         style={[styles.subtitle, { transform: [{ translateX: textAnim }] }]}
       >
-        Lorem ipsum dolor sit amet,consectetur adipiscing elit,sed do eiusmod
-        tempor incididunt ut labore
+        Unite a una comunidad de viajeros que comparten tus mismos destinos y experiencias.
       </Animated.Text>
-      <Animated.Image
-        style={[styles.image, { transform: [{ translateX: imageAnim }] }]}
-        source={AppImages.mood_dairy_image}
-      />
+      <Image
+                    source={require("../../assets/images/community.png")}
+                    style={{
+                      width: 275,
+                      height: 275,
+                      aspectRatio: 500 / 470,
+                      alignSelf: "center",
+                      resizeMode: "contain", // mantiene proporción
+                    }}
+                  />
     </Animated.View>
   );
 };

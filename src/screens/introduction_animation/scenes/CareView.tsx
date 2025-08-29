@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { StyleSheet, Text, Animated, useWindowDimensions } from 'react-native';
+import { StyleSheet, Text, Animated, useWindowDimensions, Image } from 'react-native';
 import { AppImages } from '../../../assets';
 
 interface Props {
@@ -35,20 +35,25 @@ const CareView: React.FC<Props> = ({ animationController }) => {
     <Animated.View
       style={[styles.container, { transform: [{ translateX: slideAnim }] }]}
     >
-      <Animated.Image
-        style={[styles.image, { transform: [{ translateX: imageAnim }] }]}
-        source={AppImages.care_image}
-      />
       <Animated.Text
         style={[styles.title, { transform: [{ translateX: careAnim }] }]}
         ref={careRef}
       >
-        Care
+        Compartí gastos
       </Animated.Text>
       <Text style={styles.subtitle}>
-        Lorem ipsum dolor sit amet,consectetur adipiscing elit,sed do eiusmod
-        tempor incididunt ut labore
+        Viajá más barato compartiendo el auto con otros. Ahorrás dinero y disfrutás del camino.
       </Text>
+      <Image
+                    source={require("../../assets/images/handshake.png")}
+                    style={{
+                      width: 250,
+                      height: 250,
+                      aspectRatio: 500 / 470,
+                      alignSelf: "center",
+                      resizeMode: "contain", // mantiene proporción
+                    }}
+                  />
     </Animated.View>
   );
 };

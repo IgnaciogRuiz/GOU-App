@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { StyleSheet, Text, Animated, useWindowDimensions } from 'react-native';
+import { StyleSheet, Text, Animated, useWindowDimensions, Image } from 'react-native';
 import { AppImages } from '../../../assets';
 
 interface Props {
@@ -35,19 +35,25 @@ const WelcomeView: React.FC<Props> = ({ animationController }) => {
     <Animated.View
       style={[styles.container, { transform: [{ translateX: slideAnim }] }]}
     >
-      <Animated.Image
-        style={[styles.image, { transform: [{ translateX: imageAnim }] }]}
-        source={AppImages.welcome}
-      />
       <Animated.Text
         style={[styles.title, { transform: [{ translateX: welcomeTextAnim }] }]}
         ref={careRef}
       >
-        Welcome
+        ¡Hacé tu Cuenta!
       </Animated.Text>
       <Text style={styles.subtitle}>
-        Stay organised and live stress-free with you-do app
+        Registrate en minutos y empezá a disfrutar de una forma más simple, económica y segura de viajar.
       </Text>
+      <Image
+              source={require("../../assets/images/welcome.png")}
+              style={{
+                width: 275,
+                height: 275,
+                aspectRatio: 500 / 470,
+                alignSelf: "center",
+                resizeMode: "contain", // mantiene proporción
+              }}
+            />
     </Animated.View>
   );
 };
