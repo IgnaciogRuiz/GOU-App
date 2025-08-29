@@ -19,3 +19,4 @@ export const useBottomTabNavigation = () =>
 // Navegación para perfil/configuración (ProfileStack)
 export const useProfileNavigation = () =>
   useNavigation<StackNavigationProp<ProfileStackParamList>>();
+

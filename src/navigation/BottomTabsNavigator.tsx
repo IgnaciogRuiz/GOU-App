@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { BottomTabParamList } from "./types/NavigationTypes";
+import MessagesStack from "./MessagesStack";
 
 // Screens
 import ProfileTabsNavigation from './ProfileTabsNavigation';
@@ -53,7 +54,7 @@ export default function BottomTabsNavigator() {
       />
       <Tab.Screen 
         name="Mensajes" 
-        component={MessageScreen}
+        component={MessagesStack}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="chatbubble-outline" size={size} color={color} />

@@ -4,11 +4,13 @@ import { ChatItem, Header } from '../../components';
 import { useChats } from '../../hooks/app/useChats';
 import Constants from 'expo-constants';
 import dayjs from 'dayjs';
+import { useBottomTabNavigation } from '../../navigation/Navigation';
 
 
-const MessagesScreen = () => {
+const ChatsScreen = () => {
   const { chats, loading, error } = useChats();
   const { STORAGE_URL } = Constants.expoConfig?.extra || {};
+  const navigation = useBottomTabNavigation();
 
   //console.log('Chats Data:', chats);
 
@@ -26,8 +28,7 @@ const MessagesScreen = () => {
   const mappedChats = chats ? mapChats(chats) : [];
 
   const handleChatPress = (chatItem) => {
-    console.log('Chat pressed:', chatItem.id);
-    //navegar a la screen de chat
+    navigation.navigate("Chat", { chatId: chatItem.id, user: chatItem });
   };
 
   const renderChatItem = ({ item }) => (
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MessagesScreen;
+export default ChatsScreen;
 
 function formatTime(created_at: any) {
   throw new Error('Function not implemented.');
