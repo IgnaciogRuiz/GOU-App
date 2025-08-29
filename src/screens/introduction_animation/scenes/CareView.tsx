@@ -1,6 +1,12 @@
-import React, { useRef } from 'react';
-import { StyleSheet, Text, Animated, useWindowDimensions, Image } from 'react-native';
-import { AppImages } from '../../../assets';
+import React, { useRef } from "react";
+import {
+  StyleSheet,
+  Text,
+  Animated,
+  useWindowDimensions,
+  Image,
+} from "react-native";
+import { AppImages } from "../../../assets";
 
 interface Props {
   animationController: React.RefObject<Animated.Value>;
@@ -42,29 +48,30 @@ const CareView: React.FC<Props> = ({ animationController }) => {
         Compartí gastos
       </Animated.Text>
       <Text style={styles.subtitle}>
-        Viajá más barato compartiendo el auto con otros. Ahorrás dinero y disfrutás del camino.
+        Viajá más barato compartiendo el auto con otros. Ahorrás dinero y
+        disfrutás del camino.
       </Text>
       <Image
-                    source={require("../../assets/images/handshake.png")}
-                    style={{
-                      width: 250,
-                      height: 250,
-                      aspectRatio: 500 / 470,
-                      alignSelf: "center",
-                      resizeMode: "contain", // mantiene proporción
-                    }}
-                  />
+        source={require("../../../../assets/images/handshake.png")}
+        style={{
+          width: 250,
+          height: 250,
+          aspectRatio: 500 / 470,
+          alignSelf: "center",
+          resizeMode: "contain", // mantiene proporción
+        }}
+      />
     </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'black',
-    position: 'absolute',
+    backgroundColor: "black",
+    position: "absolute",
     left: 0,
     right: 0,
-    alignItems: 'center',
+    alignItems: "center",
     paddingBottom: 100,
   },
   image: {
@@ -73,14 +80,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 26,
-    color: 'white',
-    textAlign: 'center',
-    fontFamily: 'WorkSans-Bold',
+    color: "white",
+    textAlign: "center",
+    fontFamily: "WorkSans-Bold",
   },
   subtitle: {
-    color: '#787D86',
-    textAlign: 'center',
-    fontFamily: 'WorkSans-Regular',
+    color: "#787D86",
+    textAlign: "center",
+    fontFamily: "WorkSans-Regular",
     paddingHorizontal: 64,
     paddingVertical: 16,
   },

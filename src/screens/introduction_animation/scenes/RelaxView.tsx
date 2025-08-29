@@ -47,7 +47,7 @@ const RelaxView: React.FC<Props> = ({ animationController }) => {
         verificados para brindarte tranquilidad.
       </Animated.Text>
       <Image
-        source={require("../../assets/images/carsecure1.png")}
+        source={require("../../../../assets/images/carsecure1.png")}
         style={{
           width: 300,
           height: 300,
