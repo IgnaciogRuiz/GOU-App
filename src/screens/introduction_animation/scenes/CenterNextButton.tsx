@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import NextButtonArrow from './components/NextButtonArrow';
 import { useAuthNavigation } from '../../../navigation/Navigation';
 import MyPressable from '../../../components/ui/MyPressable';
+import { useAuth } from '../../../contexts';
 
 interface Props {
   onNextClick: () => void;
@@ -35,6 +36,7 @@ const DotIndicator: React.FC<DotIndicatorProps> = ({ index, selectedIndex }) => 
 };
 
 const CenterNextButton: React.FC<Props> = ({ onNextClick, animationController }) => {
+  const { completeOnboarding } = useAuth();
   const navigation = useAuthNavigation();
   const opacity = useRef<Animated.Value>(new Animated.Value(0));
   const currentOpacity = useRef<number>(0);
@@ -115,6 +117,7 @@ const CenterNextButton: React.FC<Props> = ({ onNextClick, animationController })
   // Aquí está la única modificación: si estamos en la última página (index 3), navegar a Register.
   const handleNextClick = () => {
     if (selectedIndex === 3) {
+      completeOnboarding();
       navigation.navigate('Register');
     } else {
       onNextClick();

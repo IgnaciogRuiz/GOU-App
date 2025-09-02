@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuthNavigation } from "../../../navigation/Navigation";
-import { OvalBackground, Title, CustomButton } from "../../../components";
+import { OvalBackground, CustomButton } from "../../../components";
 import { Dimensions } from "react-native";
 
 const BienvenidaScreen: React.FC = () => {
@@ -18,12 +18,11 @@ const BienvenidaScreen: React.FC = () => {
 
   const handleComenzar = () => {
     console.log("Email ingresado:", email);
-    navigation.navigate("VerifyEmail"); // Redirigir si querés
   };
 
   return (
     <View style={styles.container}>
-      <OvalBackground color="#000" direction="down" />
+      <OvalBackground color="#111" direction="down" />
 
       <TouchableOpacity
         style={styles.backButton}
@@ -49,10 +48,11 @@ const BienvenidaScreen: React.FC = () => {
           value={email}
           onChangeText={setEmail}
           placeholder="tunombre@gmail.com"
+          placeholderTextColor="#888"
           keyboardType="email-address"
           autoCapitalize="none"
         />
-        <CustomButton title="Comenzar" onPress={handleComenzar}></CustomButton>
+        <CustomButton title="Comenzar" onPress={() => navigation.navigate("VerifyEmail")}/>
       </View>
     </View>
   );
@@ -63,29 +63,30 @@ const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#000", // fondo oscuro
     alignItems: "center",
     justifyContent: "flex-start",
     overflow: "hidden",
-    position: "relative", // 🔧 necesario para que el absolute funcione dentro
+    position: "relative",
   },
   backButton: {
-    backgroundColor: "#000",
+    backgroundColor: "transparent",
     position: "absolute",
     top: 50,
     left: 20,
-    zIndex: 1, // este botón debe ir encima
+    zIndex: 1,
   },
   carImage: {
     width: 400,
     height: 400,
-    marginTop: 100, // subilo un poco
+    marginTop: 100,
     transform: [{ rotate: "90deg" }],
     zIndex: 1,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
+    color: "#fff", // texto blanco
     textAlign: "center",
     marginTop: 20,
     marginBottom: 30,
@@ -93,6 +94,7 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: "900",
+    color: "#00aced", // un celeste atractivo para resaltar
   },
   form: {
     width: "85%",
@@ -103,16 +105,19 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     fontSize: 14,
     marginBottom: 6,
+    color: "#ddd", // gris claro
     zIndex: 1,
   },
   input: {
     width: "100%",
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#555",
     borderRadius: 6,
     padding: 10,
     fontSize: 16,
     marginBottom: 20,
+    backgroundColor: "#111", // input oscuro
+    color: "#fff", // texto blanco
     zIndex: 1,
   },
 });

@@ -7,7 +7,7 @@ export { default as CustomInput } from './form/inputComponent';
 
 //UI
 export { default as CustomButton } from './ui/buttonComponent';
-
+export { default as Title } from './ui/title';
 
 
 //LAYOUT

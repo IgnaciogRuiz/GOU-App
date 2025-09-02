@@ -10,6 +10,7 @@ interface AuthContextType {
   setIsAuthenticated: (auth: boolean) => void;
   eliminarStorage: () => Promise<void>;
   hasSeenOnboarding: boolean;
+  completeOnboarding: () => Promise<void>;  // 👈 nuevo
   setHasSeenOnboarding: (seen: boolean) => void;
   loading: boolean;
   token: string | null;
@@ -83,6 +84,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     await setToken(null);
   };
 
+  const completeOnboarding = async () => {
+  await AsyncStorage.setItem("hasSeenOnboarding", "true");
+  setHasSeenOnboarding(true);
+};
+
+
   // 👇 Loader global: espera auth + home
   const stillLoading = loading || (isAuthenticated && homeLoading);
 
@@ -93,6 +100,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setIsAuthenticated,
         eliminarStorage,
         hasSeenOnboarding,
+        completeOnboarding,
         setHasSeenOnboarding,
         loading: stillLoading,
         token,

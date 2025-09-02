@@ -7,7 +7,7 @@ import { useAuthNavigation } from "../../../navigation/Navigation";
 
 const CELL_COUNT = 6;
 
-const VerificationScreen = () => {
+const VerificationPhone = () => {
   const navigation = useAuthNavigation();
   const [value, setValue] = React.useState("");
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
@@ -30,8 +30,7 @@ const VerificationScreen = () => {
         resizeMode="contain"
       />
 
-      <Title title="Codigo de" />
-      <Title title="verificación" />
+      <Title>Codigo de Verificación</Title>
 
       <Text style={styles.emailInfo}>
         Verifica tu Telefono. Te llegara un SMS a **7096
@@ -71,7 +70,7 @@ const VerificationScreen = () => {
   );
 };
 
-export default VerificationScreen;
+export default VerificationPhone;
 
 const styles = StyleSheet.create({
   container: {
