@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 20,
     marginTop: 100,
-    tintColor: "#ccc", // opcional, si querés que el ícono se ponga blanco
+    tintColor: "#888", // opcional, si querés que el ícono se ponga blanco
   },
   emailInfo: {
     textAlign: "center",

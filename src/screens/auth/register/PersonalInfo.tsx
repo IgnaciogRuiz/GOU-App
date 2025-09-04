@@ -4,10 +4,9 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { Title, CustomButton, BackButton } from "../../../components"; // Ajustá según tu estructura
+import { Title, CustomButton, BackButton } from "../../../components";
 import { useAuthNavigation } from "../../../navigation/Navigation";
 
 const DatosPersonalesScreen = () => {
@@ -20,14 +19,23 @@ const DatosPersonalesScreen = () => {
   const [repeatPassword, setRepeatPassword] = useState("");
 
   const handleSubmit = () => {
-    console.log("Datos enviados:", {nombre, apellido, fecha, descripcion, password, repeatPassword,});
-    navigation.navigate("ProfileStepsScreen"), { infoVer: true };
+    console.log("Datos enviados:", {
+      nombre,
+      apellido,
+      fecha,
+      descripcion,
+      password,
+      repeatPassword,
+    });
+    navigation.navigate("ProfileStepsScreen", { infoVer: true });
   };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
-        <Title title="Datos Personales" />
+        <BackButton />
+
+        <Title style={styles.title}>Datos Personales</Title>
 
         <Text style={styles.subtext}>
           Tus datos deberán coincidir con los de tu DNI.
@@ -38,7 +46,8 @@ const DatosPersonalesScreen = () => {
           style={styles.input}
           value={nombre}
           onChangeText={setNombre}
-          placeholder="julian"
+          placeholder="Julian"
+          placeholderTextColor="#888"
         />
 
         <Text style={styles.label}>Apellido</Text>
@@ -46,23 +55,26 @@ const DatosPersonalesScreen = () => {
           style={styles.input}
           value={apellido}
           onChangeText={setApellido}
-          placeholder="taliente"
+          placeholder="Taliente"
+          placeholderTextColor="#888"
         />
 
-        <Text style={styles.label}>Fecha</Text>
+        <Text style={styles.label}>Cumpleaños</Text>
         <TextInput
           style={styles.input}
           value={fecha}
           onChangeText={setFecha}
-          placeholder="dd/mm/yy    00:00"
+          placeholder="dd/mm/yy"
+          placeholderTextColor="#888"
         />
 
-        <Text style={styles.label}>Descripciones</Text>
+        <Text style={styles.label}>Descripción</Text>
         <TextInput
           style={[styles.input, styles.textarea]}
           value={descripcion}
           onChangeText={setDescripcion}
-          placeholder="Hola! Soy Julian tengo 28 años, etc."
+          placeholder="Hola! Soy Julian, tengo 28 años, etc."
+          placeholderTextColor="#888"
           multiline
         />
 
@@ -73,6 +85,7 @@ const DatosPersonalesScreen = () => {
           onChangeText={setPassword}
           secureTextEntry
           placeholder="********"
+          placeholderTextColor="#888"
         />
 
         <Text style={styles.label}>Repetir Contraseña</Text>
@@ -82,11 +95,12 @@ const DatosPersonalesScreen = () => {
           onChangeText={setRepeatPassword}
           secureTextEntry
           placeholder="********"
+          placeholderTextColor="#888"
         />
 
-              <View style={styles.fall}>
-                <CustomButton title="Verificar" onPress={handleSubmit} />
-              </View>
+        <View style={styles.fall}>
+          <CustomButton title="Verificar" onPress={handleSubmit} />
+        </View>
       </View>
     </ScrollView>
   );
@@ -96,31 +110,39 @@ export default DatosPersonalesScreen;
 
 const styles = StyleSheet.create({
   scrollContainer: {
+    marginTop: 20,
     flexGrow: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
+    backgroundColor: "#121212", // fondo oscuro
   },
   container: {
     padding: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "#121212",
+    flex: 1,
+  },
+  title: {
+    color: "#fff",
   },
   subtext: {
-    color: "#333",
+    color: "#aaa",
     fontSize: 14,
     marginBottom: 20,
+    fontWeight: "600",
+    textAlign: "center",
   },
   label: {
     fontSize: 14,
     marginBottom: 6,
-    textTransform: "lowercase",
-    color: "#333",
+    textTransform: "capitalize",
+    color: "#ddd",
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#333",
+    backgroundColor: "#1E1E1E",
     borderRadius: 6,
-    padding: 10,
+    padding: 12,
     fontSize: 16,
+    color: "#fff",
     marginBottom: 20,
   },
   textarea: {
@@ -132,5 +154,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     justifyContent: "flex-end",
+    marginTop: 20,
   },
 });

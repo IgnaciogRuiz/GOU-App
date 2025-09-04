@@ -16,16 +16,15 @@ const ProfileStepsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <OvalBackground color="#888888" direction="left" />
+      <OvalBackground color="#333" direction="left" />
       <Image
         source={require("../../../../assets/images/carAbove.png")}
         style={styles.carImage}
         resizeMode="contain"
       />
+      <Title style={{ color: "#fff" }}>Datos a Completar</Title>
+      <Text style={styles.subtitle}>Completa los siguientes requisitos</Text>
       <View style={styles.fall}>
-        <Title style={{ color: "#fff" }}>Datos a Completar</Title>
-        <Text style={styles.subtitle}>Completa los siguientes requisitos</Text>
-
         <TouchableOpacity
           style={styles.card}
           onPress={() => navigation.navigate("PhoneInputScreen")}
@@ -69,7 +68,7 @@ const ProfileStepsScreen = () => {
 
         <CustomButton title="Finalizar" onPress={() => navigation.navigate("AddOptVehicle")} />
       </View>
-    </View>
+    </View> 
   );
 };
 
@@ -86,13 +85,14 @@ const styles = StyleSheet.create({
     width: 350,
     height: 400,
     alignSelf: "flex-end",
-    marginTop: -30,
+    marginTop: -20,
     marginBottom: 0,
   },
   subtitle: {
     fontSize: 14,
     color: "#bbb",
     marginBottom: 20,
+    textAlign: "center",
   },
   card: {
     backgroundColor: "#1f1f1f",
