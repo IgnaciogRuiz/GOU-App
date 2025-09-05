@@ -1,13 +1,17 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from "react-native-confirmation-code-field";
-import { CustomButton, Title, BackButton } from '../../../components'
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+} from "react-native-confirmation-code-field";
+import { CustomButton, Title, BackButton } from "../../../components";
 import { useAuthNavigation } from "../../../navigation/Navigation";
-
 
 const CELL_COUNT = 6;
 
-const VerificationScreen = () => {
+const VerificationEmailDark = () => {
   const navigation = useAuthNavigation();
   const [value, setValue] = React.useState("");
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
@@ -18,30 +22,29 @@ const VerificationScreen = () => {
   const handleComenzar = () => {
     navigation.navigate("ProfileStepsScreen", { phoneVerified: true }); // Redirigir si querés
     console.log("phone verified, later make a variable to put a check in the ProfileStepsScreen");
-  };
+  };  
 
   return (
     <View style={styles.container}>
       <BackButton />
 
       <Image
-        source={require("../../../../assets/images/PhoneIcon.webp")} // Cambiá la ruta si tenés otro ícono
+        source={require("../../../../assets/images/PhoneIcon.png")}
         style={styles.icon}
         resizeMode="contain"
       />
 
-      <Title title="Codigo de" />
-      <Title title="verificación" />
+      <Title style={{ color: "#fff" }}>Código de Verificación</Title>
 
-      <Text style={styles.emailInfo}>
+      <Text style={styles.phoneInfo}>
         Verifica tu Telefono. Te llegara un SMS a **7096
       </Text>
 
       <TouchableOpacity>
-        <Text style={styles.emailChange}>¿este no es tu numero?</Text>
+        <Text style={styles.emailChange}>¿Este no es tu numero?</Text>
       </TouchableOpacity>
 
-      <Text style={styles.label}>codigo</Text>
+      <Text style={styles.label}>Código</Text>
 
       <CodeField
         ref={ref}
@@ -65,19 +68,22 @@ const VerificationScreen = () => {
         )}
       />
       <View style={styles.fall}>
-        <CustomButton title="Verificar" onPress={handleComenzar} />
+        <CustomButton
+          title="Verificar"
+          onPress={() => navigation.navigate("ProfileStepsScreen")}
+        />
       </View>
     </View>
   );
 };
 
-export default VerificationScreen;
+export default VerificationEmailDark;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "#121212", // fondo oscuro
     justifyContent: "center",
   },
   icon: {
@@ -86,22 +92,23 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 20,
     marginTop: 100,
+    tintColor: "#888", // opcional, si querés que el ícono se ponga blanco
   },
-  emailInfo: {
+  phoneInfo: {
     textAlign: "center",
     fontSize: 14,
     marginVertical: 8,
-    color: "#444",
+    color: "#aaa", // gris claro
   },
   emailChange: {
     textAlign: "center",
-    color: "#007AFF",
+    color: "#4DA6FF", // azul clarito
     marginBottom: 20,
   },
   label: {
     fontSize: 14,
     marginBottom: 8,
-    color: "#333",
+    color: "#ccc",
     textTransform: "capitalize",
   },
   codeFieldRoot: {
@@ -111,23 +118,20 @@ const styles = StyleSheet.create({
   cell: {
     width: 40,
     height: 50,
-    lineHeight: 48,
     fontSize: 24,
     borderWidth: 2,
-    borderColor: "#ccc",
-    textAlign: "center",
+    borderColor: "#444", // bordes grises oscuros
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#1E1E1E", // celda oscura
   },
   focusCell: {
-    borderColor: "#007AFF",
+    borderColor: "#4DA6FF", // azul cuando está seleccionada
   },
   cellText: {
     fontSize: 24,
-  },
-  button: {
-    width: 500,
+    color: "#fff",
   },
   fall: {
     flex: 1,

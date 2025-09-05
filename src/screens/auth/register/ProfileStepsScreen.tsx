@@ -3,11 +3,10 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { OvalBackground, Title, CustomButton } from '../../../components'
 import { Ionicons } from "@expo/vector-icons";
 import { useAuthNavigation } from "../../../navigation/Navigation";
-import { useRoute, RouteProp, } from "@react-navigation/native";
+import { useRoute, RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../../navigation/types/NavigationTypes";
 
 type ProfileStepsRouteProp = RouteProp<RootStackParamList, "ProfileStepsScreen">;
-
 
 const ProfileStepsScreen = () => {
   const navigation = useAuthNavigation();
@@ -17,16 +16,15 @@ const ProfileStepsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <OvalBackground color="#000" direction="left" />
+      <OvalBackground color="#333" direction="left" />
       <Image
         source={require("../../../../assets/images/carAbove.png")}
         style={styles.carImage}
         resizeMode="contain"
       />
+      <Title style={{ color: "#fff" }}>Datos a Completar</Title>
+      <Text style={styles.subtitle}>Completa los siguientes requisitos</Text>
       <View style={styles.fall}>
-        <Title title="Datos a completar" />
-        <Text style={styles.subtitle}>Completa los siguientes requisitos</Text>
-
         <TouchableOpacity
           style={styles.card}
           onPress={() => navigation.navigate("PhoneInputScreen")}
@@ -35,11 +33,14 @@ const ProfileStepsScreen = () => {
             source={require("../../../../assets/images/carAbove.png")}
             style={styles.icon}
           />
-          <Text style={styles.cardText}>Agregar numero de telefono</Text>
-          {phoneVerified ? (<Ionicons name="checkmark" size={24} color="green" />) : (<Ionicons name="chevron-forward" size={24} color="#000" />)}
+          <Text style={styles.cardText}>Agregar número de teléfono</Text>
+          {phoneVerified ? (
+            <Ionicons name="checkmark" size={24} color="green" />
+          ) : (
+            <Ionicons name="chevron-forward" size={24} color="#fff" />
+          )}
         </TouchableOpacity>
 
-        {/* Los otros dos pasos todavía con flecha */}
         <TouchableOpacity
           style={styles.card}
           onPress={() => navigation.navigate("PersonalInfo")}
@@ -48,10 +49,12 @@ const ProfileStepsScreen = () => {
             source={require("../../../../assets/images/carAbove.png")}
             style={styles.icon}
           />
-          <Text style={styles.cardText}>Completar informacion personal</Text>
-          
-          {infoVer ? (<Ionicons name="checkmark" size={24} color="green" />) : (<Ionicons name="chevron-forward" size={24} color="#000" />)}
-          
+          <Text style={styles.cardText}>Completar información personal</Text>
+          {infoVer ? (
+            <Ionicons name="checkmark" size={24} color="green" />
+          ) : (
+            <Ionicons name="chevron-forward" size={24} color="#fff" />
+          )}
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.card}>
@@ -60,12 +63,12 @@ const ProfileStepsScreen = () => {
             style={styles.icon}
           />
           <Text style={styles.cardText}>Valida tu identidad</Text>
-          <Ionicons name="chevron-forward" size={24} color="#000" />
+          <Ionicons name="chevron-forward" size={24} color="#fff" />
         </TouchableOpacity>
 
         <CustomButton title="Finalizar" onPress={() => navigation.navigate("AddOptVehicle")} />
       </View>
-    </View>
+    </View> 
   );
 };
 
@@ -74,7 +77,7 @@ export default ProfileStepsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#121212",
     padding: 20,
     justifyContent: "flex-start",
   },
@@ -82,16 +85,17 @@ const styles = StyleSheet.create({
     width: 350,
     height: 400,
     alignSelf: "flex-end",
-    marginTop: -30,
+    marginTop: -20,
     marginBottom: 0,
   },
   subtitle: {
     fontSize: 14,
-    color: "#444",
+    color: "#bbb",
     marginBottom: 20,
+    textAlign: "center",
   },
   card: {
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#1f1f1f",
     borderRadius: 12,
     padding: 20,
     flexDirection: "row",
@@ -106,15 +110,7 @@ const styles = StyleSheet.create({
   cardText: {
     flex: 1,
     fontSize: 14,
-    color: "#222",
-  },
-  check: {
-    width: 22,
-    height: 22,
-    backgroundColor: "green",
-    borderRadius: 11,
-    justifyContent: "center",
-    alignItems: "center",
+    color: "#fff",
   },
   fall: {
     flex: 1,
