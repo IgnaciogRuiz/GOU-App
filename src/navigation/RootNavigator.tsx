@@ -29,7 +29,7 @@ export default function RootNavigator() {
       {/* Auth flow */}
       {hasSeenOnboarding && !isAuthenticated && (
         <>
-          {/*<Stack.Screen name="Onboarding" component={IntroductionAnimationScreen} />    Con esta linea se prueba el OnBoarding    */} 
+          {/* <Stack.Screen name="Onboarding" component={IntroductionAnimationScreen} />    Con esta linea se prueba el OnBoarding    */} 
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
