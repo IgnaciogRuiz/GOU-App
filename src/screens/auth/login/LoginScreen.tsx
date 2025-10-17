@@ -3,10 +3,12 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Animated } from "r
 import { CustomButton } from "../../../components";
 import { useLogin } from "../../../hooks";
 import { useAuthNavigation } from "../../../navigation/Navigation";
+import { useAuth } from "../../../contexts";
 
 const LoginScreen = () => {
   const navigation = useAuthNavigation();
   const { mutate: login, isPending } = useLogin();
+  const { eliminarStorage } = useAuth();
 
   const [form, setForm] = useState({ dni: "", password: "" });
   const [error, setError] = useState("");
@@ -101,6 +103,9 @@ const LoginScreen = () => {
 
           <TouchableOpacity style={styles.forgotContainer}>
             <Text style={styles.forgotText}>¿Olvidaste tu contraseña?</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.forgotContainer} onPress={eliminarStorage}>
+            <Text style={styles.forgotText}>Test Onboarding</Text>
           </TouchableOpacity>
 
         {/* Error animado */}
