@@ -64,6 +64,7 @@ const LoginScreen = () => {
               err instanceof Error ? err.message : "Error al iniciar sesión"
             );
           },
+          //onSuccess: () => { setForm({ dni: "", password: "" }); }
         }
       );
     }
@@ -103,9 +104,6 @@ const LoginScreen = () => {
 
           <TouchableOpacity style={styles.forgotContainer}>
             <Text style={styles.forgotText}>¿Olvidaste tu contraseña?</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.forgotContainer} onPress={eliminarStorage}>
-            <Text style={styles.forgotText}>Test Onboarding</Text>
           </TouchableOpacity>
 
         {/* Error animado */}

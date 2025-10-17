@@ -5,6 +5,7 @@ import RootNavigator from "./navigation/RootNavigator";
 import { SafeAreaProvider, useSafeAreaInsets, SafeAreaView } from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "./contexts";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ClearStorageOnStart } from "./hooks/clearstorage";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
+         {/*<ClearStorageOnStart />*/}
         <AppWrapper />
       </AuthProvider>
     </SafeAreaProvider>

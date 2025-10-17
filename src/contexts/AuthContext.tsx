@@ -1,4 +1,3 @@
-// src/contexts/AuthContext.tsx
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authService } from "../api/rest";
@@ -8,13 +7,15 @@ import { Loader } from "../components";
 interface AuthContextType {
   isAuthenticated: boolean;
   setIsAuthenticated: (auth: boolean) => void;
-  eliminarStorage: () => Promise<void>;
-  hasSeenOnboarding: boolean;
-  completeOnboarding: () => Promise<void>;  // 👈 nuevo
-  setHasSeenOnboarding: (seen: boolean) => void;
-  loading: boolean;
   token: string | null;
   setToken: (token: string | null) => Promise<void>;
+  user: any | null;
+  setUser: (user: any | null) => void;
+  eliminarStorage: () => Promise<void>;
+  loading: boolean;
+  hasSeenOnboarding: boolean;
+  completeOnboarding: () => Promise<void>;
+  setHasSeenOnboarding: (seen: boolean) => void;
   dashboardData: any | null;
   homeError: any | null;
 }
@@ -27,10 +28,15 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [hasSeenOnboarding, setHasSeenOnboarding] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [token, _setToken] = useState<string | null>(null);
+  const [user, _setUser] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [hasSeenOnboarding, setHasSeenOnboarding] = useState(false);
 
+  // Hook independiente que obtiene datos de home/dashboard
+  const { dashboardData, loading: homeLoading, error: homeError } = useHomeData(token);
+
+  // Setter de token que guarda en AsyncStorage
   const setToken = async (newToken: string | null) => {
     if (newToken) {
       await AsyncStorage.setItem("token", newToken);
@@ -40,57 +46,68 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     _setToken(newToken);
   };
 
-  // ✅ hook independiente que ahora podemos usar sin ciclo
-  const { dashboardData, loading: homeLoading, error: homeError } = useHomeData(token);
+  // Setter de user que guarda también en AsyncStorage
+  const setUser = async (newUser: any | null) => {
+    if (newUser) {
+      await AsyncStorage.setItem("user", JSON.stringify(newUser));
+    } else {
+      await AsyncStorage.removeItem("user");
+    }
+    _setUser(newUser);
+  };
 
+  // Inicializar auth y user desde AsyncStorage
   useEffect(() => {
-    const checkAuthStatus = async () => {
+    const initAuth = async () => {
       try {
-        const [seenOnboarding, storedToken] = await Promise.all([
-          AsyncStorage.getItem("hasSeenOnboarding"),
+        const [storedToken, storedUser, seenOnboarding] = await Promise.all([
           AsyncStorage.getItem("token"),
+          AsyncStorage.getItem("user"),
+          AsyncStorage.getItem("hasSeenOnboarding"),
         ]);
 
         setHasSeenOnboarding(!!seenOnboarding);
-        await setToken(storedToken);
 
         if (storedToken) {
-          await authService(storedToken);
+          await setToken(storedToken);
+
+          let parsedUser = storedUser ? JSON.parse(storedUser) : null;
+
+          if (!parsedUser) {
+            // Si no tenemos user guardado, pedir al backend /me
+            const response = await authService(storedToken);
+            parsedUser = response.data.user;
+          }
+
+          await setUser(parsedUser);
           setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
         }
       } catch (error) {
-        if (
-          (error as any).message?.includes("UNAUTHORIZED") ||
-          (error as any).status === 401
-        ) {
-          console.log("Token inválido o expirado");
-          await AsyncStorage.removeItem("token");
-        }
+        console.log("Error iniciando auth:", error);
+        await AsyncStorage.multiRemove(["token", "user"]);
+        _setUser(null);
         setIsAuthenticated(false);
       } finally {
         setLoading(false);
       }
     };
 
-    checkAuthStatus();
+    initAuth();
   }, []);
 
   const eliminarStorage = async () => {
-    await AsyncStorage.multiRemove(["token"]);
+    await AsyncStorage.multiRemove(["token", "user"]);
     setIsAuthenticated(false);
-    setHasSeenOnboarding(false);
     await setToken(null);
+    await setUser(null);
+    setHasSeenOnboarding(false);
   };
 
   const completeOnboarding = async () => {
-  await AsyncStorage.setItem("hasSeenOnboarding", "true");
-  setHasSeenOnboarding(true);
-};
+    await AsyncStorage.setItem("hasSeenOnboarding", "true");
+    setHasSeenOnboarding(true);
+  };
 
-
-  // 👇 Loader global: espera auth + home
   const stillLoading = loading || (isAuthenticated && homeLoading);
 
   return (
@@ -98,13 +115,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       value={{
         isAuthenticated,
         setIsAuthenticated,
+        token,
+        setToken,
+        user,
+        setUser,
         eliminarStorage,
+        loading: stillLoading,
         hasSeenOnboarding,
         completeOnboarding,
         setHasSeenOnboarding,
-        loading: stillLoading,
-        token,
-        setToken,
         dashboardData,
         homeError,
       }}

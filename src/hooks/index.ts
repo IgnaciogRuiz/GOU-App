@@ -8,3 +8,4 @@ export { useLogout } from './auth/useLogout';
 export { useHomeData } from './app/useHomeData';
 export { useChats } from './app/useChats';
 export { useProfileData } from './app/useProfileData';
+export { useMessages } from './app/useMessages';

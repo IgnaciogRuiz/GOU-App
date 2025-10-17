@@ -28,6 +28,7 @@ const ChatsScreen = () => {
   const mappedChats = chats ? mapChats(chats) : [];
 
   const handleChatPress = (chatItem) => {
+    console.log('Navegando al chat con ID:', chatItem.id);
     navigation.navigate("Chat", { chatId: chatItem.id, user: chatItem });
   };
 
