@@ -3,8 +3,15 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Header } from '../../components';
+import { getTrips } from '../../api/graphql/queries/getTrips';
+import { useAuth } from '../../contexts/AuthContext'; // o donde tengas el token
+import { useHomeNavigation } from "../../navigation/Navigation";
+
+
 
 const SearchScreen = () => {
+  const navigation = useHomeNavigation();
+  const { token } = useAuth(); // si lo manejás así
   const [origen, setOrigen] = useState('');
   const [destino, setDestino] = useState('');
   const [fecha, setFecha] = useState(new Date());
@@ -29,10 +36,26 @@ const SearchScreen = () => {
     });
   };
 
-  const handleSearch = () => {
-    // Aquí iría la lógica de búsqueda
-    console.log('Buscando viajes...', { origen, destino, fecha, pasajeros });
-  };
+  
+const handleSearch = async () => {
+  const fechaISO = fecha.toISOString();
+  // console.log('Buscando viajes...', { origen, destino, fecha, pasajeros });
+  navigation.navigate('TripsResults', {
+    origen,
+    destino,
+    fecha: fechaISO,
+    pasajeros,
+    precioMin,
+    precioMax,
+  });
+
+  try {
+      const response = await getTrips(token);
+      console.log('Resultados:', response);
+    } catch (error) {
+      console.error('Error buscando viajes:', error);
+    }
+};
 
   return (
     <>

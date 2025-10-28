@@ -6,6 +6,7 @@ export { default as HomeScreen  } from './HomeScreen';
 
 //RESERVATION FLOW
 export { default as TripDetailScreen  } from './TripDetailScreen'; 
+export { default as TripsResults  } from './TripsResultsScreen'; 
 
 
 //CHAT FLOW

@@ -35,3 +35,15 @@ export type RootStackParamList = {
   AddOptVehicle: undefined;
   VehicleAdd: undefined;
 };
+
+export type HomeStackParamList = {
+  Buscar: undefined;
+  TripsResults: {
+    origen: string;
+    destino: string;
+    fecha: string;
+    pasajeros: number;
+    precioMin?: string;
+    precioMax?: string;
+  };
+};

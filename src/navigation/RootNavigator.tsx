@@ -4,10 +4,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuth } from "../contexts/AuthContext";
 import { RootStackParamList } from "./types/NavigationTypes";
 import BottomTabsNavigator from "./BottomTabsNavigator";
+import HomeNavigation from '../navigation/HomeNavigation';
 import { LoginScreen, RegisterScreen, VerifyEmail, PhoneInputScreen, VerifyPhone, ProfileStepsScreen, PersonalInfo, AddOptVehicle, VehicleAdd } from "../screens/auth";
 
 import { IntroductionAnimationScreen } from "../screens/introduction_animation";
+import TripsResultsScreen from '../screens/home/TripsResultsScreen';
 
+ 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
@@ -46,7 +49,8 @@ export default function RootNavigator() {
 
       {/* App main */}
       {hasSeenOnboarding && isAuthenticated && (
-        <Stack.Screen name="Home" component={BottomTabsNavigator} />
+        // <Stack.Screen name="Home" component={BottomTabsNavigator} />
+        <Stack.Screen name="Home" component={HomeNavigation} />
       )}
     </Stack.Navigator>
   );
