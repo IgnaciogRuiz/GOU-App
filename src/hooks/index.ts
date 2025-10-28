@@ -9,3 +9,4 @@ export { useHomeData } from './app/useHomeData';
 export { useChats } from './app/useChats';
 export { useProfileData } from './app/useProfileData';
 export { useMessages } from './app/useMessages';
+export { useCreateTrip, useGetTags, useGetVehicles } from './app/useTrips';

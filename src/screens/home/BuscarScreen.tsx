@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Header } from '../../components';
 
 const SearchScreen = () => {
@@ -35,12 +36,7 @@ const SearchScreen = () => {
 
   return (
     <>
-      <SafeAreaView style={{ backgroundColor: '#111827' }}>
-        <Header
-          title="Buscar Viajes"
-          showSearch={true}
-          onSearchPress={() => console.log("Buscar viajes")}
-        />
+      <SafeAreaView style={{ backgroundColor: '#000000ff' }}>
       </SafeAreaView>
       
       <ScrollView style={styles.scrollView}>
@@ -161,60 +157,7 @@ const SearchScreen = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Sugerencias recientes */}
-         {/* 
-        <View style={styles.suggestionsSection}>
-          <Text style={styles.sectionTitle}>Búsquedas recientes</Text>
-          
-          <TouchableOpacity style={styles.suggestionItem}>
-            <View style={styles.suggestionIconContainer}>
-              <Text style={styles.suggestionIcon}>🚗</Text>
-            </View>
-            <View style={styles.suggestionContent}>
-              <Text style={styles.suggestionRoute}>Barcelona → Madrid</Text>
-              <View style={styles.suggestionDetails}>
-                <Text style={styles.suggestionDate}>Hoy, 15:30</Text>
-                <Text style={styles.suggestionPrice}>25€</Text>
-              </View>
-            </View>
-            <View style={styles.suggestionArrow}>
-              <Text style={styles.chevron}>›</Text>
-            </View>
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.suggestionItem}>
-            <View style={styles.suggestionIconContainer}>
-              <Text style={styles.suggestionIcon}>🚙</Text>
-            </View>
-            <View style={styles.suggestionContent}>
-              <Text style={styles.suggestionRoute}>Madrid → Valencia</Text>
-              <View style={styles.suggestionDetails}>
-                <Text style={styles.suggestionDate}>Mañana, 09:15</Text>
-                <Text style={styles.suggestionPrice}>18€</Text>
-              </View>
-            </View>
-            <View style={styles.suggestionArrow}>
-              <Text style={styles.chevron}>›</Text>
-            </View>
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.suggestionItem}>
-            <View style={styles.suggestionIconContainer}>
-              <Text style={styles.suggestionIcon}>🚘</Text>
-            </View>
-            <View style={styles.suggestionContent}>
-              <Text style={styles.suggestionRoute}>Sevilla → Málaga</Text>
-              <View style={styles.suggestionDetails}>
-                <Text style={styles.suggestionDate}>12 Jun, 17:45</Text>
-                <Text style={styles.suggestionPrice}>15€</Text>
-              </View>
-            </View>
-            <View style={styles.suggestionArrow}>
-              <Text style={styles.chevron}>›</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-         */}
+      
       </ScrollView>
 
       {/* DatePicker Modal */}
@@ -244,7 +187,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 20,
     margin: 16,
-    marginTop: 24,
+    marginTop: 0,
     shadowColor: '#2563eb',
     shadowOffset: {
       width: 0,

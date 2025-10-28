@@ -21,7 +21,6 @@ const HomeScreen: React.FC = () => {
         <View style={homeStyles.content}>
           <MyReservationsSection reservedTrips={dashboardData?.reservations ?? []} />
           <MyPublishedTripsSection publishedTrips={dashboardData?.published_trips ?? []} />
-          <RecentActivitySection />
         </View>
       </ScrollView>
     </SafeAreaView>

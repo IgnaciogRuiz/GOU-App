@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet, SafeAreaView, Text} from 'react-native';
+import { View, ScrollView, StyleSheet, Text} from 'react-native';
 import { Header, MenuItem, UserInfoCard } from '../../components';
 import { useLogout, useProfileData } from '../../hooks';
 import { formatUserProfile } from '../../utils/formatProfileData';
+import { SafeAreaProvider, useSafeAreaInsets, SafeAreaView } from "react-native-safe-area-context";
 
 
 // Main Profile Screen Component
@@ -32,7 +33,6 @@ const ProfileScreen: React.FC = () => {
   return (
     <>
       <SafeAreaView style={{ backgroundColor: '#111827' }}>
-        <Header title="Perfil" />
       </SafeAreaView>
 
       <View style={styles.container}>

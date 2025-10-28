@@ -12,3 +12,4 @@ export { getMessages } from './queries/getMessages';
 
 //MUTATIONS
 export { createMessage } from './mutations/createMessages';
+export { getMyVehicles, getAllTags, createTrip } from './mutations/createTrips';
