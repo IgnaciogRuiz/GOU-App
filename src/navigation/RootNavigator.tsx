@@ -49,8 +49,8 @@ export default function RootNavigator() {
 
       {/* App main */}
       {hasSeenOnboarding && isAuthenticated && (
-        // <Stack.Screen name="Home" component={BottomTabsNavigator} />
-        <Stack.Screen name="Home" component={HomeNavigation} />
+        <Stack.Screen name="Home" component={BottomTabsNavigator} />
+        // <Stack.Screen name="Home2" component={HomeNavigation} />
       )}
     </Stack.Navigator>
   );

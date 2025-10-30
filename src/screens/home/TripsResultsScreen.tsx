@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
-import { useRoute, useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { getTrips } from '../../api/graphql/queries/getTrips';
-import { useAuth } from '../../contexts/AuthContext';
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import { useRoute, useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import tripsData from "../../data/trips.json";
 
 const TripsResultsScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const { token } = useAuth();
 
-  const { origen, destino, fecha, pasajeros, precioMin, precioMax } = route.params as {
+  const { origen, destino, fecha, pasajeros } = route.params as {
     origen: string;
     destino: string;
     fecha: Date;
     pasajeros: number;
-    precioMin?: string;
-    precioMax?: string;
   };
 
   const [loading, setLoading] = useState(true);
@@ -25,28 +28,35 @@ const TripsResultsScreen = () => {
 
   useEffect(() => {
     const fetchTrips = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const data = await getTrips(token, {
-          origen,
-          destino,
-          fecha,
-          pasajeros,
-          precioMin,
-          precioMax,
+        const selectedDate = new Date(fecha);
+        const startRange = new Date(selectedDate);
+        const endRange = new Date(selectedDate);
+        startRange.setDate(startRange.getDate() - 3);
+        endRange.setDate(endRange.getDate() + 3);
+
+        const filtered = tripsData.filter((t) => {
+          const tripDate = new Date(t.date);
+          return (
+            t.origin.toLowerCase() === origen.toLowerCase() &&
+            t.destination.toLowerCase() === destino.toLowerCase() &&
+            tripDate >= startRange &&
+            tripDate <= endRange &&
+            t.available_seats >= pasajeros
+          );
         });
 
-        const tripsData = data?.getTrips || [];
-
-        // Detectar si las fechas son distintas a la buscada
-        const hasExactMatch = tripsData.some(
-          (t: any) => new Date(t.date).toDateString() === new Date(fecha).toDateString()
+        const exactMatch = filtered.some(
+          (t) =>
+            new Date(t.date).toDateString() ===
+            new Date(fecha).toDateString()
         );
 
-        setIsApproximate(!hasExactMatch && tripsData.length > 0);
-        setTrips(tripsData);
+        setIsApproximate(!exactMatch && filtered.length > 0);
+        setTrips(filtered);
       } catch (error) {
-        console.error('Error al buscar viajes:', error);
+        console.error("Error cargando viajes:", error);
       } finally {
         setLoading(false);
       }
@@ -56,12 +66,12 @@ const TripsResultsScreen = () => {
   }, []);
 
   const formatDate = (date: string) => {
-    return new Date(date).toLocaleString('es-ES', {
-      weekday: 'short',
-      day: 'numeric',
-      month: 'long',
-      hour: '2-digit',
-      minute: '2-digit',
+    return new Date(date).toLocaleString("es-ES", {
+      weekday: "short",
+      day: "numeric",
+      month: "long",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -76,7 +86,9 @@ const TripsResultsScreen = () => {
       <Text style={styles.dateText}>{formatDate(item.date)}</Text>
 
       <View style={styles.infoRow}>
-        <Text style={styles.infoText}>Asientos disponibles: {item.available_seats}</Text>
+        <Text style={styles.infoText}>
+          Asientos disponibles: {item.available_seats}
+        </Text>
         <Text style={styles.infoText}>
           Vehículo: {item.vehicle.brand} {item.vehicle.model}
         </Text>
@@ -87,7 +99,9 @@ const TripsResultsScreen = () => {
           👤 {item.vehicle.user.firstname} {item.vehicle.user.lastname}
         </Text>
         {item.vehicle.user.ratingRatio && (
-          <Text style={styles.rating}>⭐ {item.vehicle.user.ratingRatio.toFixed(1)}</Text>
+          <Text style={styles.rating}>
+            ⭐ {item.vehicle.user.ratingRatio.toFixed(1)}
+          </Text>
         )}
       </View>
     </View>
@@ -104,7 +118,8 @@ const TripsResultsScreen = () => {
           {isApproximate && (
             <View style={styles.notice}>
               <Text style={styles.noticeText}>
-                No hay viajes exactamente el {formatDate(fecha.toString())}, pero encontramos otros cercanos.
+                No hay viajes exactamente el{" "}
+                {formatDate(fecha.toString())}, pero encontramos otros cercanos.
               </Text>
             </View>
           )}
@@ -118,7 +133,9 @@ const TripsResultsScreen = () => {
         </>
       ) : (
         <View style={styles.noResults}>
-          <Text style={styles.noResultsText}>😔 No se encontraron viajes disponibles.</Text>
+          <Text style={styles.noResultsText}>
+            😔 No se encontraron viajes disponibles.
+          </Text>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={styles.backButton}
@@ -134,94 +151,47 @@ const TripsResultsScreen = () => {
 export default TripsResultsScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-    paddingHorizontal: 16,
-    paddingTop: 12,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#fff',
-    marginBottom: 16,
-  },
+  container: { flex: 1, backgroundColor: "#000", padding: 16 },
+  title: { fontSize: 20, fontWeight: "600", color: "#fff", marginBottom: 16 },
   card: {
-    backgroundColor: '#111827',
+    backgroundColor: "#111827",
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: "#1f2937",
   },
   cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 4,
   },
-  routeText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#fff',
-  },
-  priceText: {
-    color: '#10b981',
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  dateText: {
-    color: '#9ca3af',
-    marginBottom: 8,
-  },
-  infoRow: {
-    marginBottom: 8,
-  },
-  infoText: {
-    color: '#d1d5db',
-    fontSize: 14,
-  },
+  routeText: { fontSize: 16, fontWeight: "600", color: "#fff" },
+  priceText: { color: "#10b981", fontSize: 16, fontWeight: "700" },
+  dateText: { color: "#9ca3af", marginBottom: 8 },
+  infoRow: { marginBottom: 8 },
+  infoText: { color: "#d1d5db", fontSize: 14 },
   driverRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
-  driverName: {
-    color: '#93c5fd',
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  rating: {
-    color: '#facc15',
-    fontWeight: '600',
-  },
+  driverName: { color: "#93c5fd", fontSize: 14, fontWeight: "500" },
+  rating: { color: "#facc15", fontWeight: "600" },
   notice: {
-    backgroundColor: '#1e3a8a',
+    backgroundColor: "#1e3a8a",
     padding: 10,
     borderRadius: 8,
     marginBottom: 12,
   },
-  noticeText: {
-    color: '#bfdbfe',
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  noResults: {
-    marginTop: 100,
-    alignItems: 'center',
-  },
-  noResultsText: {
-    color: '#9ca3af',
-    fontSize: 16,
-    marginBottom: 20,
-  },
+  noticeText: { color: "#bfdbfe", fontSize: 14, textAlign: "center" },
+  noResults: { marginTop: 100, alignItems: "center" },
+  noResultsText: { color: "#9ca3af", fontSize: 16, marginBottom: 20 },
   backButton: {
-    backgroundColor: '#2563eb',
+    backgroundColor: "#2563eb",
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
   },
-  backButtonText: {
-    color: '#fff',
-    fontWeight: '600',
-  },
+  backButtonText: { color: "#fff", fontWeight: "600" },
 });

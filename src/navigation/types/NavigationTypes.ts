@@ -15,6 +15,14 @@ export type BottomTabParamList = {
   Mensajes: undefined;
   Perfil: undefined;
   TripDetails: undefined;
+  TripsResults: {
+    origen: string;
+    destino: string;
+    fecha: string;
+    pasajeros: number;
+    precioMin?: string;
+    precioMax?: string;
+  };
 };
 
 export type RootStackParamList = {
@@ -38,12 +46,12 @@ export type RootStackParamList = {
 
 export type HomeStackParamList = {
   Buscar: undefined;
-  TripsResults: {
-    origen: string;
-    destino: string;
-    fecha: string;
-    pasajeros: number;
-    precioMin?: string;
-    precioMax?: string;
-  };
+  // TripsResults: {
+  //   origen: string;
+  //   destino: string;
+  //   fecha: string;
+  //   pasajeros: number;
+  //   precioMin?: string;
+  //   precioMax?: string;
+  // };
 };

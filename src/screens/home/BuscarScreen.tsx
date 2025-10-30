@@ -51,7 +51,7 @@ const handleSearch = async () => {
 
   try {
       const response = await getTrips(token);
-      console.log('Resultados:', response);
+      // console.log('Resultados:', response);
     } catch (error) {
       console.error('Error buscando viajes:', error);
     }

@@ -1,0 +1,162 @@
+[
+  {
+    "id": 1,
+    "vehicle_id": 101,
+    "origin": "cordoba",
+    "destination": "buenos aires",
+    "date": "2025-11-27T15:00:00Z",
+    "available_seats": 3,
+    "price": 12000.50,
+    "created_at": "2025-10-10T10:00:00Z",
+    "updated_at": "2025-10-10T10:00:00Z",
+    "vehicle": {
+      "brand": "Toyota",
+      "model": "Corolla",
+      "user": { "firstname": "Juan", "lastname": "Perez", "ratingRatio": 4.8 }
+    }
+  },
+  {
+    "id": 2,
+    "vehicle_id": 102,
+    "origin": "rosario",
+    "destination": "buenos aires",
+    "date": "2025-11-29T09:00:00Z",
+    "available_seats": 2,
+    "price": 9500.00,
+    "created_at": "2025-10-11T10:00:00Z",
+    "updated_at": "2025-10-11T10:00:00Z",
+    "vehicle": {
+      "brand": "Ford",
+      "model": "Focus",
+      "user": { "firstname": "Maria", "lastname": "Lopez", "ratingRatio": 4.5 }
+    }
+  },
+  {
+    "id": 3,
+    "vehicle_id": 103,
+    "origin": "cordoba",
+    "destination": "mendoza",
+    "date": "2025-11-28T18:30:00Z",
+    "available_seats": 4,
+    "price": 10000.00,
+    "created_at": "2025-10-11T12:00:00Z",
+    "updated_at": "2025-10-11T12:00:00Z",
+    "vehicle": {
+      "brand": "Chevrolet",
+      "model": "Onix",
+      "user": { "firstname": "Carlos", "lastname": "Diaz", "ratingRatio": 4.9 }
+    }
+  },
+  {
+    "id": 4,
+    "vehicle_id": 104,
+    "origin": "buenos aires",
+    "destination": "cordoba",
+    "date": "2025-11-26T14:00:00Z",
+    "available_seats": 1,
+    "price": 13000.00,
+    "created_at": "2025-10-12T10:00:00Z",
+    "updated_at": "2025-10-12T10:00:00Z",
+    "vehicle": {
+      "brand": "Peugeot",
+      "model": "208",
+      "user": { "firstname": "Lucia", "lastname": "Fernandez", "ratingRatio": 4.6 }
+    }
+  },
+  {
+    "id": 5,
+    "vehicle_id": 105,
+    "origin": "cordoba",
+    "destination": "buenos aires",
+    "date": "2025-11-30T10:15:00Z",
+    "available_seats": 2,
+    "price": 11500.00,
+    "created_at": "2025-10-14T10:00:00Z",
+    "updated_at": "2025-10-14T10:00:00Z",
+    "vehicle": {
+      "brand": "Volkswagen",
+      "model": "Gol",
+      "user": { "firstname": "Santiago", "lastname": "Gomez", "ratingRatio": 4.3 }
+    }
+  },
+  {
+    "id": 6,
+    "vehicle_id": 106,
+    "origin": "mendoza",
+    "destination": "cordoba",
+    "date": "2025-11-28T08:45:00Z",
+    "available_seats": 3,
+    "price": 9800.00,
+    "created_at": "2025-10-14T11:00:00Z",
+    "updated_at": "2025-10-14T11:00:00Z",
+    "vehicle": {
+      "brand": "Renault",
+      "model": "Clio",
+      "user": { "firstname": "Pedro", "lastname": "Martinez", "ratingRatio": 4.7 }
+    }
+  },
+  {
+    "id": 7,
+    "vehicle_id": 107,
+    "origin": "cordoba",
+    "destination": "buenos aires",
+    "date": "2025-11-25T07:00:00Z",
+    "available_seats": 1,
+    "price": 11000.00,
+    "created_at": "2025-10-15T10:00:00Z",
+    "updated_at": "2025-10-15T10:00:00Z",
+    "vehicle": {
+      "brand": "Fiat",
+      "model": "Cronos",
+      "user": { "firstname": "Natalia", "lastname": "Ruiz", "ratingRatio": 4.4 }
+    }
+  },
+  {
+    "id": 8,
+    "vehicle_id": 108,
+    "origin": "buenos aires",
+    "destination": "rosario",
+    "date": "2025-11-28T19:30:00Z",
+    "available_seats": 3,
+    "price": 8900.00,
+    "created_at": "2025-10-16T10:00:00Z",
+    "updated_at": "2025-10-16T10:00:00Z",
+    "vehicle": {
+      "brand": "Honda",
+      "model": "Civic",
+      "user": { "firstname": "Florencia", "lastname": "Sosa", "ratingRatio": 4.9 }
+    }
+  },
+  {
+    "id": 9,
+    "vehicle_id": 109,
+    "origin": "cordoba",
+    "destination": "buenos aires",
+    "date": "2025-11-24T11:00:00Z",
+    "available_seats": 4,
+    "price": 12500.00,
+    "created_at": "2025-10-17T10:00:00Z",
+    "updated_at": "2025-10-17T10:00:00Z",
+    "vehicle": {
+      "brand": "Nissan",
+      "model": "Versa",
+      "user": { "firstname": "Martina", "lastname": "Silva", "ratingRatio": 4.2 }
+    }
+  },
+  {
+    "id": 10,
+    "vehicle_id": 110,
+    "origin": "cordoba",
+    "destination": "buenos aires",
+    "date": "2025-12-01T09:00:00Z",
+    "available_seats": 2,
+    "price": 14000.00,
+    "created_at": "2025-10-18T10:00:00Z",
+    "updated_at": "2025-10-18T10:00:00Z",
+    "vehicle": {
+      "brand": "Kia",
+      "model": "Rio",
+      "user": { "firstname": "Andres", "lastname": "Lopez", "ratingRatio": 4.7 }
+    }
+  }
+]

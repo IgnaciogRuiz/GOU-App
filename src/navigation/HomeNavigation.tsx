@@ -22,8 +22,8 @@ const HomeNavigation = () => {
   } as any)}
 >
 
-      <Stack.Screen name="Buscar" component={SearchScreen} />
-      <Stack.Screen name="TripsResults" component={TripsResultsScreen} />
+      {/* <Stack.Screen name="Buscar" component={SearchScreen} /> */}
+      {/* <Stack.Screen name="TripsResults" component={TripsResultsScreen} /> */}
     </Stack.Navigator>
   );
 };

@@ -17,7 +17,7 @@ export const useAuthNavigation = () =>
 export const useBottomTabNavigation = () =>
   useNavigation<BottomTabNavigationProp<BottomTabParamList>>();
 
-// Navegación para la home principal (BottomTabs)
+// Navegación para la home principal
 export const useHomeNavigation = () =>
   useNavigation<StackNavigationProp<HomeStackParamList>>();
 
