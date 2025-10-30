@@ -1,99 +1,190 @@
-# 🚗 GOU! – Compartí tu viaje, cuidá el planeta 🌍
+# 🧠 GOU! – Aplicación de Carpooling Inteligente
 
-**GOU!** es una aplicación móvil de **carpooling inteligente** que conecta personas que comparten un mismo destino, permitiéndoles viajar juntas de forma **económica, segura y sustentable**.
-
-Inspirada en plataformas como **BlaBlaCar**, **GOU!** busca fomentar la **movilidad colaborativa** y reducir la huella de carbono generada por el transporte individual.
-
----
-
-## 💡 ¿Qué es GOU?
-
-GOU! nace con la idea de aprovechar los asientos vacíos de los autos que circulan todos los días.  
-Mediante una app práctica e intuitiva, los usuarios pueden ofrecer o buscar viajes según su destino y horario, **compartiendo gastos y experiencias**.
-
-De esta manera, GOU! no solo ayuda a **ahorrar dinero**, sino también a **reducir el tráfico y las emisiones de CO₂**, promoviendo una comunidad más consciente y conectada.
+**Versión:** 1.0.0  
+**Framework:** React Native + Expo  
+**Lenguaje principal:** TypeScript  
+**Plataformas:** Android / iOS  
 
 ---
 
-## 🌟 Principales Funcionalidades
+## 📦 Descripción General
 
-- 👤 **Registro y autenticación segura**  
-  Los usuarios crean su cuenta y acceden de forma protegida, con soporte para autenticación biométrica.
-
-- 🎬 **Onboarding interactivo**  
-  Una introducción visual que explica los beneficios y funcionamiento de la app antes del primer uso.
-
-- 🚘 **Publicación y búsqueda de viajes**  
-  Conductores pueden crear viajes detallando origen, destino, horarios y costo por pasajero.  
-  Los pasajeros pueden explorar viajes disponibles filtrando por ruta y precio.
-
-- 🧾 **Escaneo de DNI**  
-  Integración con la cámara del dispositivo para verificar identidad escaneando el frente y dorso del documento, con una interfaz clara y moderna.
-
-- 🪪 **Perfil del usuario**  
-  Cada usuario tiene su propio perfil con información personal, reseñas y preferencias de viaje.
-
-- 🌱 **Huella de carbono estimada**  
-  Cada viaje muestra una estimación del impacto ambiental, fomentando una elección más sustentable.
+**GOU!** es una aplicación móvil desarrollada con **Expo** y **React Native**, escrita en **TypeScript**, orientada a la gestión de viajes compartidos (carpooling).  
+Su arquitectura prioriza modularidad, rendimiento y escalabilidad, integrando librerías modernas para autenticación, navegación, animaciones, comunicación con APIs y control de estado asíncrono.
 
 ---
 
-## 🧭 Experiencia del Usuario
+## ⚙️ Scripts Disponibles
 
-El diseño de GOU! se basa en la **simplicidad y confianza**:
-- Navegación fluida mediante un sistema de **pestañas inferiores (Bottom Tabs)**.  
-- Botones y pantallas diseñadas con un estilo **limpio, moderno y accesible**.  
-- Enfoque en la **seguridad del usuario**, tanto en los datos personales como en la verificación de identidad.
-
----
-
-## 🏁 Objetivo del Proyecto
-
-El propósito principal de **GOU!** es **transformar la forma en que las personas se desplazan**, ofreciendo una alternativa eficiente y sostenible al uso individual del automóvil.
-
-A través de la tecnología, buscamos:
-- Reducir el número de vehículos en circulación.  
-- Disminuir los costos de movilidad.  
-- Conectar personas con intereses y destinos comunes.  
-- Contribuir al cuidado del medio ambiente.
+| Comando | Descripción |
+|----------|-------------|
+| `npm start` | Inicia el servidor de desarrollo de Expo. |
+| `npm run android` | Compila y ejecuta la app en un emulador o dispositivo Android. |
+| `npm run ios` | Compila y ejecuta la app en un simulador de iOS (solo macOS). |
 
 ---
 
-## 📸 Vista previa
+## 🧩 Dependencias Principales
 
-> *(Se pueden incluir imágenes o capturas de pantalla de la app, como:)*  
-> - Pantalla de bienvenida  
-> - Escaneo de DNI  
-> - Lista de viajes disponibles  
-> - Perfil de usuario  
-> - Ejemplo de cálculo de huella de carbono  
-
----
-
-## 👨‍💻 Desarrolladores
-
-**Ignacio G. Ruiz**
-📍 Córdoba, Argentina  
-💬 Desarrollador Backend especializado en **Laravel 12**.
-
-**Marco Taliente**  
-📍 Córdoba, Argentina  
-💬 Desarrollador Frontend especializado en **React Native**
+### 🔹 Core
+| Paquete | Versión | Descripción |
+|----------|----------|-------------|
+| `react` | 19.1.0 | Librería principal para la interfaz de usuario. |
+| `react-native` | 0.81.4 | Framework móvil nativo para Android/iOS. |
+| `expo` | 54.0.13 | Entorno de desarrollo simplificado para React Native. |
 
 ---
 
-## 🚀 Futuro de GOU!
+### 🔹 Navegación
+| Paquete | Versión | Descripción |
+|----------|----------|-------------|
+| `@react-navigation/native` | ^7.0.14 | Navegación principal entre pantallas. |
+| `@react-navigation/bottom-tabs` | ^7.2.0 | Pestañas inferiores (Bottom Tabs). |
+| `@react-navigation/native-stack` | ^7.2.0 | Navegación tipo stack nativo. |
+| `@react-navigation/stack` | ^7.2.2 | Pilas de navegación avanzadas. |
 
-Entre las próximas funciones previstas se encuentran:
-- Chat en tiempo real entre conductor y pasajero.  
-- Sistema de puntuaciones y reseñas.  
-- Integración con mapas para rutas dinámicas.  
-- Pagos integrados entre usuarios.  
-- Notificaciones push para recordatorios de viaje.
+---
+
+### 🔹 Estado y Datos
+| Paquete | Versión | Descripción |
+|----------|----------|-------------|
+| `@tanstack/react-query` | ^5.76.1 | Manejo de estado asíncrono y fetching de datos. |
+| `@react-native-async-storage/async-storage` | 2.2.0 | Almacenamiento persistente en el dispositivo. |
+| `axios` | ^1.8.4 | Cliente HTTP para llamadas a APIs REST. |
+| `graphql-request` | ^7.1.2 | Cliente liviano para consumir APIs GraphQL. |
 
 ---
 
-> “Viajar acompañado no solo reduce costos — también conecta personas y cuida el planeta.” 🌿  
-> **GOU! – Movete mejor, viajá acompañado.**
+### 🔹 UI / UX y Componentes
+| Paquete | Versión | Descripción |
+|----------|----------|-------------|
+| `lucide-react` | ^0.515.0 | Íconos vectoriales modernos. |
+| `lottie-react-native` | ~7.3.1 | Animaciones con archivos Lottie. |
+| `react-native-vector-icons` | ^10.2.0 | Íconos nativos populares. |
+| `@react-native-picker/picker` | ^2.11.1 | Selector desplegable para formularios. |
+| `@react-native-community/datetimepicker` | 8.4.4 | Selector de fecha/hora nativo. |
 
 ---
+
+### 🔹 Cámara y Autenticación Biométrica
+| Paquete | Versión | Descripción |
+|----------|----------|-------------|
+| `expo-camera` | ~17.0.8 | Captura de imágenes y escaneo de documentos. |
+| `react-native-vision-camera` | ^4.6.4 | API avanzada de cámara para reconocimiento. |
+| `expo-local-authentication` | ~17.0.7 | Autenticación biométrica (huella, rostro). |
+
+---
+
+### 🔹 Utilidades
+| Paquete | Versión | Descripción |
+|----------|----------|-------------|
+| `dayjs` | ^1.11.13 | Manipulación de fechas. |
+| `dotenv` | ^16.5.0 | Manejo de variables de entorno. |
+| `laravel-echo` | ^2.2.4 | Comunicación en tiempo real con backend Laravel. |
+| `pusher-js` | ^8.4.0 | Soporte para websockets y eventos en tiempo real. |
+| `@react-native-community/netinfo` | ^11.4.1 | Detección de conexión a Internet. |
+
+---
+
+## 🧱 Dependencias de Desarrollo
+
+| Paquete | Descripción |
+|----------|-------------|
+| `typescript` | Compilador TypeScript. |
+| `@types/react`, `@types/react-native` | Tipados para desarrollo con TypeScript. |
+| `eslint`, `eslint-plugin-react`, `eslint-plugin-react-native` | Reglas de linting. |
+| `eslint-plugin-prettier`, `eslint-config-prettier` | Integración de Prettier con ESLint. |
+| `@typescript-eslint/eslint-plugin`, `@typescript-eslint/parser` | Reglas y parser específicos para TypeScript. |
+| `@babel/core` | Transpilación de código JSX/TSX. |
+
+---
+
+## 🏗️ Arquitectura del Proyecto
+
+El proyecto está estructurado de forma modular, separando capas de navegación, pantallas, componentes y lógica de negocio.
+
+GOU-App/
+│
+├── App.js / index.tsx # Punto de entrada principal
+├── navigation/ # Rutas y stacks de navegación
+├── screens/ # Vistas principales (Onboarding, Home, Viajes, etc.)
+├── components/ # Componentes UI reutilizables
+├── contexts/ # Contextos globales (AuthContext, etc.)
+├── assets/ # Imágenes, íconos y animaciones
+├── utils/ # Funciones auxiliares y helpers
+└── package.json
+
+yaml
+Copy code
+
+---
+
+## 🚀 Ejecución del Proyecto
+
+### 1️⃣ Clonar el repositorio
+```bash
+git clone https://github.com/usuario/GOU-App.git
+cd GOU-App
+2️⃣ Instalar dependencias
+bash
+Copy code
+npm install
+3️⃣ Crear archivo .env
+Configurar variables de entorno (por ejemplo, URLs de API o claves de Pusher):
+
+ini
+Copy code
+API_URL=https://api.midominio.com
+PUSHER_KEY=xxxxxxxxxx
+4️⃣ Iniciar entorno de desarrollo
+bash
+Copy code
+npm start
+5️⃣ Ejecutar en Android o iOS
+bash
+Copy code
+npm run android
+npm run ios
+🧪 Lint y Tipado
+Para mantener la consistencia del código:
+
+bash
+Copy code
+npx eslint .
+npx tsc --noEmit
+🔐 Requisitos Previos
+Node.js >= 18
+
+npm >= 10
+
+Expo CLI instalado globalmente:
+
+bash
+Copy code
+npm install -g expo-cli
+Emulador Android Studio o Xcode configurado (según el sistema operativo).
+
+🧭 Estado del Proyecto
+Módulo	Estado
+Configuración base de Expo	✅
+Navegación principal	✅
+Autenticación y contexto global	✅
+Escaneo de DNI	✅
+Comunicación con backend	🔄 En desarrollo
+Chat en tiempo real	🔜 Planificado
+Integración de pagos	🔜 Planificado
+
+🪪 Licencia
+Este proyecto se distribuye bajo la Licencia MIT.
+Podés utilizarlo, modificarlo y redistribuirlo libremente con atribución al autor original.
+
+👨‍💻 Autores
+Ignacio G. Ruiz
+📍 Córdoba, Argentina
+💻 Desarrollo móvil con React Native y Expo
+📧 ignacioguillermoruiz@gmail.com
+
+Marco Taliente
+📍 Córdoba, Argentina
+💻 Desarrollo móvil con React Native y Expo
+📧 marcotaliente123@gmail.com
