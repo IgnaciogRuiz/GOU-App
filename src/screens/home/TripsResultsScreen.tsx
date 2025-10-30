@@ -11,10 +11,14 @@ import {
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tripsData from "../../data/trips.json";
+import { BottomTabParamList } from '../../navigation/types/NavigationTypes';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+
 
 const TripsResultsScreen = () => {
   const route = useRoute();
-  const navigation = useNavigation();
+  const navigation = useNavigation<BottomTabNavigationProp<BottomTabParamList>>();
+
 
   const { origen, destino, fecha, pasajeros, precioMin, precioMax } = route.params as {
     origen: string;
@@ -86,37 +90,38 @@ const TripsResultsScreen = () => {
     });
   };
 
-  const renderTrip = ({ item }: { item: any }) => (
-    <View style={styles.card}>
-      <View style={styles.cardHeader}>
-        <Text style={styles.routeText}>
-          {item.origin} → {item.destination}
-        </Text>
-        <Text style={styles.priceText}>${item.price}</Text>
-      </View>
-      <Text style={styles.dateText}>{formatDate(item.date)}</Text>
-
-      <View style={styles.infoRow}>
-        <Text style={styles.infoText}>
-          Asientos disponibles: {item.available_seats}
-        </Text>
-        <Text style={styles.infoText}>
-          Vehículo: {item.vehicle.brand} {item.vehicle.model}
-        </Text>
-      </View>
-
-      <View style={styles.driverRow}>
-        <Text style={styles.driverName}>
-          👤 {item.vehicle.user.firstname} {item.vehicle.user.lastname}
-        </Text>
-        {item.vehicle.user.ratingRatio && (
-          <Text style={styles.rating}>
-            ⭐ {item.vehicle.user.ratingRatio.toFixed(1)}
-          </Text>
-        )}
-      </View>
+  // dentro de renderTrip
+const renderTrip = ({ item }: { item: any }) => (
+  <TouchableOpacity
+    style={styles.card}
+    onPress={() => navigation.navigate("TripDetail", { tripId: item.id })}
+  >
+    <View style={styles.cardHeader}>
+      <Text style={styles.routeText}>
+        {item.origin} → {item.destination}
+      </Text>
+      <Text style={styles.priceText}>${item.price}</Text>
     </View>
-  );
+    <Text style={styles.dateText}>{formatDate(item.date)}</Text>
+
+    <View style={styles.infoRow}>
+      <Text style={styles.infoText}>Asientos disponibles: {item.available_seats}</Text>
+      <Text style={styles.infoText}>
+        Vehículo: {item.vehicle.brand} {item.vehicle.model}
+      </Text>
+    </View>
+
+    <View style={styles.driverRow}>
+      <Text style={styles.driverName}>
+        👤 {item.vehicle.user.firstname} {item.vehicle.user.lastname}
+      </Text>
+      {item.vehicle.user.ratingRatio && (
+        <Text style={styles.rating}>⭐ {item.vehicle.user.ratingRatio.toFixed(1)}</Text>
+      )}
+    </View>
+  </TouchableOpacity>
+);
+
 
   const renderSection = (title: string, data: any[]) => (
     <View style={{ marginBottom: 24 }}>

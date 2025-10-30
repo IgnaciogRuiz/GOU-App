@@ -14,7 +14,7 @@ export type BottomTabParamList = {
   Publicar: undefined;
   Mensajes: undefined;
   Perfil: undefined;
-  TripDetails: undefined;
+  TripDetail: { tripId: number };
   TripsResults: {
     origen: string;
     destino: string;

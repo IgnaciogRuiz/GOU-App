@@ -11,6 +11,7 @@ import ProfileTabsNavigation from "./ProfileTabsNavigation";
 // Screens
 import { HomeScreen, BuscarScreen, PublicarScreen } from "../screens/home";
 import TripsResultsScreen from "../screens/home/TripsResultsScreen";
+import TripsDetailScreen from "../screens/home/TripDetailScreen";
 
 // --- Stack interno para el tab de Buscar ---
 const BuscarStack = createNativeStackNavigator();
@@ -29,6 +30,7 @@ function BuscarStackNavigator() {
 >
       <BuscarStack.Screen name="BuscarHome" component={BuscarScreen} />
       <BuscarStack.Screen name="TripsResults" component={TripsResultsScreen} />
+      <BuscarStack.Screen name="TripDetail" component={TripsDetailScreen} />
     </BuscarStack.Navigator>
   );
 }
