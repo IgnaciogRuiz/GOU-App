@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,16 +16,18 @@ const TripsResultsScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
 
-  const { origen, destino, fecha, pasajeros } = route.params as {
+  const { origen, destino, fecha, pasajeros, precioMin, precioMax } = route.params as {
     origen: string;
     destino: string;
     fecha: Date;
     pasajeros: number;
+    precioMin?: string;
+    precioMax?: string;
   };
 
   const [loading, setLoading] = useState(true);
-  const [trips, setTrips] = useState<any[]>([]);
-  const [isApproximate, setIsApproximate] = useState(false);
+  const [exactTrips, setExactTrips] = useState<any[]>([]);
+  const [nearTrips, setNearTrips] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchTrips = async () => {
@@ -36,6 +39,10 @@ const TripsResultsScreen = () => {
         startRange.setDate(startRange.getDate() - 3);
         endRange.setDate(endRange.getDate() + 3);
 
+        const minPrice = precioMin ? parseFloat(precioMin) : 0;
+        const maxPrice = precioMax ? parseFloat(precioMax) : Infinity;
+
+        // Filtro general (origen/destino/fecha rango/precio/pasajeros)
         const filtered = tripsData.filter((t) => {
           const tripDate = new Date(t.date);
           return (
@@ -43,18 +50,22 @@ const TripsResultsScreen = () => {
             t.destination.toLowerCase() === destino.toLowerCase() &&
             tripDate >= startRange &&
             tripDate <= endRange &&
-            t.available_seats >= pasajeros
+            t.available_seats >= pasajeros &&
+            t.price >= minPrice &&
+            t.price <= maxPrice
           );
         });
 
-        const exactMatch = filtered.some(
-          (t) =>
-            new Date(t.date).toDateString() ===
-            new Date(fecha).toDateString()
+        // Separar viajes exactos de los cercanos
+        const exact = filtered.filter(
+          (t) => new Date(t.date).toDateString() === selectedDate.toDateString()
+        );
+        const near = filtered.filter(
+          (t) => new Date(t.date).toDateString() !== selectedDate.toDateString()
         );
 
-        setIsApproximate(!exactMatch && filtered.length > 0);
-        setTrips(filtered);
+        setExactTrips(exact);
+        setNearTrips(near);
       } catch (error) {
         console.error("Error cargando viajes:", error);
       } finally {
@@ -107,31 +118,25 @@ const TripsResultsScreen = () => {
     </View>
   );
 
+  const renderSection = (title: string, data: any[]) => (
+    <View style={{ marginBottom: 24 }}>
+      <Text style={styles.sectionTitle}>{title}</Text>
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderTrip}
+        scrollEnabled={false}
+      />
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Resultados de tu búsqueda</Text>
 
       {loading ? (
         <ActivityIndicator color="#2563eb" size="large" style={{ marginTop: 40 }} />
-      ) : trips.length > 0 ? (
-        <>
-          {isApproximate && (
-            <View style={styles.notice}>
-              <Text style={styles.noticeText}>
-                No hay viajes exactamente el{" "}
-                {formatDate(fecha.toString())}, pero encontramos otros cercanos.
-              </Text>
-            </View>
-          )}
-
-          <FlatList
-            data={trips}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={renderTrip}
-            contentContainerStyle={{ paddingBottom: 100 }}
-          />
-        </>
-      ) : (
+      ) : exactTrips.length === 0 && nearTrips.length === 0 ? (
         <View style={styles.noResults}>
           <Text style={styles.noResultsText}>
             😔 No se encontraron viajes disponibles.
@@ -143,6 +148,24 @@ const TripsResultsScreen = () => {
             <Text style={styles.backButtonText}>Volver a buscar</Text>
           </TouchableOpacity>
         </View>
+      ) : (
+        <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+          {exactTrips.length > 0 ? (
+            <>
+              {renderSection("Viajes en la fecha seleccionada", exactTrips)}
+              {nearTrips.length > 0 && renderSection("Viajes en fechas cercanas", nearTrips)}
+            </>
+          ) : (
+            <>
+              <View style={styles.notice}>
+                <Text style={styles.noticeText}>
+                  No existen viajes en la fecha exacta, pero sí en estas fechas cercanas:
+                </Text>
+              </View>
+              {renderSection("Viajes en fechas cercanas", nearTrips)}
+            </>
+          )}
+        </ScrollView>
       )}
     </SafeAreaView>
   );
@@ -153,6 +176,12 @@ export default TripsResultsScreen;
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#000", padding: 16 },
   title: { fontSize: 20, fontWeight: "600", color: "#fff", marginBottom: 16 },
+  sectionTitle: {
+    color: "#93c5fd",
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 8,
+  },
   card: {
     backgroundColor: "#111827",
     borderRadius: 12,
